@@ -525,6 +525,12 @@ function resetProgress() {
 }
 
 render();
+  const _s = getState();
+if (!_s['precourse_complete']) {
+  _s['precourse_complete'] = true;
+  setState(_s);
+}
+render();
 </script>
 </body>
 </html>
