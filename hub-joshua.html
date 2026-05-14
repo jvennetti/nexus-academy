@@ -523,12 +523,14 @@ window.nexus = { unlockModule, unlockBadge, getState, setState };
 function resetProgress() {
   if (confirm('Reset all progress?')) { localStorage.removeItem('nexus_'+OPERATOR); render(); showFlash('SYSTEM RESET'); }
 }
-  
-render();const _s = getState();
+
+render();
+const _s = getState();
 if (!_s['precourse_complete']) {
   _s['precourse_complete'] = true;
   setState(_s);
 }
+render();
   
 </script>
 </body>
