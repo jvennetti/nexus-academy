@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS Academy — Connor's Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #060d1a;
+    --panel:  #0d1525;
+    --panel2: #0a1020;
+    --blue:   #00c8ff;
+    --blue-lo:rgba(0,200,255,0.09);
+    --blue-md:rgba(0,200,255,0.18);
+    --amber:  #ffaa00;
+    --white:  #d8e8f5;
+    --muted:  #4a6080;
+    --border: rgba(0,200,255,0.09);
+    --bord2:  rgba(0,200,255,0.04);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:var(--navy);
+    color:var(--white);
+    font-family:'Exo 2',sans-serif;
+    min-height:100vh;
+  }
+  body::before {
+    content:'';position:fixed;inset:0;
+    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,200,255,0.007) 3px,rgba(0,200,255,0.007) 4px);
+    pointer-events:none;z-index:999;
+  }
+
+  .hub { max-width:900px; margin:0 auto; padding:44px 28px 80px; }
+
+  /* ── HEADER ── */
+  .top-header {
+    text-align:center;
+    margin-bottom:32px;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--border);
+  }
+  .nexus-title {
+    font-size:42px;
+    font-weight:800;
+    letter-spacing:0.14em;
+    color:var(--white);
+    text-transform:uppercase;
+    line-height:1;
+    margin-bottom:7px;
+  }
+  .nexus-title span { color:var(--blue); text-shadow:0 0 20px rgba(0,200,255,0.5); }
+  .hub-sub {
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.44em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size:11px; font-weight:700; letter-spacing:0.38em;
+    color:var(--muted); text-transform:uppercase;
+    margin-bottom:16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* ── CIRO WIDGET ── */
+  .ciro-widget {
+    background:#060d1a;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:28px 32px;
+    display:flex;
+    gap:28px;
+    align-items:flex-start;
+    margin-bottom:28px;
+  }
+  .ciro-figure { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .ciro-ver { color:#1a5060; font-size:9px; letter-spacing:2px; font-weight:500; }
+  .ciro-msg { flex:1; min-width:0; }
+  .ciro-tag { color:#1a5060; font-size:9px; letter-spacing:0.3em; margin-bottom:14px; text-transform:uppercase; font-weight:500; }
+  .ciro-text { color:#a8c8e0; font-size:17px; font-weight:400; line-height:1.85; }
+  .ciro-text strong { color:var(--blue); font-weight:600; }
+  @keyframes dp{0%,100%{opacity:.9}50%{opacity:.15}}
+  .da{animation:dp 2s infinite}
+  .db{animation:dp 2s .65s infinite}
+  .dc{animation:dp 2s 1.3s infinite}
+
+  /* ── PROGRESS ── */
+  .progress-section {
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:22px 26px;
+    margin-bottom:28px;
+  }
+  .progress-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
+  .progress-label { font-size:13px; font-weight:600; letter-spacing:0.28em; color:var(--muted); text-transform:uppercase; }
+  .progress-pct { font-size:24px; font-weight:700; color:var(--blue); text-shadow:0 0 10px rgba(0,200,255,0.5); }
+  .progress-track { height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
+  .progress-fill {
+    height:100%;
+    background:linear-gradient(90deg,#0080aa,var(--blue));
+    border-radius:2px;
+    transition:width 0.9s cubic-bezier(0.4,0,0.2,1);
+    box-shadow:0 0 8px var(--blue);
+  }
+  .progress-pips { display:flex; gap:5px; margin-top:12px; }
+  .pip { flex:1; height:3px; border-radius:2px; background:rgba(255,255,255,0.06); transition:background 0.5s; }
+  .pip.done { background:var(--blue); box-shadow:0 0 4px var(--blue); }
+
+  /* ── CONTINUE ── */
+  .continue-section { margin-bottom:36px; }
+  .continue-btn {
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--panel);
+    border:1px solid rgba(0,200,255,0.18);
+    border-radius:10px;
+    padding:20px 24px;
+    cursor:pointer;
+    transition:all 0.25s;
+    text-decoration:none; width:100%;
+  }
+  .continue-btn:hover { background:rgba(0,200,255,0.05); border-color:rgba(0,200,255,0.38); box-shadow:0 0 24px rgba(0,200,255,0.07); }
+  .continue-left { display:flex; flex-direction:column; gap:5px; text-align:left; }
+  .continue-label { font-size:10px; font-weight:600; letter-spacing:0.3em; color:var(--blue); text-transform:uppercase; }
+  .continue-title { font-size:18px; font-weight:600; color:var(--white); }
+  .continue-arrow { font-size:24px; color:var(--blue); text-shadow:0 0 8px var(--blue); flex-shrink:0; }
+
+  /* ── MODULE CARDS ── */
+  .modules-section { margin-bottom:40px; }
+  .modules-grid { display:flex; flex-direction:column; gap:10px; }
+  .module-card {
+    position:relative; border-radius:10px; overflow:hidden;
+    cursor:pointer; border:1px solid var(--bord2);
+    aspect-ratio:4/1; background:var(--panel2);
+    transition:border-color 0.3s,transform 0.2s,box-shadow 0.3s;
+  }
+  .module-card:hover { transform:translateY(-1px); border-color:rgba(0,200,255,0.22); box-shadow:0 4px 24px rgba(0,200,255,0.07); }
+  .module-card.unlocked:hover { border-color:rgba(0,200,255,0.38); box-shadow:0 4px 32px rgba(0,200,255,0.14); }
+  .module-card img { width:100%; height:100%; object-fit:cover; display:block; }
+  .card-overlay {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:14px 18px;
+    background:linear-gradient(to right,rgba(0,0,0,0.6) 0%,transparent 65%);
+  }
+  .card-tag { font-size:10px; font-weight:600; letter-spacing:0.32em; color:var(--blue); text-transform:uppercase; margin-bottom:3px; opacity:0.85; }
+  .card-title { font-size:16px; font-weight:700; color:var(--white); letter-spacing:0.05em; text-shadow:0 1px 6px rgba(0,0,0,0.8); }
+  .card-status {
+    position:absolute; top:12px; right:14px;
+    font-size:9px; font-weight:700; letter-spacing:0.2em;
+    padding:4px 10px; border-radius:4px; text-transform:uppercase;
+  }
+  .locked-tag { color:var(--muted); background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.07); }
+  .unlocked-tag { color:var(--blue); background:rgba(0,200,255,0.08); border:1px solid rgba(0,200,255,0.25); text-shadow:0 0 6px var(--blue); }
+
+  /* ── ACHIEVEMENTS ── */
+  .achievements-section { margin-bottom:40px; }
+  .badges-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .badge-item {
+    background:var(--panel); border:1px solid var(--bord2);
+    border-radius:10px; padding:16px 10px 14px;
+    text-align:center; transition:all 0.4s ease;
+  }
+  .badge-item.earned { border-color:var(--blue-md); background:var(--blue-lo); }
+  .badge-item.earned.grand { border-color:rgba(255,170,0,0.35); background:rgba(255,170,0,0.06); grid-column:1/-1; }
+  .badge-item.locked-badge { opacity:0.25; filter:grayscale(1); }
+  .badge-icon { font-size:24px; margin-bottom:8px; display:block; }
+  .badge-name { font-size:11px; font-weight:700; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase; line-height:1.4; }
+  .badge-item.earned .badge-name { color:var(--blue); }
+  .badge-item.earned.grand .badge-name { color:var(--amber); }
+  .badge-type { font-size:10px; color:var(--muted); margin-top:4px; opacity:0.6; }
+  @keyframes badge-unlock {
+    0%{transform:scale(0.8);opacity:0} 60%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1}
+  }
+  .just-unlocked { animation:badge-unlock 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards; border-color:var(--blue)!important; box-shadow:0 0 22px rgba(0,200,255,0.3); }
+
+  /* ── TALL PLACEHOLDER IMAGE ── */
+  .tall-image-section { margin-bottom:40px; }
+  .tall-placeholder {
+    width:100%;
+    aspect-ratio:4/2;
+    border-radius:10px;
+    border:1px dashed rgba(0,200,255,0.15);
+    background:var(--panel2);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    color:var(--muted);
+  }
+  .tall-placeholder .ph-icon { font-size:32px; opacity:0.3; }
+  .tall-placeholder .ph-label { font-size:11px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase; opacity:0.4; }
+
+  /* ── PASSCODE ── */
+  .passcode-section {
+    margin-bottom:40px; background:var(--panel);
+    border:1px solid rgba(255,170,0,0.18);
+    border-radius:10px; padding:22px 26px; display:none;
+  }
+  .passcode-section.visible { display:block; }
+  .passcode-header { font-size:11px; font-weight:700; letter-spacing:0.3em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; }
+  .passcode-value { font-size:32px; font-weight:800; color:var(--amber); letter-spacing:0.2em; text-shadow:0 0 20px var(--amber); }
+  .passcode-sub { font-size:14px; color:var(--muted); margin-top:8px; font-style:italic; }
+
+  /* ── RESET ── */
+  .reset-btn {
+    margin-top:20px; display:block; width:100%;
+    background:none; border:1px solid rgba(255,255,255,0.05);
+    border-radius:4px; color:rgba(255,255,255,0.1);
+    font-family:'Exo 2',sans-serif; font-size:9px;
+    letter-spacing:0.2em; padding:9px; cursor:pointer;
+    text-transform:uppercase; transition:all 0.2s;
+  }
+  .reset-btn:hover { border-color:rgba(255,255,255,0.12); color:rgba(255,255,255,0.2); }
+
+  /* ── FLASH ── */
+  .flash {
+    position:fixed; top:20px; left:50%;
+    transform:translateX(-50%) translateY(-90px);
+    background:var(--panel); border:1px solid var(--blue);
+    border-radius:6px; padding:13px 22px;
+    font-size:12px; font-weight:600; letter-spacing:0.15em;
+    color:var(--blue); text-shadow:0 0 8px var(--blue);
+    z-index:9999; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow:0 4px 28px rgba(0,200,255,0.2); white-space:nowrap;
+  }
+  .flash.show { transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="flash" id="flash"></div>
+<div class="hub">
+
+  <!-- 1. HEADER -->
+  <div class="top-header">
+    <div class="nexus-title">NEXUS <span>ACADEMY</span></div>
+    <div class="hub-sub">Operator Hub</div>
+  </div>
+
+  <!-- 2. CIRO -->
+  <div class="ciro-widget">
+    <div class="ciro-figure">
+      <svg width="86" height="178" viewBox="0 0 86 178">
+        <line x1="43" y1="3" x2="43" y2="14" stroke="#00c8ff" stroke-width="1.5"/>
+        <circle cx="43" cy="2" r="2.5" fill="#00c8ff"/>
+        <rect x="10" y="14" width="66" height="50" rx="4" fill="#0d1a2e" stroke="#00c8ff" stroke-width="1.2"/>
+        <rect x="16" y="20" width="54" height="38" rx="2" fill="#050f1c"/>
+        <line x1="18" y1="28" x2="70" y2="28" stroke="#00c8ff" stroke-width="0.5" opacity="0.55"/>
+        <line x1="18" y1="35" x2="60" y2="35" stroke="#00c8ff" stroke-width="0.5" opacity="0.35"/>
+        <line x1="18" y1="42" x2="66" y2="42" stroke="#00c8ff" stroke-width="0.5" opacity="0.25"/>
+        <line x1="18" y1="49" x2="52" y2="49" stroke="#00c8ff" stroke-width="0.5" opacity="0.18"/>
+        <rect x="31" y="64" width="24" height="7" rx="2" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="4" y="71" width="78" height="74" rx="5" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1.2"/>
+        <rect x="15" y="82" width="56" height="32" rx="2" fill="#050f1c" stroke="#1e3a5a" stroke-width="1"/>
+        <circle cx="31" cy="96" r="4" fill="#00c8ff" class="da"/>
+        <circle cx="43" cy="96" r="4" fill="#00c8ff" class="db"/>
+        <circle cx="55" cy="96" r="4" fill="#00c8ff" class="dc"/>
+        <rect x="22" y="106" width="42" height="4" rx="2" fill="#1e3a5a"/>
+        <rect x="0" y="75" width="2" height="44" rx="1" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="84" y="75" width="2" height="44" rx="1" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="16" y="145" width="22" height="26" rx="3" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="48" y="145" width="22" height="26" rx="3" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="13" y="165" width="28" height="6" rx="3" fill="#0a1525" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="45" y="165" width="28" height="6" rx="3" fill="#0a1525" stroke="#1e3a5a" stroke-width="1"/>
+      </svg>
+      <div class="ciro-ver">CIRO v0.7</div>
+    </div>
+    <div class="ciro-msg">
+      <div class="ciro-tag">NEXUS ACADEMY · TRANSMISSION ACTIVE</div>
+      <div class="ciro-text">
+        Welcome back, <strong>Connor</strong>. Systems are stable. Continue at your earliest convenience.
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-label">Operator Progress</div>
+      <div class="progress-pct" id="pct-display">0%</div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-pips" id="progress-pips"></div>
+  </div>
+
+  <!-- 4. CONTINUE -->
+  <div class="continue-section" id="continue-section" style="display:none;">
+    <div class="section-label">Continue Where You Left Off</div>
+    <a class="continue-btn" id="continue-btn" href="#" target="_blank">
+      <div class="continue-left">
+        <div class="continue-label" id="continue-mod-tag">—</div>
+        <div class="continue-title" id="continue-lesson-title">—</div>
+      </div>
+      <div class="continue-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- 5. MODULES -->
+  <div class="modules-section">
+    <div class="section-label">Modules</div>
+    <div class="modules-grid" id="modules-grid"></div>
+  </div>
+
+  <!-- 6. ACHIEVEMENTS -->
+  <div class="achievements-section">
+    <div class="section-label">Achievements</div>
+    <div class="badges-grid" id="badges-grid"></div>
+  </div>
+
+  <!-- 7. TALL PLACEHOLDER -->
+  <div class="tall-image-section">
+    <div class="section-label">Transmission</div>
+    <div class="tall-placeholder">
+      <div class="ph-icon">⬜</div>
+      <div class="ph-label">Image Placeholder — 4 × 2</div>
+    </div>
+  </div>
+
+  <!-- PASSCODE (hidden until earned) -->
+  <div class="passcode-section" id="passcode-section">
+    <div class="passcode-header">⚡ Passcode Transmission — Amber Channel</div>
+    <div class="passcode-value">2FIRE22</div>
+    <div class="passcode-sub">Bring this to the Machine. All three Operators must be present.</div>
+  </div>
+
+  <button class="reset-btn" onclick="resetProgress()">[ System Reset — Dev Only ]</button>
+</div>
+
+<script>
+const OPERATOR = 'connor';
+
+const MODULES = [
+  { key:'precourse', label:'Pre-Course', title:'BEFORE YOU BEGIN',
+    locked:'https://jvennetti.github.io/nexus-academy/Module_1_Locked.png',
+    unlocked:'https://jvennetti.github.io/nexus-academy/Module_1_Unlocked.png',
+    url:'#', badge:null,
+    next:{ mod:'Pre-Course', title:'Getting Started with Notion', url:'#' } },
+  { key:'mod1', label:'Module 1', title:'BOOT UP',
+    locked:'https://jvennetti.github.io/nexus-academy/Module_2_Locked.png',
+    unlocked:'https://jvennetti.github.io/nexus-academy/Module_2_Unlocked.png',
+    url:'#', badge:'system_online',
+    next:{ mod:'Module 1', title:'The Only AI Tools You\'ll Ever Need', url:'#' } },
+  { key:'mod2', label:'Module 2', title:'THE PROMPT ENGINEER',
+    locked:'https://jvennetti.github.io/nexus-academy/Module_3_Locked.png',
+    unlocked:'https://jvennetti.github.io/nexus-academy/Module_3_Unlocked.png',
+    url:'#', badge:'signal_steady',
+    next:{ mod:'Module 2', title:'Claude vs ChatGPT', url:'#' } },
+  { key:'mod3', label:'Module 3', title:'THE AUTOMATION LAYER',
+    locked:'https://jvennetti.github.io/nexus-academy/Module_4_Locked.png',
+    unlocked:'https://jvennetti.github.io/nexus-academy/Module_4_Unlocked.png',
+    url:'#', badge:'hands_on',
+    next:{ mod:'Module 3', title:'Introducing Cowork', url:'#' } },
+  { key:'mod4', label:'Module 4', title:'THE AGENT BLUEPRINT',
+    locked:'https://jvennetti.github.io/nexus-academy/Module_5_Locked.png',
+    unlocked:'https://jvennetti.github.io/nexus-academy/Module_5_Unlocked.png',
+    url:'#', badge:'architect',
+    next:{ mod:'Module 4', title:'How to Build AI Agents in 2026', url:'#' } },
+  { key:'mod5', label:'Module 5', title:'LEAD GENERATION MACHINE',
+    locked:'https://jvennetti.github.io/nexus-academy/Module_6_Locked.png',
+    unlocked:'https://jvennetti.github.io/nexus-academy/Module_6_Unlocked.png',
+    url:'#', badge:'pipeline_inventor',
+    next:{ mod:'Module 5', title:'Getting Started with Research', url:'#' } },
+  { key:'mod6', label:'Module 6', title:'CLIENT READY',
+    locked:'https://jvennetti.github.io/nexus-academy/Module_7_Locked.png',
+    unlocked:'https://jvennetti.github.io/nexus-academy/Module_7_Unlocked.png',
+    url:'#', badge:'operator',
+    next:{ mod:'Module 6', title:'How to Build a $10M Solo AI Business', url:'#' } },
+];
+
+const BADGES = [
+  { key:'system_online',     name:'SYSTEM ONLINE',     icon:'⚡', type:'Module 1',   kind:'module' },
+  { key:'signal_steady',     name:'SIGNAL STEADY',     icon:'📡', type:'Module 2',   kind:'module' },
+  { key:'hands_on',          name:'HANDS ON',          icon:'⚙️', type:'Module 3',   kind:'module' },
+  { key:'architect',         name:'ARCHITECT',         icon:'🏗️', type:'Module 4',   kind:'module' },
+  { key:'pipeline_inventor', name:'PIPELINE INVENTOR', icon:'🔗', type:'Module 5',   kind:'module' },
+  { key:'operator',          name:'OPERATOR',          icon:'🎯', type:'Module 6',   kind:'module' },
+  { key:'constructor',       name:'CONSTRUCTOR',       icon:'🌐', type:'Challenge',  kind:'challenge' },
+  { key:'the_switch',        name:'THE SWITCH',        icon:'🔄', type:'Challenge',  kind:'challenge' },
+  { key:'commander',         name:'COMMANDER',         icon:'🤖', type:'Challenge',  kind:'challenge' },
+  { key:'field_operator',    name:'FIELD OPERATOR',    icon:'🎖️', type:'Challenge',  kind:'challenge' },
+  { key:'predestined_to',    name:'PREDESTINED TO',    icon:'∞',  type:'Final Task', kind:'challenge' },
+  { key:'nexus',             name:'NEXUS',             icon:'✦',  type:'Grand',      kind:'grand' },
+];
+
+function getState() { try { return JSON.parse(localStorage.getItem('nexus_'+OPERATOR)||'{}'); } catch(e){return{};} }
+function setState(s) { localStorage.setItem('nexus_'+OPERATOR, JSON.stringify(s)); }
+
+function render() {
+  const s = getState();
+  renderCiro(s);
+  renderProgress(s);
+  renderContinue(s);
+  renderModules(s);
+  renderBadges(s);
+  renderPasscode(s);
+}
+
+function renderCiro(s) {
+  const done = MODULES.filter(m=>s[m.key+'_complete']).length;
+  const lines = [
+    'Welcome back, <strong>Connor</strong>. Systems are stable. Continue at your earliest convenience.',
+    'Welcome back, <strong>Connor</strong>. First module confirmed. The signal is steady.',
+    'Welcome back, <strong>Connor</strong>. Two sequences complete. You\'re building something.',
+    'Welcome back, <strong>Connor</strong>. Halfway through. The hard part is behind you.',
+    'Welcome back, <strong>Connor</strong>. Four modules complete. The system is taking shape.',
+    'Welcome back, <strong>Connor</strong>. Five down. One remains.',
+    'Welcome back, <strong>Connor</strong>. All modules complete. Well done, Operator.',
+  ];
+  document.querySelector('.ciro-text').innerHTML = lines[Math.min(done, 6)];
+}
+
+function renderProgress(s) {
+  const done = MODULES.filter(m=>s[m.key+'_complete']).length;
+  const pct  = Math.round(done/MODULES.length*100);
+  document.getElementById('pct-display').textContent = pct+'%';
+  document.getElementById('progress-fill').style.width = pct+'%';
+  const pips = document.getElementById('progress-pips');
+  pips.innerHTML = '';
+  MODULES.forEach(m => {
+    const p = document.createElement('div');
+    p.className = 'pip'+(s[m.key+'_complete']?' done':'');
+    pips.appendChild(p);
+  });
+}
+
+function renderContinue(s) {
+  const sec = document.getElementById('continue-section');
+  const found = MODULES.find(m=>!s[m.key+'_complete']);
+  if (found) {
+    sec.style.display = 'block';
+    document.getElementById('continue-mod-tag').textContent = found.label;
+    document.getElementById('continue-lesson-title').textContent = found.next.title;
+    document.getElementById('continue-btn').href = found.next.url;
+  } else {
+    sec.style.display = 'none';
+  }
+}
+
+function renderModules(s) {
+  const g = document.getElementById('modules-grid');
+  g.innerHTML = '';
+  MODULES.forEach(m => {
+    const unlocked = !!s[m.key+'_complete'];
+    const card = document.createElement('div');
+    card.className = 'module-card'+(unlocked?' unlocked':'');
+    card.innerHTML = `
+      <img src="${unlocked?m.unlocked:m.locked}" alt="${m.title}" loading="lazy">
+      <div class="card-overlay">
+        <div class="card-tag">${m.label}</div>
+        <div class="card-title">${m.title}</div>
+      </div>
+      <div class="card-status ${unlocked?'unlocked-tag':'locked-tag'}">${unlocked?'UNLOCKED':'LOCKED'}</div>`;
+    if (unlocked && m.url !== '#') card.addEventListener('click',()=>window.open(m.url,'_blank'));
+    g.appendChild(card);
+  });
+}
+
+function renderBadges(s) {
+  const g = document.getElementById('badges-grid');
+  g.innerHTML = '';
+  BADGES.forEach(b => {
+    const earned = !!s['badge_'+b.key];
+    const el = document.createElement('div');
+    el.className = 'badge-item '+(earned?'earned':'locked-badge')+(b.kind==='grand'?' grand':'');
+    el.id = 'badge-'+b.key;
+    el.innerHTML = `<span class="badge-icon">${b.icon}</span><div class="badge-name">${b.name}</div><div class="badge-type">${b.type}</div>`;
+    g.appendChild(el);
+  });
+}
+
+function renderPasscode(s) {
+  if (s['badge_predestined_to']) document.getElementById('passcode-section').classList.add('visible');
+}
+
+function unlockModule(key) {
+  const s = getState();
+  if (s[key+'_complete']) return;
+  s[key+'_complete'] = true;
+  const m = MODULES.find(x=>x.key===key);
+  if (m && m.badge) { s['badge_'+m.badge]=true; setTimeout(()=>flashBadge(m.badge),500); }
+  setState(s); render();
+  showFlash((m?m.label:key)+' — TRANSMISSION COMPLETE');
+}
+
+function unlockBadge(key) {
+  const s = getState();
+  if (s['badge_'+key]) return;
+  s['badge_'+key]=true; setState(s); render();
+  flashBadge(key);
+  const b = BADGES.find(x=>x.key===key);
+  showFlash('ACHIEVEMENT UNLOCKED — '+(b?b.name:key));
+}
+
+function flashBadge(key) {
+  const el = document.getElementById('badge-'+key);
+  if (el) { el.classList.add('just-unlocked'); setTimeout(()=>el.classList.remove('just-unlocked'),600); }
+}
+
+function showFlash(msg) {
+  const el = document.getElementById('flash');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+window.addEventListener('message', e=>{
+  if (e.origin!=='https://jvennetti.github.io') return;
+  if (!e.data||!e.data.type) return;
+  if (e.data.type==='MODULE_COMPLETE'&&e.data.operator===OPERATOR) unlockModule(e.data.moduleKey);
+  if (e.data.type==='BADGE_EARNED'&&e.data.operator===OPERATOR) unlockBadge(e.data.badgeKey);
+});
+
+window.nexus = { unlockModule, unlockBadge, getState, setState };
+
+function resetProgress() {
+  if (confirm('Reset all progress?')) { localStorage.removeItem('nexus_'+OPERATOR); render(); showFlash('SYSTEM RESET'); }
+}
+
+render();
+</script>
+</body>
+</html>
