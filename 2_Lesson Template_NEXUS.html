@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<!-- TEMPLATE VAR: Update lesson number e.g. "Lesson 2.2" -->
+<title>NEXUS Academy — Lesson [X].[Y]</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08101f;--card:#0d1628;--card2:#111d30;--box:#16213a;
+  --blue:#00c8ff;--blue-dim:rgba(0,200,255,0.07);--blue-border:rgba(0,200,255,0.22);
+  --border:#1a2d45;--white:#ffffff;--offwhite:#eaf3fb;--body-text:#cce2f2;
+  --muted:#5a8aaa;--label:#2a5a7a;--placeholder:#3a6888;
+}
+html{background:var(--bg);color:var(--white);font-size:16px;line-height:1.7}
+body{background:var(--bg);min-height:100vh;font-family:'Lexend',sans-serif}
+
+nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 60px;position:sticky;top:0;z-index:100;width:100%}
+.wordmark{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:4px;color:var(--white);text-decoration:none}
+.wordmark span{color:var(--blue)}
+.nav-lesson-id{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.nav-back{font-family:'Lexend',sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:8px 18px;border-radius:3px;transition:color .2s,border-color .2s}
+.nav-back:hover{color:var(--blue);border-color:var(--blue-border)}
+
+.browser-shell{width:1280px;margin:0 auto;background:var(--bg);min-height:calc(100vh - 64px)}
+.content-col{max-width:860px;margin:0 auto;padding:52px 0 100px}
+.section{margin-bottom:36px}
+
+/* ── CIRO — open, no box ── */
+.ciro-wrap{display:flex;align-items:flex-start;gap:32px;padding:0 0 48px;border-bottom:1px solid var(--border);margin-bottom:40px}
+.ciro-robot-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:4px}
+.ciro-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--label);text-transform:uppercase}
+.ciro-text-col{flex:1;min-width:0}
+.ciro-name{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;letter-spacing:4px;color:var(--blue);margin-bottom:22px}
+
+.ciro-line{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:15px;
+  line-height:1.9;
+  color:var(--offwhite);
+  margin-bottom:22px;
+  min-height:1.9em;
+}
+
+@keyframes cur{0%,100%{opacity:1}50%{opacity:0}}
+
+.ciro-sep{height:1px;background:linear-gradient(90deg,var(--blue),transparent);opacity:0;margin:6px 0 24px;transition:opacity 0.8s ease;max-width:280px}
+.ciro-sep.visible{opacity:0.4}
+
+.begin-btn{display:inline-flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);background:transparent;border:1px solid var(--blue-border);border-radius:3px;padding:11px 24px;cursor:pointer;opacity:0;transform:translateY(8px);transition:opacity 0.7s ease,transform 0.7s ease,background 0.2s;text-decoration:none}
+.begin-btn.visible{opacity:1;transform:translateY(0)}
+.begin-btn:hover{background:var(--blue-dim)}
+.begin-arrow{transition:transform .2s}
+.begin-btn:hover .begin-arrow{transform:translateX(5px)}
+
+.da{animation:bl 2s infinite}.db{animation:bl 2s .65s infinite}.dc{animation:bl 2s 1.3s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0.2}}
+
+#page-content{opacity:0;transition:opacity 1.2s ease}
+#page-content.visible{opacity:1}
+
+.lesson-box{background:var(--box);border:1px solid var(--border);border-radius:8px;padding:36px 40px}
+h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;letter-spacing:1.5px;color:var(--white);line-height:1.4;text-align:center;margin-bottom:24px}
+.context-copy{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.85;color:var(--body-text);text-align:left}
+.context-copy p+p{margin-top:14px}
+
+.ts-bar{background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:0 24px;height:52px;display:flex;align-items:center;gap:20px}
+.ts-label{font-family:'Lexend',sans-serif;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.ts-input{flex:1;background:transparent;border:none;border-bottom:1px solid var(--border);padding:4px 0;font-family:'Lexend',sans-serif;font-size:14px;color:var(--white);outline:none;transition:border-color .2s}
+.ts-input::placeholder{color:var(--placeholder);font-weight:300;font-size:13px}
+.ts-input:focus{border-bottom-color:var(--blue-border)}
+.ts-saved-inline{font-family:'Lexend',sans-serif;font-size:13px;color:var(--muted);white-space:nowrap;flex-shrink:0;display:none}
+.ts-saved-inline span{color:var(--offwhite);font-weight:500}
+.ts-btn{font-family:'Lexend',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--blue);background:transparent;border:1px solid var(--blue-border);border-radius:3px;padding:7px 16px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .2s}
+.ts-btn:hover{background:var(--blue-dim)}
+
+.video-wrapper{position:relative;padding-bottom:56.25%;height:0;background:#000;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+.takeaways-box{background:var(--box);border:1px solid var(--border);border-radius:8px;padding:32px 40px}
+.takeaways-title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:3px;color:var(--white);text-transform:uppercase;text-align:center;margin-bottom:22px}
+.takeaway-item{display:flex;align-items:flex-start;gap:14px;padding:7px 0;font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.65;color:var(--body-text);text-align:left}
+.t-bullet{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--white);margin-top:8px;opacity:0.85}
+
+.lesson-nav{display:flex;justify-content:space-between;gap:16px;padding-top:40px;border-top:1px solid var(--border)}
+.nav-btn{flex:1;padding:18px 24px;background:var(--card);border:1px solid var(--border);border-radius:6px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,background .2s}
+.nav-btn:hover{border-color:var(--blue-border);background:var(--blue-dim)}
+.nav-btn.next{align-items:flex-end;text-align:right}
+.nav-dir{font-family:'Lexend',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.nav-name{font-family:'Lexend',sans-serif;font-size:14px;font-weight:500;color:var(--white);line-height:1.4}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
+  <!-- TEMPLATE VAR: Update lesson ID e.g. "Lesson 2.2" -->
+  <div class="nav-lesson-id">Lesson [X].[Y]</div>
+  <a href="../hub-joshua.html" class="nav-back">← Hub</a>
+</nav>
+
+<div class="browser-shell">
+<div class="content-col">
+
+  <div class="ciro-wrap">
+    <div class="ciro-robot-col">
+      <svg width="72" height="150" viewBox="0 0 86 178">
+        <line x1="43" y1="3" x2="43" y2="14" stroke="#00c8ff" stroke-width="1.5"/>
+        <circle cx="43" cy="2" r="2.5" fill="#00c8ff"/>
+        <rect x="10" y="14" width="66" height="50" rx="4" fill="#0d1a2e" stroke="#00c8ff" stroke-width="1.2"/>
+        <rect x="16" y="20" width="54" height="38" rx="2" fill="#050f1c"/>
+        <line x1="18" y1="28" x2="70" y2="28" stroke="#00c8ff" stroke-width="0.5" opacity="0.55"/>
+        <line x1="18" y1="35" x2="60" y2="35" stroke="#00c8ff" stroke-width="0.5" opacity="0.35"/>
+        <line x1="18" y1="42" x2="66" y2="42" stroke="#00c8ff" stroke-width="0.5" opacity="0.25"/>
+        <line x1="18" y1="49" x2="52" y2="49" stroke="#00c8ff" stroke-width="0.5" opacity="0.18"/>
+        <rect x="31" y="64" width="24" height="7" rx="2" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="4" y="71" width="78" height="74" rx="5" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1.2"/>
+        <rect x="15" y="82" width="56" height="32" rx="2" fill="#050f1c" stroke="#1e3a5a" stroke-width="1"/>
+        <circle cx="31" cy="96" r="4" fill="#00c8ff" class="da"/>
+        <circle cx="43" cy="96" r="4" fill="#00c8ff" class="db"/>
+        <circle cx="55" cy="96" r="4" fill="#00c8ff" class="dc"/>
+        <rect x="22" y="106" width="42" height="4" rx="2" fill="#1e3a5a"/>
+        <rect x="0" y="75" width="2" height="44" rx="1" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="84" y="75" width="2" height="44" rx="1" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="16" y="145" width="22" height="26" rx="3" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="48" y="145" width="22" height="26" rx="3" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="13" y="165" width="28" height="6" rx="3" fill="#0a1525" stroke="#1e3a5a" stroke-width="1"/>
+        <rect x="45" y="165" width="28" height="6" rx="3" fill="#0a1525" stroke="#1e3a5a" stroke-width="1"/>
+      </svg>
+      <div class="ciro-tag">CIRO v0.7</div>
+    </div>
+    <div class="ciro-text-col">
+      <div class="ciro-name">CIRO</div>
+      <div id="ciro-lines"></div>
+      <div class="ciro-sep" id="ciro-sep"></div>
+      <a href="#lesson-anchor" class="begin-btn" id="begin-btn" onclick="revealPage(event)">
+        Begin Lesson <span class="begin-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="page-content">
+    <span id="lesson-anchor"></span>
+
+    <!-- LESSON BOX -->
+    <!-- TEMPLATE VAR: Replace lesson title and context copy (1–3 paragraphs) -->
+    <div class="lesson-box section">
+      <h1 class="lesson-title">[Lesson Title]</h1>
+      <div class="context-copy">
+        <p>[Opening paragraph — set the context for what the student is about to watch. Why does this topic matter? What's the hook?]</p>
+        <p>[Optional second paragraph — extend the setup or add a surprising stat, real example, or framing idea.]</p>
+      </div>
+    </div>
+
+    <!-- TIMESTAMP SAVER — no changes needed, works automatically -->
+    <div class="ts-bar section">
+      <div class="ts-label">Timestamp</div>
+      <input class="ts-input" type="text" id="ts-input" placeholder="e.g.  15:42 — drop your timestamp here">
+      <div class="ts-saved-inline" id="ts-saved">You left off at: <span id="ts-val"></span></div>
+      <button class="ts-btn" onclick="saveTs()">Save</button>
+    </div>
+
+    <!-- VIDEO -->
+    <!-- TEMPLATE VAR: Replace YouTube embed ID (the part after /embed/) -->
+    <div class="video-wrapper section">
+      <iframe src="https://www.youtube.com/embed/[YOUTUBE_VIDEO_ID]"
+        title="[Lesson Title]"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+
+    <!-- KEY TAKEAWAYS -->
+    <!-- TEMPLATE VAR: Replace takeaway text. Add or remove takeaway-item blocks as needed (aim for 3–5). -->
+    <div class="takeaways-box section">
+      <div class="takeaways-title">Key Takeaways</div>
+      <div class="takeaway-item"><div class="t-bullet"></div><div>[Takeaway one — a concrete, specific insight from the video. Avoid vague summaries.]</div></div>
+      <div class="takeaway-item"><div class="t-bullet"></div><div>[Takeaway two]</div></div>
+      <div class="takeaway-item"><div class="t-bullet"></div><div>[Takeaway three]</div></div>
+      <!-- Add more takeaway-item blocks here if needed -->
+    </div>
+
+    <!-- LESSON NAV -->
+    <!-- TEMPLATE VAR: Update all four href and nav-name values to match adjacent lessons -->
+    <div class="lesson-nav">
+      <a href="lesson-[X]-[PREV].html" class="nav-btn prev">
+        <span class="nav-dir">← Previous</span>
+        <span class="nav-name">[Previous Lesson Title]</span>
+      </a>
+      <a href="lesson-[X]-[NEXT].html" class="nav-btn next">
+        <span class="nav-dir">Next →</span>
+        <span class="nav-name">[Next Lesson Title]</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+// TEMPLATE VAR: Replace all three lines with CIRO's intro lines for this specific lesson.
+// Each object: { text: "...", pauseAfter: <ms> }
+// pauseAfter controls the pause AFTER that line finishes typing before the next begins.
+const CIRO_LINES = [
+  { text: "[CIRO intro line 1 — sets up the lesson topic in CIRO's voice]", pauseAfter: 950 },
+  { text: "[CIRO intro line 2 — builds tension or stakes]", pauseAfter: 1000 },
+  { text: "[CIRO closing line — short punchy send-off, e.g. 'Proceed without caution.']", pauseAfter: 400 },
+];
+
+const linesContainer = document.getElementById('ciro-lines');
+const sep = document.getElementById('ciro-sep');
+const beginBtn = document.getElementById('begin-btn');
+
+function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+async function typeLine(el, text){
+  const cursor = document.createElement('span');
+  cursor.style.cssText = 'display:inline-block;width:8px;height:14px;background:#00c8ff;vertical-align:middle;margin-left:2px;animation:cur .7s step-end infinite';
+  el.appendChild(cursor);
+
+  for(let i = 0; i < text.length; i++){
+    const ch = text[i];
+    el.insertBefore(document.createTextNode(ch), cursor);
+    let d = 32;
+    if(ch === '.') d += 110;
+    else if(ch === ',') d += 55;
+    else if(ch === '—') d += 70;
+    await wait(d);
+  }
+  cursor.remove();
+}
+
+async function runCiro(){
+  await wait(650);
+  for(const { text, pauseAfter } of CIRO_LINES){
+    const lineEl = document.createElement('div');
+    lineEl.className = 'ciro-line';
+    linesContainer.appendChild(lineEl);
+    await typeLine(lineEl, text);
+    await wait(pauseAfter);
+  }
+  await wait(350);
+  sep.classList.add('visible');
+  await wait(500);
+  beginBtn.classList.add('visible');
+}
+
+function revealPage(e){
+  e.preventDefault();
+  document.getElementById('page-content').classList.add('visible');
+  setTimeout(() => {
+    const lessonBox = document.querySelector('.lesson-box');
+    const top = lessonBox.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }, 120);
+}
+
+runCiro();
+
+function saveTs(){
+  const v = document.getElementById('ts-input').value.trim();
+  if(!v) return;
+  localStorage.setItem('nexus_ts_' + location.pathname, v);
+  showSaved(v);
+  document.getElementById('ts-input').value = '';
+}
+function showSaved(v){
+  document.getElementById('ts-val').textContent = v;
+  document.getElementById('ts-saved').style.display = 'block';
+}
+window.addEventListener('load', () => {
+  const v = localStorage.getItem('nexus_ts_' + location.pathname);
+  if(v) showSaved(v);
+});
+</script>
+</body>
+</html>
