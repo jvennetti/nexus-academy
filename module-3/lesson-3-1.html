@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1280">
-<title>NEXUS Academy — Lesson 1.3</title>
+<title>NEXUS Academy — Lesson 3.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -54,61 +54,40 @@ h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700
 <body>
 <nav>
   <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
-  <div class="nav-lesson-id">Lesson 1.3</div>
+  <div class="nav-lesson-id">Lesson 3.1</div>
   <a href="../hub-joshua.html" class="nav-back">← Hub</a>
 </nav>
 <div class="browser-shell">
 <div class="content-col">
   <div class="lesson-box section">
-    <h1 class="lesson-title">How to Win With AI in 2026</h1>
+    <h1 class="lesson-title">Introducing Cowork</h1>
     <div class="context-copy">
-      <p>Hormozi's take is blunter than most: AI will never be worse than it is right now, and if you're not treating this as your top priority, you're already behind. This video reframes AI from a productivity tool into a competitive position, and makes the case for why being early matters so much more than being perfect.</p>
-      <p>The key conceptual shift he introduces: stop thinking about prompting, start thinking about context systems. The people winning with AI aren't the ones writing clever prompts — they're the ones who've built the context infrastructure that makes every prompt more powerful.</p>
+      <p>This is the orientation that reframes what Claude actually is. A coworker that you can delegate real work to.</p>
     </div>
   </div>
-  <div class="ts-bar section">
-    <div class="ts-label">Timestamp</div>
-    <input class="ts-input" type="text" id="ts-input" placeholder="e.g.  8:15 — drop your timestamp here">
-    <div class="ts-saved-inline" id="ts-saved">You left off at: <span id="ts-val"></span></div>
-    <button class="ts-btn" onclick="saveTs()">Save</button>
-  </div>
   <div class="video-wrapper section">
-    <iframe src="https://www.youtube.com/embed/9q5ojtkqsBs" title="How to Win With AI in 2026" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/UAmKyyZ-b9E" title="Introducing Cowork" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
   <div class="takeaways-box section">
     <div class="takeaways-title">Key Takeaways</div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>The most flexible system survives — this is business Darwinism in real time.</div></div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>Starting a new company AI-first is easier than converting an existing one. There is no legacy structure to fight.</div></div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>The skill stack compounds: every AI capability you add gives disproportionate leverage over competitors.</div></div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>Revenue per employee is the new metric to watch. Hormozi's companies are running in the millions per head.</div></div>
+    <div class="takeaway-item"><div class="t-bullet"></div><div>Cowork lives in the Claude desktop app as its own tab, separate from the chat interface.</div></div>
+    <div class="takeaway-item"><div class="t-bullet"></div><div>Requires a paid Claude account (Pro or Max) — not available on the free plan.</div></div>
+    <div class="takeaway-item"><div class="t-bullet"></div><div>The mental shift starting here: you're not just prompting anymore, you're delegating.</div></div>
   </div>
   <div class="lesson-nav">
-    <a href="lesson-1-2.html" class="nav-btn prev">
+    <a href="intro.html" class="nav-btn prev">
       <span class="nav-dir">← Previous</span>
-      <span class="nav-name">The One-Person Startup Era Has Officially Begun</span>
+      <span class="nav-name">Module 3 Intro</span>
     </a>
-    <a href="lesson-1-4.html" class="nav-btn next">
+    <a href="lesson-3-2.html" class="nav-btn next">
       <span class="nav-dir">Next →</span>
-      <span class="nav-name">When AIs Act Emotional</span>
+      <span class="nav-name">Let Claude Handle Work in Your Browser</span>
     </a>
   </div>
 </div>
 </div>
 <script>
-function saveTs(){
-  const v=document.getElementById('ts-input').value.trim();
-  if(!v) return;
-  localStorage.setItem('nexus_ts_'+location.pathname,v);
-  showSaved(v);
-  document.getElementById('ts-input').value='';
-}
-function showSaved(v){
-  document.getElementById('ts-val').textContent=v;
-  document.getElementById('ts-saved').style.display='block';
-}
 window.addEventListener('load',()=>{
-  const v=localStorage.getItem('nexus_ts_'+location.pathname);
-  if(v) showSaved(v);
   const title=document.querySelector('h1.lesson-title')?.textContent||'';
   localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title}));
 });

@@ -370,15 +370,30 @@ function renderProgress(s){
   });
 }
 
+function getLastPage(){
+  try{ return JSON.parse(localStorage.getItem('nexus_last_page')||'null'); }catch(e){ return null; }
+}
+function urlToModuleKey(url){
+  if(!url) return null;
+  if(url.includes('/pre-course/')) return 'precourse';
+  const m = url.match(/\/module-(\d+)\//);
+  return m ? 'mod'+m[1] : null;
+}
 function renderContinue(s){
   const sec = document.getElementById('continue-section');
   const found = MODULES.find(m=>!s[m.key+'_complete']);
-  if(found){
-    sec.style.display = 'block';
-    document.getElementById('continue-mod-tag').textContent = found.label;
-    document.getElementById('continue-lesson-title').textContent = found.next.title;
-    document.getElementById('continue-btn').href = found.next.url;
-  } else { sec.style.display = 'none'; }
+  if(!found){ sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  const last = getLastPage();
+  let url   = found.next.url;
+  let title = found.next.title;
+  if(last && urlToModuleKey(last.url) === found.key){
+    url   = last.url;
+    title = last.title;
+  }
+  document.getElementById('continue-mod-tag').textContent = found.label;
+  document.getElementById('continue-lesson-title').textContent = title;
+  document.getElementById('continue-btn').href = url;
 }
 
 function renderModules(s){

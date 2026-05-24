@@ -11,8 +11,12 @@
   --bg:#08101f;--card:#0d1628;--card2:#111d30;--box:#16213a;
   --blue:#00c8ff;--blue-dim:rgba(0,200,255,0.07);--blue-border:rgba(0,200,255,0.22);
   --border:#1a2d45;--white:#ffffff;--offwhite:#eaf3fb;--body-text:#cce2f2;
-  --muted:#5a8aaa;
+  --muted:#5a8aaa;--bg-page:#08101f;
 }
+.cta-row{display:flex;flex-direction:column;align-items:center;gap:14px;padding:36px 0 8px}
+.mark-complete-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--bg-page);background:var(--blue);border:none;border-radius:4px;padding:18px 52px;cursor:pointer;transition:opacity .2s,transform .15s;text-decoration:none;display:inline-block}
+.mark-complete-btn:hover{opacity:0.88;transform:translateY(-1px)}
+.cta-sub{font-family:'Lexend',sans-serif;font-size:12px;font-weight:300;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
 html{background:var(--bg);color:var(--white);font-size:16px;line-height:1.7}
 body{background:var(--bg);min-height:100vh;font-family:'Lexend',sans-serif}
 nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 60px;position:sticky;top:0;z-index:100;width:100%}
@@ -66,17 +70,23 @@ h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700
     <div class="takeaway-item"><div class="t-bullet"></div><div>The <code>@</code> symbol links between pages — the foundation of how you'll organize client and team workspaces.</div></div>
     <div class="takeaway-item"><div class="t-bullet"></div><div>Databases are the real power: think Excel that links to full pages, with board, calendar, and table views.</div></div>
   </div>
-  <div class="lesson-nav">
+  <div class="cta-row">
+    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <div class="cta-sub">Routes to module completion</div>
+  </div>
+  <div class="lesson-nav" style="border-top:1px solid var(--border);padding-top:40px">
     <a href="lesson-0-1.html" class="nav-btn prev">
       <span class="nav-dir">← Previous</span>
       <span class="nav-name">7 Years of Building a Learning System in 12 Minutes</span>
     </a>
-    <a href="complete.html" class="nav-btn next">
-      <span class="nav-dir">Next →</span>
-      <span class="nav-name">Pre-Course Complete</span>
-    </a>
   </div>
 </div>
 </div>
+<script>
+window.addEventListener('load',()=>{
+  const title = document.querySelector('h1.lesson-title')?.textContent||'';
+  localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title}));
+});
+</script>
 </body>
 </html>
