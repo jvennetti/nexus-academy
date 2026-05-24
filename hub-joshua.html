@@ -285,6 +285,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 const OPERATOR      = 'joshua';
 const OPERATOR_NAME = 'Joshua';
 const PASSCODE      = '77POWER';
+const DEV_UNLOCK    = false;
 
 const MODULES = [
   { key:'precourse', label:'Pre-Course', title:'BEFORE YOU BEGIN',
@@ -384,7 +385,7 @@ function renderModules(s){
   const g = document.getElementById('modules-grid');
   g.innerHTML = '';
   MODULES.forEach((m, idx)=>{
-    const isAccessible = idx === 0 || !!s[MODULES[idx-1].key+'_complete'];
+    const isAccessible = DEV_UNLOCK || idx === 0 || !!s[MODULES[idx-1].key+'_complete'];
     const isComplete   = !!s[m.key+'_complete'];
     const card = document.createElement('div');
     card.className = 'module-card'+(isAccessible?' unlocked':'');
