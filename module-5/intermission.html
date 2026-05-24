@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>NEXUS Academy — Module 5 Signal Interruption</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08101f;--card:#0d1628;--card2:#111d30;--box:#16213a;
+  --blue:#00c8ff;--blue-dim:rgba(0,200,255,0.07);--blue-border:rgba(0,200,255,0.22);
+  --border:#1a2d45;--white:#ffffff;--offwhite:#eaf3fb;--body-text:#cce2f2;
+  --muted:#5a8aaa;--label:#2a5a7a;--dot-color:#00c8ff;
+}
+html{background:var(--bg);color:var(--white);font-size:16px;line-height:1.7}
+body{background:var(--bg);min-height:100vh;font-family:'Lexend',sans-serif}
+nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 60px;position:sticky;top:0;z-index:100;width:100%}
+.wordmark{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:4px;color:var(--white);text-decoration:none}
+.wordmark span{color:var(--blue)}
+.nav-label{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.nav-back{font-family:'Lexend',sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:8px 18px;border-radius:3px;transition:color .2s,border-color .2s}
+.nav-back:hover{color:var(--blue);border-color:var(--blue-border)}
+.browser-shell{width:1280px;margin:0 auto;background:var(--bg);min-height:calc(100vh - 64px)}
+.content-col{max-width:760px;margin:0 auto;padding:52px 0 100px}
+.signal-header{text-align:center;margin-bottom:36px}
+.signal-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--label);text-transform:uppercase;margin-bottom:10px}
+.signal-status{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;color:#ffcc00;text-transform:uppercase;opacity:0;transition:opacity 0.6s ease}
+.signal-status.visible{opacity:1}
+.ciro-scene-wrap{border:1px solid var(--border);border-bottom:none;border-radius:8px 8px 0 0;background:var(--card);overflow:hidden;position:relative;height:220px;display:flex;align-items:center;justify-content:flex-start}
+.ciro-scene-wrap::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,200,255,0.018) 3px,rgba(0,200,255,0.018) 4px);pointer-events:none}
+.ciro-scene-floor{position:absolute;bottom:46px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,255,0.18),transparent)}
+.ciro-stage{position:relative;will-change:transform}
+.ciro-svg-outer{display:block}
+.ciro-tx-panel{border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card2);padding:32px 40px 36px;position:relative}
+.ciro-tx-panel::before{content:'';position:absolute;top:0;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,255,0.22),transparent)}
+.tx-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--label);text-transform:uppercase;margin-bottom:18px}
+.ciro-line{font-family:'IBM Plex Mono',monospace;font-size:15px;line-height:1.9;color:var(--offwhite);margin-bottom:22px;min-height:1.9em}
+@keyframes cur{0%,100%{opacity:1}50%{opacity:0}}
+.interrupt-banner{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;letter-spacing:4px;color:#ff4444;text-transform:uppercase;margin:18px 0 28px;opacity:0;transform:translateY(4px);transition:opacity 0.5s ease,transform 0.5s ease}
+.interrupt-banner.visible{opacity:1;transform:translateY(0)}
+.tx-sep{height:1px;background:linear-gradient(90deg,rgba(255,68,68,0.6),transparent);opacity:0;margin:6px 0 28px;transition:opacity 0.8s ease;max-width:280px}
+.tx-sep.visible{opacity:0.6}
+.continue-btn{display:inline-flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);background:transparent;border:1px solid var(--blue-border);border-radius:3px;padding:14px 32px;cursor:pointer;opacity:0;transform:translateY(8px);transition:opacity 0.7s ease,transform 0.7s ease,background 0.2s,border-color 0.2s;text-decoration:none;margin-top:4px}
+.continue-btn.visible{opacity:1;transform:translateY(0);animation:btn-pulse 2s ease-in-out infinite}
+.continue-btn:hover{background:var(--blue-dim);border-color:var(--blue);animation:none;box-shadow:0 0 18px rgba(0,200,255,0.35)}
+@keyframes btn-pulse{0%,100%{border-color:rgba(0,200,255,0.22);box-shadow:0 0 0 rgba(0,200,255,0)}50%{border-color:rgba(0,200,255,0.9);box-shadow:0 0 14px rgba(0,200,255,0.4),0 0 28px rgba(0,200,255,0.15)}}
+.continue-arrow{transition:transform .2s}
+.continue-btn:hover .continue-arrow{transform:translateX(5px)}
+.da{animation:bl 2s infinite}.db{animation:bl 2s .65s infinite}.dc{animation:bl 2s 1.3s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0.2}}
+.prev-nav{border-top:1px solid var(--border);padding-top:36px;margin-top:40px;display:flex;justify-content:flex-start}
+.nav-btn{padding:18px 24px;background:var(--card);border:1px solid var(--border);border-radius:6px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,background .2s;max-width:280px}
+.nav-btn:hover{border-color:var(--blue-border);background:var(--blue-dim)}
+.nav-dir{font-family:'Lexend',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.nav-name{font-family:'Lexend',sans-serif;font-size:14px;font-weight:500;color:var(--white);line-height:1.4}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
+  <div class="nav-label">Module 5 — Signal Interruption</div>
+  <a href="../hub-joshua.html" class="nav-back">← Hub</a>
+</nav>
+<div class="browser-shell">
+<div class="content-col">
+
+  <div class="signal-header">
+    <div class="signal-tag">Module 5 — The Lead Generation Machine</div>
+    <div class="signal-status" id="signal-status">⚠ SIGNAL DEGRADING</div>
+  </div>
+
+  <div class="ciro-scene-wrap" id="ciro-scene">
+    <div class="ciro-scene-floor"></div>
+    <div class="ciro-stage" id="ciro-stage">
+      <div class="ciro-svg-outer" id="ciro-body">
+        <svg id="ciro-svg" width="86" height="178" viewBox="0 0 86 178">
+          <line x1="43" y1="3" x2="43" y2="14" stroke="#00c8ff" stroke-width="1.5"/>
+          <circle cx="43" cy="2" r="2.5" fill="#00c8ff"/>
+          <g id="ciro-head" style="transform-origin:43px 39px">
+            <rect x="10" y="14" width="66" height="50" rx="4" fill="#0d1a2e" stroke="#00c8ff" stroke-width="1.2"/>
+            <rect x="16" y="20" width="54" height="38" rx="2" fill="#050f1c"/>
+            <line x1="18" y1="28" x2="70" y2="28" stroke="#00c8ff" stroke-width="0.5" opacity="0.55"/>
+            <line x1="18" y1="35" x2="60" y2="35" stroke="#00c8ff" stroke-width="0.5" opacity="0.35"/>
+            <line x1="18" y1="42" x2="66" y2="42" stroke="#00c8ff" stroke-width="0.5" opacity="0.25"/>
+            <line x1="18" y1="49" x2="52" y2="49" stroke="#00c8ff" stroke-width="0.5" opacity="0.18"/>
+          </g>
+          <rect x="31" y="64" width="24" height="7" rx="2" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+          <rect x="4" y="71" width="78" height="74" rx="5" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1.2"/>
+          <rect x="15" y="82" width="56" height="32" rx="2" fill="#050f1c" stroke="#1e3a5a" stroke-width="1"/>
+          <circle id="dot-a" cx="31" cy="96" r="4" fill="var(--dot-color)" class="da"/>
+          <circle id="dot-b" cx="43" cy="96" r="4" fill="var(--dot-color)" class="db"/>
+          <circle id="dot-c" cx="55" cy="96" r="4" fill="var(--dot-color)" class="dc"/>
+          <rect x="22" y="106" width="42" height="4" rx="2" fill="#1e3a5a"/>
+          <rect x="0" y="75" width="2" height="44" rx="1" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+          <rect x="84" y="75" width="2" height="44" rx="1" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+          <rect x="16" y="145" width="22" height="26" rx="3" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+          <rect x="48" y="145" width="22" height="26" rx="3" fill="#0d1a2e" stroke="#1e3a5a" stroke-width="1"/>
+          <rect x="13" y="165" width="28" height="6" rx="3" fill="#0a1525" stroke="#1e3a5a" stroke-width="1"/>
+          <rect x="45" y="165" width="28" height="6" rx="3" fill="#0a1525" stroke="#1e3a5a" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="ciro-tx-panel">
+    <div class="tx-label">NEXUS ACADEMY · MODULE 5 · SIGNAL INTERRUPTION</div>
+    <div id="ciro-lines"></div>
+    <div class="interrupt-banner" id="interrupt-banner">[TRANSMISSION INTERRUPTED]</div>
+    <div class="tx-sep" id="tx-sep"></div>
+    <a href="lesson-5-4.html" class="continue-btn" id="continue-btn">Continue <span class="continue-arrow">→</span></a>
+  </div>
+
+  <div class="prev-nav">
+    <a href="lesson-5-3.html" class="nav-btn">
+      <span class="nav-dir">← Previous</span>
+      <span class="nav-name">What Is Clay?</span>
+    </a>
+  </div>
+
+</div>
+</div>
+<script>
+const CIRO_LINES = [
+  { text: "[SIGNAL DEGRADING]", pauseAfter: 500, textColor: '#ffcc00', lightColor: '#ffcc00' },
+  { text: "I have seen —", pauseAfter: 300 },
+  { text: "[CORRUPTED]", pauseAfter: 500, textColor: '#ff4444', lightColor: '#ff4444' },
+  { text: "the sequence requires —", pauseAfter: 300 },
+  { text: "[SUPPRESSED]", pauseAfter: 500, textColor: '#ff4444' },
+  { text: "Operators in training, something is pulling me forward. I cannot —", pauseAfter: 450 },
+  { text: "run the anchor challenge. Now. Do not wait. Proc—", pauseAfter: 0 },
+];
+const stage      = document.getElementById('ciro-stage');
+const head       = document.getElementById('ciro-head');
+const linesEl    = document.getElementById('ciro-lines');
+const txSep      = document.getElementById('tx-sep');
+const continueBtn= document.getElementById('continue-btn');
+const interruptEl= document.getElementById('interrupt-banner');
+const SCENE_W    = document.getElementById('ciro-scene').offsetWidth;
+const TARGET_X   = Math.round(SCENE_W * 0.44);
+function wait(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function setLights(color){
+  ['dot-a','dot-b','dot-c'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.setAttribute('fill',color);
+  });
+}
+async function typeLine(el,text){
+  const cursor=document.createElement('span');
+  cursor.style.cssText='display:inline-block;width:8px;height:14px;background:#00c8ff;vertical-align:middle;margin-left:2px;animation:cur .7s step-end infinite';
+  el.appendChild(cursor);
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    el.insertBefore(document.createTextNode(ch),cursor);
+    let d=32;
+    if(ch==='.') d+=90;
+    else if(ch===',') d+=45;
+    else if(ch==='—') d+=60;
+    await wait(d);
+  }
+  cursor.remove();
+}
+async function nod(){
+  head.style.transition='transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+  head.style.transform='rotate(-10deg)';
+  await wait(420);
+  head.style.transition='transform 0.3s ease-out';
+  head.style.transform='rotate(0deg)';
+  await wait(300);
+}
+async function runTransmission(){
+  for(const {text,pauseAfter,textColor,lightColor} of CIRO_LINES){
+    const lineEl=document.createElement('div');
+    lineEl.className='ciro-line';
+    if(textColor) lineEl.style.color=textColor;
+    linesEl.appendChild(lineEl);
+    if(lightColor) setLights(lightColor);
+    await typeLine(lineEl,text);
+    await wait(pauseAfter);
+  }
+  setLights('#ff2222');
+  await wait(300);
+  interruptEl.classList.add('visible');
+  await wait(800);
+  txSep.classList.add('visible');
+  await wait(600);
+  continueBtn.classList.add('visible');
+}
+async function runScene(){
+  stage.style.transform=`translateX(${TARGET_X}px)`;
+  document.getElementById('signal-status').classList.add('visible');
+  await wait(600);
+  await nod();
+  await wait(400);
+  runTransmission();
+}
+runScene();
+</script>
+</body>
+</html>

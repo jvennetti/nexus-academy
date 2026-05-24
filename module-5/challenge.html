@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>NEXUS Academy — Module 5 Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08101f;--card:#0d1628;--card2:#111d30;--box:#16213a;
+  --blue:#00c8ff;--blue-dim:rgba(0,200,255,0.07);--blue-border:rgba(0,200,255,0.22);
+  --border:#1a2d45;--white:#ffffff;--offwhite:#eaf3fb;--body-text:#cce2f2;
+  --muted:#5a8aaa;--label:#2a5a7a;
+}
+html{background:var(--bg);color:var(--white);font-size:16px;line-height:1.7}
+body{background:var(--bg);min-height:100vh;font-family:'Lexend',sans-serif}
+nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 60px;position:sticky;top:0;z-index:100;width:100%}
+.wordmark{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:4px;color:var(--white);text-decoration:none}
+.wordmark span{color:var(--blue)}
+.nav-lesson-id{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.nav-back{font-family:'Lexend',sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:8px 18px;border-radius:3px;transition:color .2s,border-color .2s}
+.nav-back:hover{color:var(--blue);border-color:var(--blue-border)}
+.banner{width:100%;height:420px;position:relative;overflow:hidden;background:#0d1628}
+.banner-img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;filter:brightness(0.72)}
+.banner-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,var(--bg) 100%)}
+.banner-label{position:absolute;bottom:44px;left:0;right:0;text-align:center}
+.banner-title{font-family:'Orbitron',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:var(--white);text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,0.7)}
+.browser-shell{width:1280px;margin:0 auto}
+.content-col{max-width:860px;margin:0 auto;padding:0 0 100px}
+.section-title{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:18px;text-align:center}
+.body-copy{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.85;color:var(--body-text)}
+.body-copy p+p{margin-top:14px}
+.body-copy strong{font-weight:500;color:var(--offwhite)}
+.scenario-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
+.setup-strip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px 40px;margin-bottom:36px}
+.setup-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.challenge-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
+.challenge-title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.step-list{list-style:none;display:flex;flex-direction:column;gap:20px}
+.step-item{display:flex;align-items:flex-start;gap:20px}
+.step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--blue-border);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--blue);margin-top:2px}
+.step-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.75;color:var(--body-text)}
+.step-text strong{font-weight:500;color:var(--offwhite)}
+.deliverable-box{background:var(--bg);border:1px solid var(--blue-border);border-radius:8px;padding:32px 40px;margin-bottom:36px;position:relative;overflow:hidden}
+.deliverable-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text)}
+.extension-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:28px 36px;margin-bottom:36px}
+.extension-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.extension-text{font-family:'Lexend',sans-serif;font-size:14px;font-weight:300;line-height:1.8;color:var(--body-text)}
+.integration-note{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-left:2px solid rgba(0,200,255,0.3);border-radius:0 6px 6px 0;padding:20px 26px;margin-bottom:48px}
+.integration-text{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)}
+.integration-text strong{font-weight:500;color:var(--body-text)}
+.cta-row{display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:8px;margin-bottom:52px}
+.mark-complete-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--bg);background:var(--blue);border:none;border-radius:4px;padding:18px 52px;cursor:pointer;transition:opacity .2s,transform .15s;text-decoration:none;display:inline-block}
+.mark-complete-btn:hover{opacity:0.88;transform:translateY(-1px)}
+.mark-complete-btn:active{transform:translateY(0)}
+.cta-sub{font-family:'Lexend',sans-serif;font-size:12px;font-weight:300;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.prev-nav{border-top:1px solid var(--border);padding-top:40px;display:flex;justify-content:flex-start}
+.nav-btn{padding:18px 24px;background:var(--card);border:1px solid var(--border);border-radius:6px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,background .2s;max-width:280px}
+.nav-btn:hover{border-color:var(--blue-border);background:var(--blue-dim)}
+.nav-dir{font-family:'Lexend',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.nav-name{font-family:'Lexend',sans-serif;font-size:14px;font-weight:500;color:var(--white);line-height:1.4}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
+  <div class="nav-lesson-id">Module 5 — Challenge</div>
+  <a href="../hub-joshua.html" class="nav-back">← Hub</a>
+</nav>
+
+<div class="banner">
+  <img class="banner-img" src="../Challenge Image_ Module 5.png" alt="Module 5 Challenge">
+  <div class="banner-overlay"></div>
+  <div class="banner-label">
+    <div class="banner-title">The Anchor Challenge</div>
+  </div>
+</div>
+
+<div class="browser-shell">
+<div class="content-col">
+
+  <div class="scenario-box">
+    <div class="section-title">Real-World Scenario</div>
+    <div class="body-copy">
+      <p>Summit Properties is a boutique real estate agency. They work with investor clients — people looking for rental properties, fix-and-flips, and commercial deals — but everything they do to find new clients is manual. Their best salesperson spends 6 hours a week just researching prospects, tracking down email addresses, and writing first messages to people they found on LinkedIn or through referrals. They've never had a real outbound system. You've been brought in to build one.</p>
+    </div>
+  </div>
+
+  <div class="setup-strip">
+    <div class="setup-label">Before you build, create your environment</div>
+    <div class="body-copy">
+      <p>Open Claude and ask it to produce all of the following for Summit Properties: an <strong>ICP brief</strong> (ideal client description, job title, company size, location, three problems Summit can solve), a <strong>prospect list</strong> of 15 fictional people who match that description, one <strong>sample outreach email</strong> written in Summit's voice, and a <strong>Cowork Skill document</strong> defining Summit's context and voice. Save the Skill in Cowork.</p>
+      <p>Then create a new <strong>Claude Project</strong> called "Summit Properties." Paste the ICP brief into the project instructions. Upload the sample email and Skill document into the project knowledge. Run every conversation for this challenge inside this project — Claude always knows the context and you never have to re-explain it.</p>
+    </div>
+  </div>
+
+  <div class="challenge-box">
+    <div class="challenge-title">Your Challenge</div>
+    <ol class="step-list">
+      <li class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Research brief</strong> — Use Claude's Research mode to build a clear picture of Summit's ideal client: who they are, what would tell you they're actively looking for deals right now, what they care about, and how you'd find them on Apollo or LinkedIn.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Lead list</strong> — Using Apollo (the free plan works), build a filtered list of people who match that profile. Export it to a Google Sheet with at minimum: name, title, company, email, LinkedIn URL, and company size. Clean up any blank rows or extra columns before moving on.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Outreach campaign</strong> — Load your Skill into Cowork and run the sequence: have it go through the lead list, write a personalized first email for each person using Summit's voice and their specific details, then push everything into Lemlist as a campaign. If you haven't set up Lemlist yet, save the emails into a Google Sheet instead.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Schedule it</strong> — Set the pipeline to run automatically. Either weekly (every Monday, pull 10 new leads from Apollo and draft outreach) or triggered when a new row is added to the lead sheet.</div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="deliverable-box">
+    <div class="section-title">Your Deliverable</div>
+    <div class="deliverable-text">A working outbound pipeline — a research brief, a clean lead list, drafted outreach emails, and at least one step running on its own without you triggering it. Aim for under 45 minutes of active work once the environment is set up.</div>
+  </div>
+
+  <div class="extension-box">
+    <div class="extension-label">Extension</div>
+    <div class="extension-text">Build a call prep Skill for Summit. When someone books a meeting, the Skill looks up their LinkedIn profile, their company website, and any recent news about them — then puts together a one-page summary with a company overview, likely problems they have, questions to ask on the call, and which part of Summit's offer to lead with. Set it to run automatically each morning based on that day's calendar.</div>
+  </div>
+
+  <div class="integration-note">
+    <div class="integration-text"><strong>Integration note:</strong> The pipeline you're building here — find the right people, reach out, follow up — is exactly what every successful agency, brokerage, and service business runs on. The person who can build this for a client in an afternoon isn't just good with AI. They're solving a real revenue problem. That's the business.</div>
+  </div>
+
+  <div class="cta-row">
+    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <div class="cta-sub">Routes to module completion</div>
+  </div>
+
+  <div class="prev-nav">
+    <a href="lesson-5-7.html" class="nav-btn">
+      <span class="nav-dir">← Previous</span>
+      <span class="nav-name">Claude Code Just Changed Lead Generation Forever</span>
+    </a>
+  </div>
+
+</div>
+</div>
+</body>
+</html>
