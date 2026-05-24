@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>NEXUS Academy — Pre-Course</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08101f;--card:#0d1628;
+  --blue:#00c8ff;--blue-dim:rgba(0,200,255,0.07);--blue-border:rgba(0,200,255,0.22);
+  --border:#1a2d45;--white:#ffffff;--muted:#5a8aaa;
+}
+html{background:var(--bg);color:var(--white);font-size:16px}
+body{background:var(--bg);min-height:100vh;font-family:'Lexend',sans-serif}
+nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 60px;position:sticky;top:0;z-index:100;width:100%}
+.wordmark{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:4px;color:var(--white);text-decoration:none}
+.wordmark span{color:var(--blue)}
+.nav-label{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.nav-back{font-family:'Lexend',sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:8px 18px;border-radius:3px;transition:color .2s,border-color .2s}
+.nav-back:hover{color:var(--blue);border-color:var(--blue-border)}
+.shell{width:1280px;margin:0 auto;min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center}
+.center{text-align:center;display:flex;flex-direction:column;align-items:center;gap:32px}
+.pre-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--muted);text-transform:uppercase}
+.pre-title{font-family:'Orbitron',sans-serif;font-size:38px;font-weight:900;letter-spacing:3px;color:var(--white);text-transform:uppercase}
+.pre-sub{font-family:'Lexend',sans-serif;font-size:16px;font-weight:300;color:var(--muted);max-width:480px;line-height:1.7}
+.begin-btn{display:inline-flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);background:transparent;border:1px solid var(--blue-border);border-radius:3px;padding:14px 32px;text-decoration:none;transition:background .2s}
+.begin-btn:hover{background:var(--blue-dim)}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
+  <div class="nav-label">Pre-Course</div>
+  <a href="../hub-joshua.html" class="nav-back">← Hub</a>
+</nav>
+<div class="shell">
+  <div class="center">
+    <div class="pre-label">Before You Begin</div>
+    <div class="pre-title">Pre-Course</div>
+    <div class="pre-sub">Two short lessons to set up how you learn and the tools you'll use.</div>
+    <a href="lesson-0-1.html" class="begin-btn">Begin Pre-Course →</a>
+  </div>
+</div>
+</body>
+</html>
