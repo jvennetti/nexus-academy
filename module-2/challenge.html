@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>NEXUS Academy — Module 2 Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08101f;--card:#0d1628;--card2:#111d30;--box:#16213a;
+  --blue:#00c8ff;--blue-dim:rgba(0,200,255,0.07);--blue-border:rgba(0,200,255,0.22);
+  --border:#1a2d45;--white:#ffffff;--offwhite:#eaf3fb;--body-text:#cce2f2;
+  --muted:#5a8aaa;--label:#2a5a7a;
+}
+html{background:var(--bg);color:var(--white);font-size:16px;line-height:1.7}
+body{background:var(--bg);min-height:100vh;font-family:'Lexend',sans-serif}
+nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 60px;position:sticky;top:0;z-index:100;width:100%}
+.wordmark{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;letter-spacing:4px;color:var(--white);text-decoration:none}
+.wordmark span{color:var(--blue)}
+.nav-lesson-id{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.nav-back{font-family:'Lexend',sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:8px 18px;border-radius:3px;transition:color .2s,border-color .2s}
+.nav-back:hover{color:var(--blue);border-color:var(--blue-border)}
+.banner{width:100%;height:420px;position:relative;overflow:hidden;background:#0d1628}
+.banner-img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;filter:brightness(0.72)}
+.banner-overlay{position:absolute;inset:0;background:linear-gradient(to bottom, transparent 30%, var(--bg) 100%)}
+.banner-label{position:absolute;bottom:44px;left:0;right:0;text-align:center}
+.banner-title{font-family:'Orbitron',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:var(--white);text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,0.7)}
+.browser-shell{width:1280px;margin:0 auto}
+.content-col{max-width:860px;margin:0 auto;padding:0 0 100px}
+.section-title{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:18px;text-align:center}
+.body-copy{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.85;color:var(--body-text)}
+.body-copy p+p{margin-top:14px}
+.body-copy strong{font-weight:500;color:var(--offwhite)}
+.scenario-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
+.challenge-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
+.challenge-title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.step-list{list-style:none;display:flex;flex-direction:column;gap:20px}
+.step-item{display:flex;align-items:flex-start;gap:20px}
+.step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--blue-border);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--blue);margin-top:2px}
+.step-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.75;color:var(--body-text)}
+.deliverable-box{background:var(--bg);border:1px solid var(--blue-border);border-radius:8px;padding:32px 40px;margin-bottom:36px;position:relative;overflow:hidden}
+.deliverable-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text);text-align:left}
+.integration-note{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-left:2px solid rgba(0,200,255,0.3);border-radius:0 6px 6px 0;padding:20px 26px;margin-bottom:48px}
+.integration-text{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)}
+.integration-text strong{font-weight:500;color:var(--body-text)}
+.cta-row{display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:8px;margin-bottom:52px}
+.mark-complete-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--bg);background:var(--blue);border:none;border-radius:4px;padding:18px 52px;cursor:pointer;transition:opacity .2s,transform .15s;text-decoration:none;display:inline-block}
+.mark-complete-btn:hover{opacity:0.88;transform:translateY(-1px)}
+.mark-complete-btn:active{transform:translateY(0)}
+.cta-sub{font-family:'Lexend',sans-serif;font-size:12px;font-weight:300;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.prev-nav{border-top:1px solid var(--border);padding-top:40px;display:flex;justify-content:flex-start}
+.nav-btn{padding:18px 24px;background:var(--card);border:1px solid var(--border);border-radius:6px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,background .2s;max-width:280px}
+.nav-btn:hover{border-color:var(--blue-border);background:var(--blue-dim)}
+.nav-dir{font-family:'Lexend',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.nav-name{font-family:'Lexend',sans-serif;font-size:14px;font-weight:500;color:var(--white);line-height:1.4}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
+  <div class="nav-lesson-id">Module 2 — Challenge</div>
+  <a href="../hub-joshua.html" class="nav-back">← Hub</a>
+</nav>
+
+<div class="banner">
+  <img class="banner-img" src="../Challenge Image_ Module 2.png" alt="Module 2 Challenge">
+  <div class="banner-overlay"></div>
+  <div class="banner-label">
+    <div class="banner-title">The Challenge</div>
+  </div>
+</div>
+
+<div class="browser-shell">
+<div class="content-col">
+
+  <div class="scenario-box">
+    <div class="section-title">Real-World Scenario</div>
+    <div class="body-copy">
+      <p>You've just landed your first AI consulting engagement. Your client is a boutique financial advisory firm with 12 employees. They want to use AI to improve how they prepare for client meetings — currently a manual, time-consuming process involving research, agenda drafting, and note-taking. They've asked you to show them what that could look like.</p>
+    </div>
+  </div>
+
+  <div class="challenge-box">
+    <div class="challenge-title">Your Challenge</div>
+    <ol class="step-list">
+      <li class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text">Set up a dedicated Claude Project for this client. Write the system prompt that will anchor every interaction — defining the firm's context, the kinds of tasks Claude will handle, the tone, and any constraints.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text">Write a prompt that generates a structured client meeting prep document for a fictional client: a 55-year-old business owner looking to discuss retirement planning options.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text">Review the output. If it reads like a generic AI response, refine the system prompt and run it again. Your standard: would a financial advisor actually use this document without editing?</div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="deliverable-box">
+    <div class="section-title">Your Deliverable</div>
+    <div class="deliverable-text">A working Claude Project with a system prompt, plus a completed meeting prep document Claude generated from it. Screenshot or export both. This is the proof of concept you'd hand to a client after your first working session.</div>
+  </div>
+
+  <div class="integration-note">
+    <div class="integration-text"><strong>Integration note:</strong> Financial Services is one of the highest-leverage AI adoption areas — meeting prep, compliance documentation, client communication, advisor research. You now have the prompting foundation to start building real things in that space.</div>
+  </div>
+
+  <div class="cta-row">
+    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <div class="cta-sub">Routes to module completion</div>
+  </div>
+
+  <div class="prev-nav">
+    <a href="lesson-2-7.html" class="nav-btn">
+      <span class="nav-dir">← Previous</span>
+      <span class="nav-name">Perplexity Computer for Beginners: Everything You Need to Know</span>
+    </a>
+  </div>
+
+</div>
+</div>
+</body>
+</html>

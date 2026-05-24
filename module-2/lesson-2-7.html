@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1280">
-<title>NEXUS Academy — Lesson 3.7</title>
+<title>NEXUS Academy — Lesson 2.7</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -54,51 +54,63 @@ h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700
 <body>
 <nav>
   <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
-  <div class="nav-lesson-id">Lesson 3.7</div>
+  <div class="nav-lesson-id">Lesson 2.7</div>
   <a href="../hub-joshua.html" class="nav-back">← Hub</a>
 </nav>
 <div class="browser-shell">
 <div class="content-col">
   <div class="lesson-box section">
-    <h1 class="lesson-title">Full Claude Cowork Tutorial</h1>
+    <h1 class="lesson-title">Perplexity Computer for Beginners: Everything You Need to Know</h1>
     <div class="context-copy">
-      <p>The practical walkthrough. Watch this before the setup deep dive in the next lesson — this gives you the mental model first. Lesson 3.8 gives you the full configuration.</p>
-      <p>The key reframe this lesson makes: you stop writing prompts and start writing task briefs.</p>
+      <p>This is a perspective video, not a setup video. You don't need a Perplexity subscription to get value from it. The point is to understand that different AI tools are built for different jobs.</p>
+      <p>Knowing what's out there makes you a sharper operator of the tools you do use. Claude is your primary environment. Perplexity serves complementary functions, primarily research and multi-model orchestration.</p>
     </div>
   </div>
   <div class="ts-bar section">
     <div class="ts-label">Timestamp</div>
-    <input class="ts-input" type="text" id="ts-input" placeholder="e.g.  12:30 — drop your timestamp here">
+    <input class="ts-input" type="text" id="ts-input" placeholder="e.g.  8:15 — drop your timestamp here">
     <div class="ts-saved-inline" id="ts-saved">You left off at: <span id="ts-val"></span></div>
     <button class="ts-btn" onclick="saveTs()">Save</button>
   </div>
   <div class="video-wrapper section">
-    <iframe src="https://www.youtube.com/embed/7e3JovO8ngI" title="Full Claude Cowork Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/EHpAQwXmseQ" title="Perplexity Computer for Beginners: Everything You Need to Know" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
   <div class="takeaways-box section">
     <div class="takeaways-title">Key Takeaways</div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>Three tabs in the Claude desktop app: Chat, Cowork, Code. This module is about Cowork.</div></div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>A task in Cowork is a multi-step instruction Claude executes end-to-end, not a single conversational exchange.</div></div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>Skills are reusable instruction sets — the equivalent of SOPs for an employee. Claude draws on them automatically without re-explaining context each time.</div></div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>The more business context lives in your Skills, the less you have to include in each individual task prompt.</div></div>
-    <div class="takeaway-item"><div class="t-bullet"></div><div>Cowork is not a replacement for Claude chat — it's a separate mode built for execution instead of conversation.</div></div>
+    <div class="takeaway-item"><div class="t-bullet"></div><div>Perplexity Computer orchestrates multiple AI models simultaneously — it's an agent framework, not a chatbot.</div></div>
+    <div class="takeaway-item"><div class="t-bullet"></div><div>The right question isn't "which AI is best?" — it's "which AI is best for this specific job?" Tool selection is a skill.</div></div>
+    <div class="takeaway-item"><div class="t-bullet"></div><div>Claude is your primary environment. Perplexity serves complementary functions, primarily research and multi-model orchestration.</div></div>
   </div>
   <div class="lesson-nav">
-    <a href="lesson-3-6.html" class="nav-btn prev">
+    <a href="lesson-2-6.html" class="nav-btn prev">
       <span class="nav-dir">← Previous</span>
-      <span class="nav-name">The Model Context Protocol (Deep Dive)</span>
+      <span class="nav-name">AI Prompt Engineering: A Deep Dive</span>
     </a>
-    <a href="intermission.html" class="nav-btn next">
+    <a href="challenge.html" class="nav-btn next">
       <span class="nav-dir">Next →</span>
-      <span class="nav-name">Module 3 — Midpoint</span>
+      <span class="nav-name">Module 2 Challenge</span>
     </a>
   </div>
 </div>
 </div>
 <script>
-function saveTs(){const v=document.getElementById('ts-input').value.trim();if(!v)return;localStorage.setItem('nexus_ts_'+location.pathname,v);showSaved(v);document.getElementById('ts-input').value='';}
-function showSaved(v){document.getElementById('ts-val').textContent=v;document.getElementById('ts-saved').style.display='block';}
-window.addEventListener('load',()=>{const v=localStorage.getItem('nexus_ts_'+location.pathname);if(v)showSaved(v);const title=document.querySelector('h1.lesson-title')?.textContent||'';localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title}));});
+function saveTs(){
+  const v=document.getElementById('ts-input').value.trim();
+  if(!v) return;
+  localStorage.setItem('nexus_ts_'+location.pathname,v);
+  showSaved(v);
+  document.getElementById('ts-input').value='';
+}
+function showSaved(v){
+  document.getElementById('ts-val').textContent=v;
+  document.getElementById('ts-saved').style.display='block';
+}
+window.addEventListener('load',()=>{
+  const v=localStorage.getItem('nexus_ts_'+location.pathname);
+  if(v) showSaved(v);
+  const title=document.querySelector('h1.lesson-title')?.textContent||'';
+  localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title}));
+});
 </script>
 </body>
 </html>
