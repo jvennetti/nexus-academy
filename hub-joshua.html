@@ -22,6 +22,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .hub-sub{font-size:11px;font-weight:500;letter-spacing:0.44em;color:var(--muted);text-transform:uppercase;font-family:'IBM Plex Mono',monospace}
 .section-label{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.38em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.section-label-center{justify-content:center}
+.section-label-center::before{content:'';flex:1;height:1px;background:var(--border)}
 .ciro-widget{background:#060d1a;border:1px solid var(--border);border-radius:12px;padding:28px 32px;display:flex;gap:28px;align-items:flex-start;margin-bottom:28px}
 .ciro-figure{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px}
 .ciro-ver{color:#1a5060;font-size:9px;letter-spacing:2px;font-weight:500;font-family:'IBM Plex Mono',monospace}
@@ -75,9 +77,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .machine-section{margin-bottom:40px}
 .machine-container{width:100%;border-radius:10px;border:1px solid rgba(0,200,255,0.12);background:var(--panel2);overflow:hidden;position:relative;padding:40px 20px 32px;display:flex;flex-direction:column;align-items:center}
 .machine-container::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,200,255,0.015) 4px,rgba(0,200,255,0.015) 5px);pointer-events:none;z-index:1;border-radius:10px}
-.machine-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.38em;color:rgba(0,200,255,0.35);text-transform:uppercase;margin-bottom:20px;z-index:2;position:relative}
+.machine-label{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:700;letter-spacing:0.14em;color:var(--white);text-transform:uppercase;margin-bottom:18px;z-index:2;position:relative;text-align:center}
 .machine-svg-wrap{position:relative;z-index:2}
-.machine-activate{text-align:center;margin-top:28px;z-index:2;position:relative}
+.machine-activate{text-align:center;margin-top:10px;z-index:2;position:relative}
 .activate-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--navy);background:rgba(0,200,255,0.25);border:1px solid rgba(0,200,255,0.3);border-radius:4px;padding:14px 44px;cursor:default;text-decoration:none;display:inline-block;transition:all 0.3s;pointer-events:none}
 .activate-btn.ready{background:var(--blue);border-color:var(--blue);color:var(--navy);cursor:pointer;pointer-events:auto}
 .activate-btn.ready:hover{opacity:0.88;transform:translateY(-1px)}
@@ -97,6 +99,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes cable-flow{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}
 @keyframes blink-slow{0%,100%{opacity:1}50%{opacity:0.2}}
 @keyframes energy-rise{0%,100%{opacity:0.4;transform:scaleY(0.8)}50%{opacity:1;transform:scaleY(1)}}
+.machine-container.error-state{border-color:rgba(220,40,40,0.3)!important;box-shadow:0 0 28px rgba(200,0,0,0.1),inset 0 0 16px rgba(200,0,0,0.05)}
+.machine-container.active-state{border-color:rgba(0,200,255,0.32)!important;box-shadow:0 0 28px rgba(0,200,255,0.1)}
 </style>
 </head>
 <body>
@@ -174,8 +178,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
 
   <div class="machine-section">
-    <div class="section-label">The Machine</div>
-    <div class="machine-container">
+    <div class="section-label section-label-center">The Machine</div>
+    <div class="machine-container error-state" id="machine-container">
       <div class="machine-label">NEXUS CORE — TRANSMISSION RELAY</div>
       <div class="machine-svg-wrap">
         <svg width="860" height="340" viewBox="0 0 860 340" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:100%">
@@ -192,31 +196,31 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <rect x="50" y="75" width="60" height="8" rx="2" fill="#0a1a2a" stroke="rgba(0,200,255,0.2)" stroke-width="0.8"/>
           <rect x="50" y="90" width="60" height="8" rx="2" fill="#0a1a2a" stroke="rgba(0,200,255,0.2)" stroke-width="0.8"/>
           <rect x="50" y="110" width="60" height="100" rx="2" fill="#060e1a" stroke="rgba(0,200,255,0.1)" stroke-width="0.8"/>
-          <circle cx="62" cy="120" r="4" fill="#00c8ff" opacity="0.8" style="animation:blink-slow 2.2s infinite"/>
-          <circle cx="62" cy="138" r="4" fill="#00c8ff" opacity="0.5" style="animation:blink-slow 2.2s 0.7s infinite"/>
-          <circle cx="62" cy="156" r="4" fill="#00c8ff" opacity="0.3" style="animation:blink-slow 2.2s 1.4s infinite"/>
+          <circle id="ll1" cx="62" cy="120" r="4" fill="#ff2222" opacity="0.9" style="animation:blink-slow 2.2s infinite"/>
+          <circle id="ll2" cx="62" cy="138" r="4" fill="#ff2222" opacity="0.65" style="animation:blink-slow 2.2s 0.7s infinite"/>
+          <circle id="ll3" cx="62" cy="156" r="4" fill="#ff2222" opacity="0.4" style="animation:blink-slow 2.2s 1.4s infinite"/>
           <rect x="54" y="170" width="48" height="3" rx="1" fill="rgba(0,200,255,0.3)"/>
           <rect x="54" y="178" width="32" height="2" rx="1" fill="rgba(0,200,255,0.15)"/>
           <rect x="54" y="184" width="40" height="2" rx="1" fill="rgba(0,200,255,0.1)"/>
           <rect x="54" y="225" width="48" height="50" rx="2" fill="#050d1a" stroke="rgba(0,200,255,0.1)" stroke-width="0.8"/>
-          <rect x="57" y="264" width="12" height="8" rx="1" fill="rgba(0,200,255,0.6)" style="animation:energy-rise 1.8s infinite"/>
-          <rect x="73" y="255" width="12" height="17" rx="1" fill="rgba(0,200,255,0.4)" style="animation:energy-rise 1.8s 0.3s infinite"/>
-          <rect x="89" y="248" width="12" height="24" rx="1" fill="rgba(0,200,255,0.5)" style="animation:energy-rise 1.8s 0.6s infinite"/>
+          <rect class="ebar" x="57" y="264" width="12" height="8" rx="1" fill="rgba(220,30,30,0.7)" style="animation:energy-rise 1.8s infinite"/>
+          <rect class="ebar" x="73" y="255" width="12" height="17" rx="1" fill="rgba(220,30,30,0.5)" style="animation:energy-rise 1.8s 0.3s infinite"/>
+          <rect class="ebar" x="89" y="248" width="12" height="24" rx="1" fill="rgba(220,30,30,0.6)" style="animation:energy-rise 1.8s 0.6s infinite"/>
           <rect x="30" y="295" width="100" height="18" rx="3" fill="#060d1a" stroke="rgba(0,200,255,0.1)" stroke-width="1"/>
           <rect x="740" y="60" width="80" height="240" rx="4" fill="url(#pillarGrad)" stroke="rgba(0,200,255,0.12)" stroke-width="1"/>
           <rect x="750" y="75" width="60" height="8" rx="2" fill="#0a1a2a" stroke="rgba(0,200,255,0.2)" stroke-width="0.8"/>
           <rect x="750" y="90" width="60" height="8" rx="2" fill="#0a1a2a" stroke="rgba(0,200,255,0.2)" stroke-width="0.8"/>
           <rect x="750" y="110" width="60" height="100" rx="2" fill="#060e1a" stroke="rgba(0,200,255,0.1)" stroke-width="0.8"/>
-          <circle cx="798" cy="120" r="4" fill="#00c8ff" opacity="0.8" style="animation:blink-slow 2.2s 0.4s infinite"/>
-          <circle cx="798" cy="138" r="4" fill="#00c8ff" opacity="0.5" style="animation:blink-slow 2.2s 1.1s infinite"/>
-          <circle cx="798" cy="156" r="4" fill="#00c8ff" opacity="0.3" style="animation:blink-slow 2.2s 1.8s infinite"/>
+          <circle id="rl1" cx="798" cy="120" r="4" fill="#ff2222" opacity="0.9" style="animation:blink-slow 2.2s 0.4s infinite"/>
+          <circle id="rl2" cx="798" cy="138" r="4" fill="#ff2222" opacity="0.65" style="animation:blink-slow 2.2s 1.1s infinite"/>
+          <circle id="rl3" cx="798" cy="156" r="4" fill="#ff2222" opacity="0.4" style="animation:blink-slow 2.2s 1.8s infinite"/>
           <rect x="758" y="170" width="48" height="3" rx="1" fill="rgba(0,200,255,0.3)"/>
           <rect x="758" y="178" width="32" height="2" rx="1" fill="rgba(0,200,255,0.15)"/>
           <rect x="758" y="184" width="40" height="2" rx="1" fill="rgba(0,200,255,0.1)"/>
           <rect x="758" y="225" width="48" height="50" rx="2" fill="#050d1a" stroke="rgba(0,200,255,0.1)" stroke-width="0.8"/>
-          <rect x="761" y="264" width="12" height="8" rx="1" fill="rgba(0,200,255,0.5)" style="animation:energy-rise 1.8s 0.2s infinite"/>
-          <rect x="777" y="252" width="12" height="20" rx="1" fill="rgba(0,200,255,0.6)" style="animation:energy-rise 1.8s 0.5s infinite"/>
-          <rect x="793" y="245" width="12" height="27" rx="1" fill="rgba(0,200,255,0.4)" style="animation:energy-rise 1.8s 0.8s infinite"/>
+          <rect class="ebar" x="761" y="264" width="12" height="8" rx="1" fill="rgba(220,30,30,0.6)" style="animation:energy-rise 1.8s 0.2s infinite"/>
+          <rect class="ebar" x="777" y="252" width="12" height="20" rx="1" fill="rgba(220,30,30,0.7)" style="animation:energy-rise 1.8s 0.5s infinite"/>
+          <rect class="ebar" x="793" y="245" width="12" height="27" rx="1" fill="rgba(220,30,30,0.5)" style="animation:energy-rise 1.8s 0.8s infinite"/>
           <rect x="730" y="295" width="100" height="18" rx="3" fill="#060d1a" stroke="rgba(0,200,255,0.1)" stroke-width="1"/>
           <path d="M120 100 Q200 80 300 90 Q360 95 385 140" stroke="#00c8ff" stroke-width="1.5" fill="none" opacity="0.35" stroke-dasharray="8 4" style="animation:cable-flow 3s linear infinite"/>
           <path d="M120 140 Q220 120 310 115 Q355 113 385 150" stroke="#00c8ff" stroke-width="1" fill="none" opacity="0.2" stroke-dasharray="6 6" style="animation:cable-flow 4s linear infinite"/>
@@ -234,15 +238,15 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <line x1="397" y1="118" x2="460" y2="118" stroke="rgba(0,200,255,0.18)" stroke-width="0.6"/>
           <line x1="397" y1="125" x2="448" y2="125" stroke="rgba(0,200,255,0.12)" stroke-width="0.6"/>
           <rect x="395" y="142" width="70" height="30" rx="2" fill="#060e1a" stroke="rgba(0,200,255,0.12)" stroke-width="0.8"/>
-          <circle cx="412" cy="157" r="5" fill="rgba(0,200,255,0.6)" filter="url(#glow)" style="animation:blink-slow 1.8s infinite"/>
-          <circle cx="430" cy="157" r="5" fill="rgba(0,200,255,0.4)" filter="url(#glow)" style="animation:blink-slow 1.8s 0.6s infinite"/>
-          <circle cx="448" cy="157" r="5" fill="rgba(0,200,255,0.5)" filter="url(#glow)" style="animation:blink-slow 1.8s 1.2s infinite"/>
+          <circle id="cl1" cx="412" cy="157" r="5" fill="rgba(255,34,34,0.7)" filter="url(#glow)" style="animation:blink-slow 1.8s infinite"/>
+          <circle id="cl2" cx="430" cy="157" r="5" fill="rgba(255,34,34,0.5)" filter="url(#glow)" style="animation:blink-slow 1.8s 0.6s infinite"/>
+          <circle id="cl3" cx="448" cy="157" r="5" fill="rgba(255,34,34,0.6)" filter="url(#glow)" style="animation:blink-slow 1.8s 1.2s infinite"/>
           <rect x="395" y="182" width="70" height="60" rx="2" fill="#060e1a" stroke="rgba(0,200,255,0.1)" stroke-width="0.8"/>
           <rect x="400" y="190" width="60" height="4" rx="1" fill="rgba(0,200,255,0.25)"/>
           <rect x="400" y="198" width="44" height="3" rx="1" fill="rgba(0,200,255,0.15)"/>
           <rect x="400" y="206" width="52" height="3" rx="1" fill="rgba(0,200,255,0.1)"/>
           <rect x="400" y="225" width="60" height="10" rx="2" fill="rgba(0,200,255,0.08)" stroke="rgba(0,200,255,0.12)" stroke-width="0.5"/>
-          <rect id="load-bar" x="401" y="226" width="35" height="8" rx="1.5" fill="rgba(0,200,255,0.35)"/>
+          <rect id="load-bar" x="401" y="226" width="35" height="8" rx="1.5" fill="rgba(220,50,0,0.45)"/>
           <g style="transform-origin:430px 55px;animation:ring-spin 8s linear infinite">
             <circle cx="430" cy="30" r="2" fill="#00c8ff" opacity="0.7"/>
             <circle cx="455" cy="55" r="2" fill="#00c8ff" opacity="0.5"/>
@@ -262,7 +266,13 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <circle cx="430" cy="55" r="8" fill="#00c8ff" opacity="0.85" filter="url(#strong-glow)"/>
           <circle cx="430" cy="55" r="4" fill="#ffffff" opacity="0.9"/>
           <line x1="430" y1="5" x2="430" y2="25" stroke="#00c8ff" stroke-width="1.5" opacity="0.6"/>
-          <circle cx="430" cy="5" r="2.5" fill="#00c8ff" opacity="0.7" style="animation:blink-slow 1.2s infinite"/>
+          <circle id="top-light" cx="430" cy="5" r="2.5" fill="#ff2222" opacity="0.85" style="animation:blink-slow 1.2s infinite"/>
+          <circle id="error-core" cx="430" cy="55" r="32" fill="rgba(200,0,0,0.18)" style="animation:core-pulse 2s ease-in-out infinite"/>
+          <g id="error-indicators">
+            <text x="155" y="215" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#ff2222" letter-spacing="2" opacity="0.75">ERR</text>
+            <text x="672" y="215" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#ff2222" letter-spacing="2" opacity="0.75">ERR</text>
+            <text x="402" y="213" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#ff2222" letter-spacing="1.5" opacity="0.9">FAULT</text>
+          </g>
         </svg>
       </div>
       <div class="machine-activate">
@@ -415,6 +425,18 @@ function renderModules(s){
     if(isAccessible) card.addEventListener('click', ()=>{ window.location.href = m.url; });
     g.appendChild(card);
   });
+  // Bonus Vault — always unlocked
+  const bv = document.createElement('div');
+  bv.className = 'module-card unlocked';
+  bv.innerHTML = `
+    <img src="Bonus_Vault_art.png" alt="Bonus Vault" loading="lazy">
+    <div class="card-overlay">
+      <div class="card-tag">Bonus</div>
+      <div class="card-title">BONUS VAULT</div>
+    </div>
+    <div class="card-status unlocked-tag">OPEN ACCESS</div>`;
+  bv.addEventListener('click', ()=>{ window.location.href = 'bonus-vault.html'; });
+  g.appendChild(bv);
 }
 
 function renderBadges(s){
@@ -442,7 +464,23 @@ function renderMachine(s){
   const allDone = MODULES.every(m=>s[m.key+'_complete']);
   const btn = document.getElementById('activate-btn');
   const sub = document.getElementById('activate-sub');
-  if(btn && allDone){ btn.classList.add('ready'); if(sub) sub.textContent = 'All Operators must be present'; }
+  const mc  = document.getElementById('machine-container');
+  if(allDone){
+    if(btn){ btn.classList.add('ready'); }
+    if(sub){ sub.textContent = 'All Operators must be present'; }
+    if(mc){ mc.classList.remove('error-state'); mc.classList.add('active-state'); }
+    const lights = {
+      'll1':'#00c8ff','ll2':'#00c8ff','ll3':'#00c8ff',
+      'rl1':'#00c8ff','rl2':'#00c8ff','rl3':'#00c8ff',
+      'cl1':'rgba(0,200,255,0.6)','cl2':'rgba(0,200,255,0.4)','cl3':'rgba(0,200,255,0.5)',
+      'top-light':'#00c8ff'
+    };
+    Object.entries(lights).forEach(([id,fill])=>{ const el=document.getElementById(id); if(el) el.setAttribute('fill',fill); });
+    document.querySelectorAll('.ebar').forEach(el=>{ const f=el.getAttribute('fill'); el.setAttribute('fill', f.replace(/220,\d+,\d+/,'0,200,255')); });
+    const lb=document.getElementById('load-bar'); if(lb) lb.setAttribute('fill','rgba(0,200,255,0.35)');
+    const ec=document.getElementById('error-core'); if(ec) ec.style.display='none';
+    const ei=document.getElementById('error-indicators'); if(ei) ei.setAttribute('opacity','0');
+  }
 }
 
 function unlockModule(key){
