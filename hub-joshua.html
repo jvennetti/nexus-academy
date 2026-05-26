@@ -74,8 +74,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .badge-type{font-family:'Lexend',sans-serif;font-size:8px;color:var(--muted);margin-top:2px;opacity:0.5}
 @keyframes badge-unlock{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 .just-unlocked .badge-circle{animation:badge-unlock 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;border-color:var(--blue)!important;box-shadow:0 0 28px rgba(0,200,255,0.4)!important}
-.machine-section{margin-bottom:40px}
-.machine-container{width:100%;border-radius:10px;border:1px solid rgba(0,200,255,0.12);background:var(--panel2);overflow:hidden;position:relative;padding:22px 20px 28px;display:flex;flex-direction:column;align-items:center}
+.machine-section{margin-bottom:40px;margin-top:8px}
+.machine-container{width:100%;border-radius:10px;border:1px solid rgba(0,200,255,0.12);background:var(--panel2);overflow:hidden;position:relative;padding:32px 20px 28px;display:flex;flex-direction:column;align-items:center}
+.machine-title{font-family:'Orbitron',sans-serif;font-size:44px;font-weight:900;letter-spacing:0.1em;color:var(--white);text-transform:uppercase;margin-bottom:14px;z-index:2;position:relative;text-align:center;line-height:1}
 .machine-container::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,200,255,0.015) 4px,rgba(0,200,255,0.015) 5px);pointer-events:none;z-index:1;border-radius:10px}
 .machine-svg-wrap{position:relative;z-index:2}
 .machine-activate{text-align:center;margin-top:10px;z-index:2;position:relative}
@@ -176,8 +177,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
 
   <div class="machine-section">
-    <div class="section-label section-label-center">The Machine</div>
     <div class="machine-container error-state" id="machine-container">
+      <div class="machine-title">The Machine</div>
       <div class="machine-svg-wrap">
         <svg width="860" height="340" viewBox="0 0 860 340" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:100%">
           <defs>
@@ -326,12 +327,12 @@ const MODULES = [
 
 const BADGES = [
   { key:'system_online',     name:'SYSTEM ONLINE',     icon:'⚡', type:'Pre-Course' },
-  { key:'boot_sequence',     name:'BOOT SEQUENCE',     icon:'🖥️', type:'Module 1' },
+  { key:'boot_sequence',     name:'BOOT SEQUENCE',     icon:'👢', type:'Module 1' },
   { key:'signal_steady',     name:'SIGNAL STEADY',     icon:'📡', type:'Module 2' },
-  { key:'commander',         name:'COMMANDER',         icon:'⚙️', type:'Module 3' },
+  { key:'commander',         name:'COMMANDER',         icon:'🛞', type:'Module 3' },
   { key:'architect',         name:'ARCHITECT',         icon:'🏗️', type:'Module 4' },
-  { key:'pipeline_inventor', name:'PIPELINE INVENTOR', icon:'🔗', type:'Module 5' },
-  { key:'operator',          name:'OPERATOR',          icon:'🎯', type:'Module 6' },
+  { key:'pipeline_inventor', name:'PIPELINE INVENTOR', icon:'🛠️', type:'Module 5' },
+  { key:'operator',          name:'OPERATOR',          icon:'💼', type:'Module 6' },
 ];
 
 const CIRO_LINES = [
