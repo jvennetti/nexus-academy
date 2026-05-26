@@ -13,6 +13,7 @@
 <meta name="twitter:title" content="NEXUS Academy">
 <meta name="twitter:description" content="A private AI training system. Six modules. One machine. Operator: Joshua.">
 <meta name="twitter:image" content="https://jvennetti.github.io/nexus-academy/og-preview.png">
+<script>if(!localStorage.getItem('nexus_intro_seen')){window.location.replace('pre-course/intro.html');}</script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -283,7 +284,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine.html" class="activate-btn" id="activate-btn">RESTORE</a>
+        <a href="machine-input.html" class="activate-btn" id="activate-btn">RESTORE</a>
       </div>
     </div>
   </div>
@@ -306,7 +307,7 @@ const DEV_UNLOCK    = false;
 const MODULES = [
   { key:'precourse', label:'Pre-Course', title:'BEFORE YOU BEGIN',
     locked:'Module_1_Locked.png', unlocked:'Module_1_Unlocked.png',
-    url:'pre-course/intro.html', badge:'system_online',
+    url:'pre-course/module-intro.html', badge:'system_online',
     next:{ mod:'Pre-Course', title:'7 Years of Building a Learning System in 12 Minutes', url:'pre-course/lesson-0-1.html' } },
   { key:'mod1', label:'Module 1', title:'BOOT UP',
     locked:'Module_2_Locked.png', unlocked:'Module_2_Unlocked.png',
@@ -345,7 +346,7 @@ const BADGES = [
 ];
 
 const CIRO_LINES = [
-  `Welcome back, <strong>Joshua</strong>. Systems are stable. Continue at your earliest convenience.`,
+  `Welcome back, <strong>Joshua</strong>. Begin with the Pre-Course when you're ready.`,
   `Welcome back, <strong>Joshua</strong>. Pre-Course complete. The signal is live.`,
   `Welcome back, <strong>Joshua</strong>. Two sequences confirmed. You're moving.`,
   `Welcome back, <strong>Joshua</strong>. Three modules down. The system is taking shape.`,
@@ -369,7 +370,12 @@ function render(){
 
 function renderCiro(s){
   const done = MODULES.filter(m=>s[m.key+'_complete']).length;
-  document.getElementById('ciro-text').innerHTML = CIRO_LINES[Math.min(done, CIRO_LINES.length-1)];
+  if(!localStorage.getItem('nexus_hub_visited')){
+    localStorage.setItem('nexus_hub_visited','true');
+    document.getElementById('ciro-text').innerHTML = `NEXUS ACADEMY is online. Welcome, <strong>Joshua</strong>. Your access is confirmed. Begin with the Pre-Course when you're ready.`;
+  } else {
+    document.getElementById('ciro-text').innerHTML = CIRO_LINES[Math.min(done, CIRO_LINES.length-1)];
+  }
 }
 
 function renderProgress(s){
@@ -512,6 +518,9 @@ window.nexus = { unlockModule, unlockBadge, getState, setState };
 function resetProgress(){
   if(confirm('Reset all progress for '+OPERATOR_NAME+'?')){
     localStorage.removeItem('nexus_'+OPERATOR);
+    localStorage.removeItem('nexus_intro_seen');
+    localStorage.removeItem('nexus_hub_visited');
+    localStorage.removeItem('nexus_last_page');
     render(); showFlash('SYSTEM RESET');
   }
 }
