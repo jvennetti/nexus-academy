@@ -75,15 +75,13 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes badge-unlock{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 .just-unlocked .badge-circle{animation:badge-unlock 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;border-color:var(--blue)!important;box-shadow:0 0 28px rgba(0,200,255,0.4)!important}
 .machine-section{margin-bottom:40px}
-.machine-container{width:100%;border-radius:10px;border:1px solid rgba(0,200,255,0.12);background:var(--panel2);overflow:hidden;position:relative;padding:40px 20px 32px;display:flex;flex-direction:column;align-items:center}
+.machine-container{width:100%;border-radius:10px;border:1px solid rgba(0,200,255,0.12);background:var(--panel2);overflow:hidden;position:relative;padding:22px 20px 28px;display:flex;flex-direction:column;align-items:center}
 .machine-container::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,200,255,0.015) 4px,rgba(0,200,255,0.015) 5px);pointer-events:none;z-index:1;border-radius:10px}
-.machine-label{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:700;letter-spacing:0.14em;color:var(--white);text-transform:uppercase;margin-bottom:18px;z-index:2;position:relative;text-align:center}
 .machine-svg-wrap{position:relative;z-index:2}
 .machine-activate{text-align:center;margin-top:10px;z-index:2;position:relative}
-.activate-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--navy);background:rgba(0,200,255,0.25);border:1px solid rgba(0,200,255,0.3);border-radius:4px;padding:14px 44px;cursor:default;text-decoration:none;display:inline-block;transition:all 0.3s;pointer-events:none}
-.activate-btn.ready{background:var(--blue);border-color:var(--blue);color:var(--navy);cursor:pointer;pointer-events:auto}
-.activate-btn.ready:hover{opacity:0.88;transform:translateY(-1px)}
-.activate-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:10px}
+.activate-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#ff5555;background:rgba(200,0,0,0.1);border:1px solid rgba(220,40,40,0.45);border-radius:4px;padding:14px 44px;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.3s,box-shadow 0.3s,border-color 0.3s;pointer-events:auto;animation:restore-pulse 2.2s ease-in-out infinite}
+.activate-btn:hover{background:rgba(200,0,0,0.2);border-color:rgba(255,60,60,0.75);box-shadow:0 0 32px rgba(210,0,0,0.55),0 0 56px rgba(210,0,0,0.2);animation:none;transform:translateY(-1px)}
+@keyframes restore-pulse{0%,100%{box-shadow:0 0 10px rgba(210,0,0,0.35);border-color:rgba(220,40,40,0.45)}50%{box-shadow:0 0 26px rgba(210,0,0,0.65),0 0 46px rgba(210,0,0,0.2);border-color:rgba(255,60,60,0.8)}}
 .passcode-section{margin-bottom:40px;background:var(--panel);border:1px solid rgba(255,170,0,0.18);border-radius:10px;padding:22px 26px;display:none}
 .passcode-section.visible{display:block}
 .passcode-header{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.3em;color:var(--amber);text-transform:uppercase;margin-bottom:10px}
@@ -180,7 +178,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <div class="machine-section">
     <div class="section-label section-label-center">The Machine</div>
     <div class="machine-container error-state" id="machine-container">
-      <div class="machine-label">NEXUS CORE — TRANSMISSION RELAY</div>
       <div class="machine-svg-wrap">
         <svg width="860" height="340" viewBox="0 0 860 340" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:100%">
           <defs>
@@ -276,8 +273,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine.html" class="activate-btn" id="activate-btn">ACTIVATE</a>
-        <div class="activate-sub" id="activate-sub">Complete all modules to unlock</div>
+        <a href="machine.html" class="activate-btn" id="activate-btn">RESTORE</a>
       </div>
     </div>
   </div>
@@ -461,26 +457,8 @@ function renderPasscode(s){
 }
 
 function renderMachine(s){
-  const allDone = MODULES.every(m=>s[m.key+'_complete']);
-  const btn = document.getElementById('activate-btn');
-  const sub = document.getElementById('activate-sub');
-  const mc  = document.getElementById('machine-container');
-  if(allDone){
-    if(btn){ btn.classList.add('ready'); }
-    if(sub){ sub.textContent = 'All Operators must be present'; }
-    if(mc){ mc.classList.remove('error-state'); mc.classList.add('active-state'); }
-    const lights = {
-      'll1':'#00c8ff','ll2':'#00c8ff','ll3':'#00c8ff',
-      'rl1':'#00c8ff','rl2':'#00c8ff','rl3':'#00c8ff',
-      'cl1':'rgba(0,200,255,0.6)','cl2':'rgba(0,200,255,0.4)','cl3':'rgba(0,200,255,0.5)',
-      'top-light':'#00c8ff'
-    };
-    Object.entries(lights).forEach(([id,fill])=>{ const el=document.getElementById(id); if(el) el.setAttribute('fill',fill); });
-    document.querySelectorAll('.ebar').forEach(el=>{ const f=el.getAttribute('fill'); el.setAttribute('fill', f.replace(/220,\d+,\d+/,'0,200,255')); });
-    const lb=document.getElementById('load-bar'); if(lb) lb.setAttribute('fill','rgba(0,200,255,0.35)');
-    const ec=document.getElementById('error-core'); if(ec) ec.style.display='none';
-    const ei=document.getElementById('error-indicators'); if(ei) ei.setAttribute('opacity','0');
-  }
+  // Machine stays in error state on the hub — resolution happens on machine.html
+  // Button is always active (red glow) — no state change needed here
 }
 
 function unlockModule(key){
