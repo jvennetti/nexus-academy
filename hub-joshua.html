@@ -110,9 +110,22 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes energy-rise{0%,100%{opacity:0.4;transform:scaleY(0.8)}50%{opacity:1;transform:scaleY(1)}}
 .machine-container.error-state{border-color:rgba(220,40,40,0.3)!important;box-shadow:0 0 28px rgba(200,0,0,0.1),inset 0 0 16px rgba(200,0,0,0.05)}
 .machine-container.active-state{border-color:rgba(0,200,255,0.32)!important;box-shadow:0 0 28px rgba(0,200,255,0.1)}
+
+/* ── HUB FIRST-OPEN BOOT ANIMATION ── */
+@keyframes hub-panel-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes hub-card-in{from{opacity:0;transform:translateY(10px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes ciro-cursor-blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes hub-scan-sweep{from{left:-60%}to{left:160%}}
+.hub-boot-hide{opacity:0;pointer-events:none}
+.hub-boot-in{animation:hub-panel-in 0.55s ease-out forwards;pointer-events:auto}
+.hub-card-boot{opacity:0;animation:hub-card-in 0.4s ease-out forwards}
+#hub-scan-bar{position:fixed;top:64px;left:0;right:0;height:2px;z-index:200;pointer-events:none;overflow:hidden;opacity:0;transition:opacity 0.25s}
+#hub-scan-bar::after{content:'';position:absolute;top:0;left:-60%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,200,255,0.95),rgba(0,200,255,0.5),transparent);animation:hub-scan-sweep 1.1s ease-in-out forwards}
+#hub-scan-bar.active{opacity:1}
 </style>
 </head>
 <body>
+<div id="hub-scan-bar"></div>
 <div class="flash" id="flash"></div>
 <div class="hub">
 
@@ -372,7 +385,7 @@ function renderCiro(s){
   const done = MODULES.filter(m=>s[m.key+'_complete']).length;
   if(!localStorage.getItem('nexus_hub_visited')){
     localStorage.setItem('nexus_hub_visited','true');
-    document.getElementById('ciro-text').innerHTML = `NEXUS ACADEMY is online. Welcome, <strong>Joshua</strong>. Your access is confirmed. Begin with the Pre-Course when you're ready.`;
+    document.getElementById('ciro-text').innerHTML = '';
   } else {
     document.getElementById('ciro-text').innerHTML = CIRO_LINES[Math.min(done, CIRO_LINES.length-1)];
   }
@@ -525,6 +538,90 @@ function resetProgress(){
   }
 }
 
+function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+async function typewriteCiro(el, htmlStr){
+  const cursor = document.createElement('span');
+  cursor.style.cssText = 'display:inline-block;width:8px;height:14px;background:#00c8ff;vertical-align:middle;margin-left:2px;animation:ciro-cursor-blink .7s step-end infinite';
+  el.innerHTML = '';
+  el.appendChild(cursor);
+  let i = 0;
+  while(i < htmlStr.length){
+    if(htmlStr[i] === '<'){
+      const end = htmlStr.indexOf('>', i);
+      i = end < 0 ? htmlStr.length : end + 1;
+    } else {
+      i++;
+    }
+    el.innerHTML = htmlStr.slice(0, i);
+    el.appendChild(cursor);
+    const ch = htmlStr[i-1];
+    await wait(ch === '.' ? 130 : ch === ',' ? 65 : 28);
+  }
+  cursor.remove();
+}
+
+async function runHubBoot(){
+  const scanBar      = document.getElementById('hub-scan-bar');
+  const ciroWidget   = document.querySelector('.ciro-widget');
+  const progressSec  = document.querySelector('.progress-section');
+  const modulesSec   = document.querySelector('.modules-section');
+  const achievSec    = document.querySelector('.achievements-section');
+  const machineSec   = document.querySelector('.machine-section');
+  const tagLine      = document.querySelector('.ciro-tag-line');
+  const ciroTextEl   = document.getElementById('ciro-text');
+
+  // Phase 1: scan bar sweep
+  await wait(280);
+  scanBar.classList.add('active');
+  await wait(1200);
+  scanBar.classList.remove('active');
+  await wait(200);
+
+  // Phase 2: CIRO widget fades in
+  ciroWidget.classList.remove('hub-boot-hide');
+  ciroWidget.classList.add('hub-boot-in');
+  await wait(600);
+
+  // Phase 3: tag line flash then typewrite
+  if(tagLine) tagLine.textContent = 'NEXUS ACADEMY · INITIALIZING OPERATOR SESSION...';
+  await wait(900);
+  if(tagLine) tagLine.textContent = 'NEXUS ACADEMY · SYSTEM ACTIVE';
+  await wait(300);
+
+  const firstMsg = `NEXUS ACADEMY is online. Welcome, <strong>${OPERATOR_NAME}</strong>. Your access is confirmed. Begin with the Pre-Course when you're ready.`;
+  await typewriteCiro(ciroTextEl, firstMsg);
+  await wait(500);
+
+  // Phase 4: progress
+  progressSec.classList.remove('hub-boot-hide');
+  progressSec.classList.add('hub-boot-in');
+  await wait(650);
+
+  // Phase 5: modules + per-card stagger
+  const moduleCards = document.querySelectorAll('#modules-grid > div');
+  moduleCards.forEach(c => { c.style.opacity = '0'; });
+  modulesSec.classList.remove('hub-boot-hide');
+  modulesSec.classList.add('hub-boot-in');
+  await wait(550);
+  moduleCards.forEach((card, i) => {
+    setTimeout(() => {
+      card.style.opacity = '';
+      card.style.animation = 'hub-card-in 0.4s ease-out both';
+    }, i * 90);
+  });
+  await wait(moduleCards.length * 90 + 350);
+
+  // Phase 6: achievements
+  achievSec.classList.remove('hub-boot-hide');
+  achievSec.classList.add('hub-boot-in');
+  await wait(600);
+
+  // Phase 7: machine
+  machineSec.classList.remove('hub-boot-hide');
+  machineSec.classList.add('hub-boot-in');
+}
+
 (function animateLoadBar(){
   const bar = document.getElementById('load-bar');
   if(!bar) return;
@@ -536,7 +633,13 @@ function resetProgress(){
   }, 30);
 })();
 
+const IS_FIRST_OPEN = !localStorage.getItem('nexus_hub_visited');
+if(IS_FIRST_OPEN){
+  ['.ciro-widget','.progress-section','.modules-section','.achievements-section','.machine-section']
+    .forEach(sel => { const el = document.querySelector(sel); if(el) el.classList.add('hub-boot-hide'); });
+}
 render();
+if(IS_FIRST_OPEN) runHubBoot();
 </script>
 </body>
 </html>
