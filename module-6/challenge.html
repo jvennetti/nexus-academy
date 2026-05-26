@@ -23,7 +23,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .nav-back:hover{color:var(--blue);border-color:var(--blue-border)}
 .banner{width:100%;height:420px;position:relative;overflow:hidden;background:#0d1628}
 .banner-img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;filter:brightness(0.72)}
-.banner-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,var(--bg) 100%)}
+.banner-overlay{position:absolute;inset:0;background:linear-gradient(to bottom, transparent 30%, var(--bg) 100%)}
 .banner-label{position:absolute;bottom:44px;left:0;right:0;text-align:center}
 .banner-title{font-family:'Orbitron',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:var(--white);text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,0.7)}
 .browser-shell{width:1280px;margin:0 auto}
@@ -33,18 +33,20 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .body-copy p+p{margin-top:14px}
 .body-copy strong{font-weight:500;color:var(--offwhite)}
 .scenario-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
-.step-divider{border:none;border-top:1px solid var(--border);margin:32px 0}
-.setup-strip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px 40px;margin-bottom:36px}
-.setup-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.setup-strip{background:var(--box);border:1px solid var(--border);border-left:3px solid rgba(0,200,255,0.5);border-radius:0 6px 6px 0;padding:22px 28px;margin-bottom:36px}
+.setup-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.prompt-block{background:#060e1a;border:1px solid var(--border);border-radius:6px;padding:16px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.75;color:#a8c8e0;margin:12px 0}
 .challenge-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
 .challenge-title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:28px;text-align:center}
-.agent-block{background:var(--card2);border:1px solid var(--border);border-radius:6px;padding:28px 32px;margin-bottom:20px}
-.agent-title{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px}
-.agent-job{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--muted);margin-bottom:12px;font-style:italic}
-.agent-body{font-family:'Lexend',sans-serif;font-size:14px;font-weight:300;line-height:1.8;color:var(--body-text)}
+.step-list{list-style:none;display:flex;flex-direction:column;gap:20px}
+.step-item{display:flex;align-items:flex-start;gap:20px}
+.step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--blue-border);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--blue);margin-top:2px}
+.step-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.75;color:var(--body-text)}
+.step-text strong{font-weight:500;color:var(--offwhite)}
+.step-text em{color:var(--muted);font-style:italic}
 .deliverable-box{background:var(--bg);border:1px solid var(--blue-border);border-radius:8px;padding:32px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .deliverable-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text)}
+.deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text);text-align:left}
 .integration-note{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-left:2px solid rgba(0,200,255,0.3);border-radius:0 6px 6px 0;padding:20px 26px;margin-bottom:48px}
 .integration-text{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)}
 .integration-text strong{font-weight:500;color:var(--body-text)}
@@ -58,7 +60,6 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .nav-btn:hover{border-color:var(--blue-border);background:var(--blue-dim)}
 .nav-dir{font-family:'Lexend',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 .nav-name{font-family:'Lexend',sans-serif;font-size:14px;font-weight:500;color:var(--white);line-height:1.4}
-.prompt-block{background:#060e1a;border:1px solid var(--border);border-left:2px solid rgba(0,200,255,0.4);border-radius:0 6px 6px 0;padding:20px 26px;margin:16px 0;font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.8;color:var(--offwhite)}
 </style>
 </head>
 <body>
@@ -73,7 +74,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <img class="banner-img" src="../Challenge Image_ Module 6.png" alt="Module 6 Challenge">
   <div class="banner-overlay"></div>
   <div class="banner-label">
-    <div class="banner-title">The Final Task</div>
+    <div class="banner-title">The Challenge</div>
   </div>
 </div>
 
@@ -83,71 +84,68 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <div class="scenario-box">
     <div class="section-title">Real-World Scenario</div>
     <div class="body-copy">
-      <p>Meridian Missions is a non-profit with 12 field teams operating across 4 countries. Every week, each team submits a field report. Every week, someone on staff manually reads those reports, pulls out the highlights, writes donor update emails, compiles a prayer bulletin, and flags anything urgent to leadership.</p>
-      <p>It takes the better part of two days. Most of it is pattern work — the same structure, the same extraction logic, the same destinations — repeated across 12 reports every single week.</p>
-      <p>Your job is to build the system that does it. This is the only challenge in the course where multiple agents work together as a coordinated system.</p>
+      <p>This is the capstone. Every module led here. You're not building one tool or one automation — you're building a coordinated multi-agent system where four agents work from the same input and produce different outputs for different audiences.</p>
+      <p>The scenario is real. Organizations like this exist everywhere. The system you build here is the same architecture that appears inside real estate agencies, consulting firms, franchise operations, and any business where information comes in from multiple sources and needs to go out to multiple audiences in multiple formats.</p>
+      <p>You're building it in a controlled environment — all outputs land in your own documents and your own inbox. No external sends. No live systems. Real enough to learn from.</p>
     </div>
   </div>
 
   <div class="setup-strip">
     <div class="setup-label">Step 1 — Generate your environment</div>
     <div class="body-copy">
-      <p>Before you build anything, you need data to build against. Open Claude and paste this prompt exactly:</p>
-    </div>
-    <div class="prompt-block">"I'm building a multi-agent system for a non-profit called Meridian Missions. Generate the following five documents. Format each as a clearly labeled, separate section I can save individually.<br><br>Document 1 — Org Brief: Meridian Missions' mission statement, the three regions they operate in (South Asia, East Africa, South America), their three donor segments (Standard, Partner, Major Donor), their communication tone, and what they care most about in how they present their work publicly.<br><br>Document 2 — Six Field Reports: Two reports from each region (six total). Each report should include: team name, region, a 2–3 paragraph program update, two or three prayer requests, and exactly one item explicitly flagged as urgent. Make the urgent items varied — a medical situation, a funding gap, a security concern.<br><br>Document 3 — Donor Contact List: 12 fictional donors. Four per segment (Standard, Partner, Major). Each entry needs: full name, email address, giving level, and which region they're most personally connected to.<br><br>Document 4 — Donor Email Samples: One example donor update email for each segment.<br><br>Document 5 — Prayer Bulletin Sample: A complete example weekly prayer bulletin."</div>
-    <div class="body-copy" style="margin-top:16px">
-      <p>When Claude delivers the five documents: save each one, copy Document 3 into a Google Sheet, read through the six field reports to confirm each has a clear urgent flag, and read the email samples and bulletin. These are your quality bar. Every agent you build should produce output that clears this standard.</p>
+      <p>Open Claude and paste this prompt to generate five documents for a non-profit called <strong>Meridian Missions:</strong></p>
+      <div class="prompt-block">"I'm building a multi-agent system for a non-profit called Meridian Missions. Generate the following five documents. Format each as a clearly labeled, separate section I can save individually.
+
+Document 1 — Org Brief: Meridian Missions' mission statement, the three regions they operate in (South Asia, East Africa, South America), their three donor segments (Standard, Partner, Major Donor), their communication tone, and what they care most about in how they present their work publicly.
+
+Document 2 — Six Field Reports: Two reports from each region (six total). Each report should include: team name, region, a 2–3 paragraph program update, two or three prayer requests, and exactly one item explicitly flagged as urgent. Make the urgent items varied — a medical situation, a funding gap, a security concern.
+
+Document 3 — Donor Contact List: 12 fictional donors. Four per segment (Standard, Partner, Major). Each entry: full name, a fictional email address, giving level, and which region they're most personally connected to.
+
+Document 4 — Donor Email Samples: One example donor update email for each segment. Standard gets a warm general update. Partner gets program specifics and impact numbers. Major Donor gets a personal note written as if from the executive director.
+
+Document 5 — Prayer Bulletin Sample: A complete example weekly prayer bulletin — what it includes, how it's structured, and how it reads when it's done well."</div>
+      <p>When Claude delivers the five documents: save each one, paste Document 3 into a Google Sheet with columns Name / Email / Giving Level / Region / Draft Email, read through all six field reports to confirm each has a clearly identifiable urgent item, and read the email samples and prayer bulletin — these are your quality bar. Every agent you build must produce output that clears this standard.</p>
     </div>
   </div>
 
   <div class="challenge-box">
-    <div class="challenge-title">Step 2 — Build the Four Agents</div>
-    <p style="font-family:'Lexend',sans-serif;font-size:14px;font-weight:300;color:var(--muted);margin-bottom:24px;text-align:center">Each agent takes the weekly field reports as its primary input. Build them in order — each one feeds the next.</p>
-
-    <div class="agent-block">
-      <div class="agent-title">Agent 1 — The Field Summarizer</div>
-      <div class="agent-job">Job: Read each field report and extract a concise program progress summary, prayer requests, and any urgent needs. One structured section per team.</div>
-      <div class="agent-body">Start in Claude chat. Write a prompt that processes a single report into the right structure. Test it against two or three sample reports until the output is clean and consistent. Then decide where this agent lives — Cowork task (manual or scheduled) or n8n/Zapier workflow (triggered automatically). The output of this agent is the input to every other agent. Get it right before moving on.</div>
-    </div>
-
-    <div class="agent-block">
-      <div class="agent-title">Agent 2 — The Donor Communicator</div>
-      <div class="agent-job">Job: Take summaries from Agent 1 and generate personalized donor update emails — one per donor, matched to their giving level and regional connection.</div>
-      <div class="agent-body">Load your donor contact sheet and Document 4 samples as context. Write a prompt that takes one summary + one donor record and produces a correctly segmented email. Run it against all 12 donors. The output should be staged as drafts in Gmail (via Zapier MCP) or written into a new tab in your Google Sheet — one row per donor, one column for the drafted email.</div>
-    </div>
-
-    <div class="agent-block">
-      <div class="agent-title">Agent 3 — The Prayer Bulletin</div>
-      <div class="agent-job">Job: Pull all prayer requests from Agent 1's summaries and compile them into a single weekly bulletin — organized by region, formatted for email distribution.</div>
-      <div class="agent-body">This is the simplest agent. Write a prompt that takes the prayer request sections from your six summaries and produces a complete bulletin matching your Document 5 sample. Run it, review the output against your sample, and adjust until it's clean.</div>
-    </div>
-
-    <div class="agent-block">
-      <div class="agent-title">Agent 4 — The Needs Router</div>
-      <div class="agent-job">Job: Scan Agent 1's summaries for anything flagged as urgent. For each urgent item: draft a short priority alert email to the regional director and log the need in a tracking spreadsheet.</div>
-      <div class="agent-body">This agent needs to actually write to somewhere — not just draft. Wire it through Zapier MCP or n8n so the log entry happens without you doing it manually. The tracking spreadsheet should capture: team name, region, date flagged, and a one-line description of the need. This is the agent that tests whether your system can take action, not just produce text.</div>
-    </div>
-  </div>
-
-  <div class="challenge-box" style="background:var(--card2)">
-    <div class="challenge-title">Step 3 — Run a Full Cycle</div>
-    <div class="body-copy">
-      <p>With all four agents built, run the system against your six sample reports as if it's Monday morning and the reports just came in.</p>
-      <p>Agent 1 processes all six reports into structured summaries. Agent 2 generates donor emails for all 12 contacts. Agent 3 produces a complete prayer bulletin. Agent 4 identifies the urgent flags, drafts the alerts, and logs them.</p>
-    </div>
+    <div class="challenge-title">Your Challenge</div>
+    <ol class="step-list">
+      <li class="step-item">
+        <div class="step-num">A1</div>
+        <div class="step-text"><strong>Agent 1 — The Field Summarizer.</strong> Start in Claude chat. Write a prompt that processes a single field report and extracts three items per report: a concise program progress summary, the prayer requests, and the urgent need — in a consistent format. Test against two or three reports until the output is clean and reliable. Bring this into Cowork as a Skill. Run it against all six reports. The output is a single document — six structured summaries, one per team — that serves as shared input for Agents 2, 3, and 4. Do not move on until every summary is accurate to its source report.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">A2</div>
+        <div class="step-text"><strong>Agent 2 — The Donor Communicator.</strong> Using the summaries from Agent 1, generate personalized donor update emails matched to each donor's giving level and regional connection. Standard donors receive the general program update for their region. Partner donors receive program detail and impact specifics. Major Donors receive a message written as if directly from the executive director. Write all output emails into the Draft Email column of your donor Google Sheet. Read every row — would a real donor recognize the difference between their segment and another's? If not, refine.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">A3</div>
+        <div class="step-text"><strong>Agent 3 — The Prayer Bulletin.</strong> Pull all prayer requests from Agent 1's six summaries and compile them into a single weekly bulletin — organized by region, formatted for email distribution, clean enough to send without editing. Compare the output against your Document 5 sample. Adjust until it matches the structure and tone. Save the result as a Google Doc titled: <em>Meridian Missions — Prayer Bulletin [Week of (today's date)].</em></div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">A4</div>
+        <div class="step-text"><strong>Agent 4 — The Needs Router.</strong> Scan Agent 1's summaries for all urgent flags. For each of the three urgent items: draft a short priority alert message to the appropriate regional director, written as if from a staff member. Wire this agent to write to a new Google Sheet (Urgent Needs Tracker) with columns: Team Name, Region, Date Flagged, Urgent Need Description, Alert Drafted. Then send the three priority alert drafts to your own email address — one per region, with the regional director's name in the subject line. This is the agent that tests whether your system can take action, not just produce text.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-text"><strong>Run a full cycle.</strong> With all four agents built, run the system against your six field reports as if it's Monday morning and they just came in. Run in sequence: Agent 1 → six summaries → Agent 2 → twelve donor email drafts → Agent 3 → prayer bulletin → Agent 4 → three alert emails in your inbox. Produce every output with as little manual work as possible. Your deliverable is the real output of that full cycle.</div>
+      </li>
+    </ol>
   </div>
 
   <div class="deliverable-box">
     <div class="section-title">Your Deliverable</div>
-    <div class="deliverable-text">The real output of that cycle — the six summaries, the 12 donor emails, the bulletin, and the needs log — produced with as little manual work from you as possible. If you had to manually trigger each agent, that's fine. If you wired them to run sequentially, even better.</div>
+    <div class="deliverable-text">Six structured summaries, twelve donor email drafts in the Google Sheet, a complete prayer bulletin saved to a Google Doc, a populated Urgent Needs Tracker, and three alert emails in your own inbox — produced in a single run. Every output should pass your quality bar before you mark this complete.</div>
   </div>
 
   <div class="integration-note">
-    <div class="integration-text"><strong>What you just built:</strong> The four-agent structure here — ingest, communicate, distribute, escalate — is not specific to non-profits. It's the same pattern inside a real estate agency processing weekly market reports, a consulting firm managing client updates, or a franchise operation running location check-ins. You now know how to build it.</div>
+    <div class="integration-text"><strong>What you just built:</strong> The four-agent structure — ingest, communicate, distribute, escalate — is not specific to non-profits. It is the same pattern inside a real estate agency processing weekly market reports, a consulting firm managing client updates, or a franchise operation running location check-ins. You didn't just learn multi-agent architecture in theory. You ran it.</div>
   </div>
 
   <div class="cta-row">
-    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <a href="complete.html" class="mark-complete-btn" onclick="markComplete()">Mark Complete</a>
     <div class="cta-sub">Routes to module completion</div>
   </div>
 
@@ -160,5 +158,19 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 
 </div>
 </div>
+
+<script>
+function markComplete(){
+  localStorage.setItem('nexus_module_6_complete', 'true');
+  const keysToRemove = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith('nexus_ts_') && k.includes('module-6')){
+      keysToRemove.push(k);
+    }
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+}
+</script>
 </body>
 </html>

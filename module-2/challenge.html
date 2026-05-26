@@ -39,12 +39,13 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .step-item{display:flex;align-items:flex-start;gap:20px}
 .step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--blue-border);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--blue);margin-top:2px}
 .step-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.75;color:var(--body-text)}
+.step-text strong{font-weight:500;color:var(--offwhite)}
+.step-text ul{margin:10px 0 4px 18px;display:flex;flex-direction:column;gap:6px}
+.prompt-block{background:#060e1a;border:1px solid var(--border);border-radius:6px;padding:16px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.75;color:#a8c8e0;margin:12px 0}
 .deliverable-box{background:var(--bg);border:1px solid var(--blue-border);border-radius:8px;padding:32px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .deliverable-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
 .deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text);text-align:left}
-.integration-note{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-left:2px solid rgba(0,200,255,0.3);border-radius:0 6px 6px 0;padding:20px 26px;margin-bottom:48px}
-.integration-text{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)}
-.integration-text strong{font-weight:500;color:var(--body-text)}
+.deliverable-text ul{margin:10px 0 4px 18px;display:flex;flex-direction:column;gap:6px}
 .cta-row{display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:8px;margin-bottom:52px}
 .mark-complete-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--bg);background:var(--blue);border:none;border-radius:4px;padding:18px 52px;cursor:pointer;transition:opacity .2s,transform .15s;text-decoration:none;display:inline-block}
 .mark-complete-btn:hover{opacity:0.88;transform:translateY(-1px)}
@@ -79,7 +80,8 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <div class="scenario-box">
     <div class="section-title">Real-World Scenario</div>
     <div class="body-copy">
-      <p>You've just landed your first AI consulting engagement. Your client is a boutique financial advisory firm with 12 employees. They want to use AI to improve how they prepare for client meetings — currently a manual, time-consuming process involving research, agenda drafting, and note-taking. They've asked you to show them what that could look like.</p>
+      <p>Module 2 gave you two things: the skill of prompting well, and the foundational tools that make every future session faster. This challenge locks both in. You're not solving a client problem yet — you're building the cockpit you'll operate from for the rest of the course.</p>
+      <p>Everything you create here gets used in Modules 3 through 6. Don't rush it.</p>
     </div>
   </div>
 
@@ -88,30 +90,39 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
     <ol class="step-list">
       <li class="step-item">
         <div class="step-num">1</div>
-        <div class="step-text">Set up a dedicated Claude Project for this client. Write the system prompt that will anchor every interaction — defining the firm's context, the kinds of tasks Claude will handle, the tone, and any constraints.</div>
+        <div class="step-text"><strong>Start the interview.</strong> Open Claude. In a fresh conversation, paste this prompt:
+          <div class="prompt-block">"I'm going to give you information about myself. Your job is to help me write a personal Operator Profile — a document I'll paste into every Claude Project I create for the rest of a course I'm taking. It should include: my name, what I do or am training to do, my communication style (how I like to write and be written to), the kinds of tasks I'll most often be working on, and three things I want Claude to always do when working with me and two things I never want it to do. Interview me with one question at a time until you have everything you need. Then write the document."</div>
+          Let Claude interview you. Answer honestly.
+        </div>
       </li>
       <li class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text">Write a prompt that generates a structured client meeting prep document for a fictional client: a 55-year-old business owner looking to discuss retirement planning options.</div>
+        <div class="step-text"><strong>Edit until it's yours.</strong> When Claude delivers the Operator Profile, edit it until it sounds exactly like you — specific, not generic. This is your voice and your operating context. Save it somewhere permanent. You'll paste this into every Project you build.</div>
       </li>
       <li class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">Review the output. If it reads like a generic AI response, refine the system prompt and run it again. Your standard: would a financial advisor actually use this document without editing?</div>
+        <div class="step-text"><strong>Create your first Claude Project.</strong> Call it <strong>Operator Training — Module 2.</strong> Paste your Operator Profile into the Project Instructions. Inside the Project, ask Claude to generate the following fictional scenario: a boutique financial advisory firm called Halcyon Wealth — 12 employees, focused on retirement planning for business owners aged 50–65. Include their communication tone, the kinds of clients they serve, and three recurring tasks their team handles manually every week. Upload that scenario document into the Project knowledge base.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Produce the meeting prep document.</strong> Inside the same Project, ask Claude to generate a structured client meeting prep document for a fictional Halcyon client: a 58-year-old business owner considering selling his company in the next three years and transitioning into retirement. The document should include a client overview, the key questions to address, relevant talking points, and suggested next steps. Read it. Ask yourself: <em>Would an advisor actually use this?</em> If the answer is no, iterate until the answer is yes. That's the standard for every deliverable in this course.</div>
       </li>
     </ol>
   </div>
 
   <div class="deliverable-box">
     <div class="section-title">Your Deliverable</div>
-    <div class="deliverable-text">A working Claude Project with a system prompt, plus a completed meeting prep document Claude generated from it. Screenshot or export both. This is the proof of concept you'd hand to a client after your first working session.</div>
-  </div>
-
-  <div class="integration-note">
-    <div class="integration-text"><strong>Integration note:</strong> Financial Services is one of the highest-leverage AI adoption areas — meeting prep, compliance documentation, client communication, advisor research. You now have the prompting foundation to start building real things in that space.</div>
+    <div class="deliverable-text">
+      <ul>
+        <li>Your Operator Profile — written, edited, and saved</li>
+        <li>A functioning Claude Project with the Halcyon scenario in the knowledge base</li>
+        <li>A completed meeting prep document that passes the "would an advisor use this?" test</li>
+      </ul>
+    </div>
   </div>
 
   <div class="cta-row">
-    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <a href="complete.html" class="mark-complete-btn" onclick="markComplete()">Mark Complete</a>
     <div class="cta-sub">Routes to module completion</div>
   </div>
 
@@ -124,5 +135,19 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 
 </div>
 </div>
+
+<script>
+function markComplete(){
+  localStorage.setItem('nexus_module_2_complete', 'true');
+  const keysToRemove = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith('nexus_ts_') && k.includes('module-2')){
+      keysToRemove.push(k);
+    }
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+}
+</script>
 </body>
 </html>
