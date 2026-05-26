@@ -633,7 +633,7 @@ html,body{
     <div class="tx-sep" id="tx-sep"></div>
 
     <!-- FINAL CONTINUE BUTTON -->
-    <a href="../hub-joshua.html" class="begin-btn" id="begin-btn" onclick="localStorage.setItem('nexus_intro_seen','true')">
+    <a href="#" class="begin-btn" id="begin-btn" onclick="enterHub();return false;">
       Enter NEXUS Academy <span class="begin-arrow">→</span>
     </a>
 
@@ -1125,6 +1125,15 @@ async function launchNexus(){
   txSep.classList.add('visible');
   await wait(600);
   beginBtn.classList.add('visible');
+
+  // auto-navigate after a short delay — button is also clickable as fallback
+  await wait(3200);
+  enterHub();
+}
+
+function enterHub(){
+  localStorage.setItem('nexus_intro_seen','true');
+  window.location.href = '../hub-joshua.html';
 }
 </script>
 </body>
