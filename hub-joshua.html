@@ -195,7 +195,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
   <div class="continue-section" id="continue-section" style="display:none">
     <div class="section-label">Continue Where You Left Off</div>
-    <a class="continue-btn" id="continue-btn" href="#">
+    <a class="continue-btn" id="continue-btn" href="#" onclick="playS('password_confirmation.mp3',0.1)">
       <div class="continue-left">
         <div class="continue-label" id="continue-mod-tag">—</div>
         <div class="continue-title" id="continue-lesson-title">—</div>
@@ -652,12 +652,13 @@ function resetProgress(){
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
 const hubMusic=new Audio('hub_music.mp3');
-hubMusic.loop=true;hubMusic.volume=0.48;
+hubMusic.loop=true;hubMusic.volume=0.67;
 hubMusic.play().catch(()=>{
   const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
   document.addEventListener('click',startMusic);
   document.addEventListener('touchstart',startMusic);
 });
+window.addEventListener('pageshow',(e)=>{if(e.persisted)hubMusic.play().catch(()=>{});});
 
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 
@@ -750,7 +751,13 @@ if(IS_FIRST_OPEN){
     .forEach(sel => { const el = document.querySelector(sel); if(el) el.classList.add('hub-boot-hide'); });
 }
 render();
-if(IS_FIRST_OPEN) runHubBoot();
+if(IS_FIRST_OPEN){
+  runHubBoot();
+} else {
+  const _ciroEl=document.getElementById('ciro-text');
+  const _ciroHtml=_ciroEl.innerHTML;
+  if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
+}
 const machineAmbientSrc=localStorage.getItem('nexus_machine_activated')?'':'machine_input_page_music.wav';
 if(machineAmbientSrc){
   let ambAudio=null,ambFadeIn=null,ambFadeOut=null;
