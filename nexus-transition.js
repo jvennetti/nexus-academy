@@ -51,6 +51,9 @@
     fill.style.width='0%';
     pct.textContent='0%';
     status.textContent='LOADING';
+    var depth=window.location.pathname.split('/').filter(Boolean).length-1;
+    var root=depth>0?new Array(depth).fill('..').join('/')+'/':'';
+    var sfx=new Audio(root+'wait_sound_3_seconds.wav');sfx.volume=0.1;sfx.play().catch(function(){});
 
     // 3 speed variants: [progress%, time_ms] keyframes
     var variants=[
