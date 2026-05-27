@@ -867,7 +867,7 @@ if(!localStorage.getItem('nexus_machine_activated')){
   function machineAmbDoPlay() {
     if (!machineAmbBuffer) { machineAmbWantPlay = true; return; }
     // If source exists, it's either playing or mid-fade-out — cancel stop, fade back in
-    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.35, 500); return; }
+    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.21, 500); return; }
     if (machineAmbCtx.state === 'suspended') machineAmbCtx.resume();
     machineAmbGain = machineAmbCtx.createGain();
     machineAmbGain.gain.value = 0;
@@ -877,7 +877,7 @@ if(!localStorage.getItem('nexus_machine_activated')){
     machineAmbSource.loop = true;
     machineAmbSource.connect(machineAmbGain);
     machineAmbSource.start(0);
-    machineAmbFade(0.35, 500);
+    machineAmbFade(0.21, 500);
     machineAmbWantPlay = false;
   }
 
