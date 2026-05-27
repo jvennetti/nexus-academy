@@ -15,7 +15,7 @@
 <meta name="twitter:image" content="https://jvennetti.github.io/nexus-academy/og-preview.png">
 <script>if(!localStorage.getItem('nexus_intro_seen')){window.location.replace('pre-course/ciro-intro.html');}</script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="audio" href="hub_music.mp3">
+<link rel="preload" as="audio" href="hub_music_2.mp3">
 <style>
 :root{
   --navy:#060d1a;--panel:#0d1525;--panel2:#0a1020;
@@ -424,7 +424,15 @@ function renderProgress(s){
   const done = MODULES.filter(m=>s[m.key+'_complete']).length;
   const pct  = Math.round(done / MODULES.length * 100);
   document.getElementById('pct-display').textContent = pct+'%';
-  document.getElementById('progress-fill').style.width = pct+'%';
+  const fill = document.getElementById('progress-fill');
+  fill.style.transition = 'none';
+  fill.style.width = '0%';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      fill.style.transition = '';
+      fill.style.width = pct+'%';
+    });
+  });
   const pips = document.getElementById('progress-pips');
   pips.innerHTML = '';
   MODULES.forEach(m=>{
@@ -651,7 +659,7 @@ function resetProgress(){
 
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
-const hubMusic=new Audio('hub_music.mp3');
+const hubMusic=new Audio('hub_music_2.mp3');
 hubMusic.loop=true;hubMusic.volume=0.67;
 hubMusic.play().catch(()=>{
   const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
@@ -772,5 +780,6 @@ if(machineAmbientSrc){
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
 }
 </script>
+<script src="nexus-transition.js"></script>
 </body>
 </html>

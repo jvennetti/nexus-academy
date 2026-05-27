@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=1280">
 <title>NEXUS Academy — Initializing CIRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="audio" href="../hub_music.mp3">
+<link rel="preload" as="audio" href="../hub_music_2.mp3">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -682,6 +682,9 @@ const headGroup   = document.getElementById('ciro-head');
 
 let bootStarted   = false;
 
+// Background music
+(function(){var bg=new Audio('../ciro-intro%20song.mp3');bg.loop=true;bg.volume=0.3;bg.play().catch(function(){document.addEventListener('click',function h(){bg.play().catch(function(){});document.removeEventListener('click',h);});});})();
+
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `../power_on_${Math.ceil(Math.random()*3)}.mp3`;}
@@ -1141,8 +1144,10 @@ async function launchNexus(){
 function enterHub(){
   localStorage.setItem('nexus_intro_seen','true');
   playS('../password_confirmation.mp3', 0.1);
-  setTimeout(()=>{ window.location.href = '../hub-joshua.html'; }, 380);
+  if(window.nxTransit){ window.nxTransit('../hub-joshua.html'); }
+  else { setTimeout(function(){ window.location.href='../hub-joshua.html'; }, 380); }
 }
 </script>
+<script src="../nexus-transition.js"></script>
 </body>
 </html>

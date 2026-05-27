@@ -241,7 +241,7 @@ function tickProgress(){
   if(pct<1)raf=requestAnimationFrame(tickProgress);
 }
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
-const hubMusic=new Audio('../hub_music.mp3');hubMusic.loop=false;hubMusic.volume=0.48;
+const hubMusic=new Audio('../hub_music_2.mp3');hubMusic.loop=false;hubMusic.volume=0.48;
 hubMusic.play().catch(()=>{const s=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',s);document.removeEventListener('touchstart',s);};document.addEventListener('click',s);document.addEventListener('touchstart',s);});
 function completeHold(){
   holding=false;
@@ -257,5 +257,6 @@ window.addEventListener('mouseup',endHold);
 window.addEventListener('touchend',endHold);
 window.addEventListener('mouseleave',endHold);
 </script>
+<script src="nexus-transition.js"></script>
 </body>
 </html>
