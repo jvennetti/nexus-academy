@@ -141,12 +141,12 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .reset-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;display:none;align-items:center;justify-content:center;padding:24px}
 .reset-modal-overlay.visible{display:flex}
 .reset-modal{background:var(--panel);border:1px solid rgba(0,200,255,0.18);border-radius:10px;padding:36px 32px;max-width:400px;width:100%;text-align:center}
-.reset-modal-title{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:700;color:var(--white);letter-spacing:0.08em;margin-bottom:14px}
-.reset-modal-body{font-family:'Lexend',sans-serif;font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:28px}
+.reset-modal-title{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;color:var(--white);letter-spacing:0.08em;margin-bottom:14px}
+.reset-modal-body{font-family:'Lexend',sans-serif;font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:28px}
 .reset-modal-btns{display:flex;gap:12px;justify-content:center}
-.reset-modal-cancel{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;padding:11px 28px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:none;color:var(--muted);cursor:pointer;transition:all 0.2s}
+.reset-modal-cancel{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;padding:11px 28px;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:none;color:var(--muted);cursor:pointer;transition:all 0.2s}
 .reset-modal-cancel:hover{border-color:rgba(255,255,255,0.22);color:var(--white)}
-.reset-modal-confirm{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;padding:11px 28px;border-radius:4px;border:1px solid rgba(255,60,60,0.35);background:rgba(200,0,0,0.1);color:#ff5555;cursor:pointer;transition:all 0.2s}
+.reset-modal-confirm{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;padding:11px 28px;border-radius:4px;border:1px solid rgba(255,60,60,0.35);background:rgba(200,0,0,0.1);color:#ff5555;cursor:pointer;transition:all 0.2s}
 .reset-modal-confirm:hover{background:rgba(200,0,0,0.22);border-color:rgba(255,60,60,0.65)}
 </style>
 </head>
@@ -717,6 +717,7 @@ function showResetModal(){ document.getElementById('reset-modal-overlay').classL
 function closeResetModal(){ document.getElementById('reset-modal-overlay').classList.remove('visible'); }
 function confirmReset(){
   closeResetModal();
+  playS('audio/sfx/password-confirm.mp3', 0.1);
   localStorage.removeItem('nexus_'+OPERATOR);
   localStorage.removeItem('nexus_intro_seen_'+OPERATOR);
   localStorage.removeItem('nexus_hub_visited_'+OPERATOR);
@@ -859,6 +860,17 @@ if(!localStorage.getItem('nexus_machine_activated')){
   var machineAmbStarted = false;
   var machineAmbWantPlay = false;
   var machineAmbStopGen = 0;
+  var hubMusicFadeTimer = null;
+  function fadeHubMusic(targetVol, durationMs){
+    if(hubMusicFadeTimer) clearInterval(hubMusicFadeTimer);
+    var start = hubMusic.volume, diff = targetVol - start;
+    var steps = Math.max(1, Math.round(durationMs / 16)), step = 0;
+    hubMusicFadeTimer = setInterval(function(){
+      step++;
+      if(step >= steps){ hubMusic.volume = Math.max(0, Math.min(1, targetVol)); clearInterval(hubMusicFadeTimer); hubMusicFadeTimer = null; }
+      else { hubMusic.volume = Math.max(0, Math.min(1, start + diff * (step / steps))); }
+    }, 16);
+  }
 
   // Unlock AudioContext on first user gesture (boot animation click covers this)
   function machineAmbUnlock() {
@@ -901,7 +913,8 @@ if(!localStorage.getItem('nexus_machine_activated')){
   function machineAmbDoPlay() {
     if (!machineAmbBuffer) { machineAmbWantPlay = true; return; }
     // If source exists, it's either playing or mid-fade-out — cancel stop, fade back in
-    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.21, 500); return; }
+    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.21, 500); fadeHubMusic(0, 1000); return; }
+    fadeHubMusic(0, 1000);
     if (machineAmbCtx.state === 'suspended') machineAmbCtx.resume();
     machineAmbGain = machineAmbCtx.createGain();
     machineAmbGain.gain.value = 0;
@@ -918,6 +931,7 @@ if(!localStorage.getItem('nexus_machine_activated')){
   function machineAmbDoStop() {
     if (!machineAmbSource) return;
     machineAmbWantPlay = false;
+    fadeHubMusic(0.67, 1000);
     machineAmbFade(0, 500);
     var gen = ++machineAmbStopGen;
     var src = machineAmbSource;
