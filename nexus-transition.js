@@ -4,11 +4,15 @@
   S.textContent='#nx-overlay{position:fixed;inset:0;background:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;opacity:1;transition:opacity 0.45s ease;pointer-events:none;}#nx-overlay.blocking{pointer-events:all;}#nx-overlay.gone{opacity:0;}.nx-bar-wrap{width:240px;height:1px;background:rgba(0,200,255,0.1);position:relative;overflow:visible;}.nx-bar-fill{position:absolute;left:0;top:0;height:1px;width:0%;background:#00c8ff;box-shadow:0 0 8px rgba(0,200,255,0.9),0 0 18px rgba(0,200,255,0.4);transition:none;}.nx-st{font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:0.45em;color:rgba(0,200,255,0.38);text-transform:uppercase;}.nx-pc{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.18em;color:rgba(0,200,255,0.55);}';
   document.head.appendChild(S);
 
-  // ── Pre-fetch transition sound into a blob URL so it plays instantly ──
-  var _dep=window.location.pathname.split('/').filter(Boolean).length-1;
-  var _sfxPath=(_dep>0?new Array(_dep).fill('..').join('/')+'/':'')+'wait_sound_3_seconds.wav';
-  var _sfxSrc=_sfxPath;
-  fetch(_sfxPath).then(function(r){return r.blob();}).then(function(b){_sfxSrc=URL.createObjectURL(b);}).catch(function(){});
+  // ── Preload transition sound using script's own absolute URL ──
+  // document.currentScript is available during synchronous script execution
+  var _base='';
+  try{ if(document.currentScript&&document.currentScript.src) _base=document.currentScript.src.replace(/\/[^\/]*$/,'/'); }catch(e){}
+  var _sfxEl=document.createElement('audio');
+  _sfxEl.src=_base+'transition_sound_effect.wav';
+  _sfxEl.preload='auto';
+  _sfxEl.volume=0.1;
+  document.head.appendChild(_sfxEl);
 
   // ── Overlay DOM ──
   var ov=document.createElement('div');
@@ -52,19 +56,22 @@
   })();
 
   // ── Transition out ──
-  function runTransition(href){
+  function runTransition(href,skipSound){
     ov.classList.remove('gone');
     ov.classList.add('blocking');
     fill.style.width='0%';
     pct.textContent='0%';
     status.textContent='LOADING';
-    var s=new Audio(_sfxSrc);s.volume=0.1;s.play().catch(function(){});
+    if(!skipSound){
+      _sfxEl.currentTime=0;
+      _sfxEl.play().catch(function(){});
+    }
 
     // 3 speed variants: [progress%, time_ms] keyframes
     var variants=[
-      [[0,0],[18,550],[40,1200],[65,2000],[85,2600],[100,3000]],      // smooth
-      [[0,0],[42,450],[43,950],[68,1500],[69,2000],[90,2500],[100,3000]], // stutter
-      [[0,0],[12,700],[14,1400],[14,1900],[55,2300],[100,3000]]       // slow surge
+      [[0,0],[18,550],[40,1200],[65,2000],[85,2600],[100,3000]],
+      [[0,0],[42,450],[43,950],[68,1500],[69,2000],[90,2500],[100,3000]],
+      [[0,0],[12,700],[14,1400],[14,1900],[55,2300],[100,3000]]
     ];
     var kfs=variants[Math.floor(Math.random()*3)];
     var labels=['LOADING','SCANNING MEMORY','INITIALIZING'];
@@ -98,7 +105,10 @@
     if(!href||href.charAt(0)==='#'||/^(javascript|mailto|tel):/i.test(href)) return;
     if(/^https?:/i.test(href)) return;
     if(/lesson-\d+-\d+/.test(window.location.pathname)&&/lesson-\d+-\d+/.test(a.href)) return;
+    // Skip transition sound if the click also triggers a power_on effect
+    var oc=a.getAttribute('onclick')||'';
+    var skipSound=/pickPower|power_on_/.test(oc);
     ev.preventDefault();
-    runTransition(a.href);
+    runTransition(a.href,skipSound);
   });
 })();
