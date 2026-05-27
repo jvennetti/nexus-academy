@@ -678,6 +678,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 
 <script>
 const wait = ms => new Promise(r => setTimeout(r, ms));
+function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 const pageTint = document.getElementById('page-tint');
 const logLines = document.getElementById('log-lines');
 const msgScroll = document.getElementById('msg-scroll');
@@ -850,12 +851,14 @@ async function phaseMachine(){
   addLog('AUTH LAYER — no signal detected','err');
   await wait(260);
   addLog('NODE-A fault: response timeout','err');
+  playS('robot_error_1_second_play3times_for_error.wav',0.4);
   tint('#ff3333',0.05,60);await wait(120);tint('clear',0,350);
   await wait(260);
   addLog('NODE-B fault: response timeout','err');
   await wait(260);
   addLog('Attempting core restart...','warn');
   await wait(600);
+  playS('robot_failure_5_seconds.mp3',0.5);
   for(let i=0;i<4;i++){tint('#ff3333',0.09,50);await wait(90);tint('clear',0,60);await wait(110);}
   clearLog();
   addLog('Core restart: OK','ok');
@@ -890,7 +893,6 @@ async function phaseMachine(){
   for(let i=0;i<3;i++){setLights('#ff2222','steady');await wait(65);setLights('#00c8ff','steady');await wait(65);}
   setLights('#00c8ff','steady');
   setBars('#00c8ff');setOrb('#00c8ff');
-  const music=document.getElementById('unlock-music');if(music){music.volume=0.6;music.loop=false;music.play().catch(()=>{});}
   setTowerTxt('ONLINE','rgba(0,200,255,0.75)');
   setBaseTxt('OK','rgba(0,200,255,0.55)');
   document.getElementById('machine-ambient').style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1200px;height:900px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,200,255,0.09) 0%,transparent 60%);pointer-events:none;z-index:0;';
@@ -904,6 +906,7 @@ async function phaseMachine(){
   await wait(700);
   tint('#ff3333',0.06,60);await wait(100);tint('clear',0,300);
   clearLog();
+  playS('robot_error_1_second.wav',0.35);
   addLog('ANOMALY — foreign embed in sector 7','err');
   await wait(500);
   addLog('Decrypting... origin unknown','warn');
@@ -994,6 +997,7 @@ async function phaseVanta(){
   const vText=document.getElementById('vanta-text');
   plate.classList.add('show');
   scrollToBottom();
+  playS('decrypting_noise_17_seconds.wav',0.4);
   await wait(400);
   vphStatus.textContent='Scanning...';
   fill.style.width='18%';await wait(600);
@@ -1105,6 +1109,8 @@ async function phaseCiroMessage(){
 
 window.addEventListener('load',()=>{
   document.body.style.overflowY='hidden';
+  const music=document.getElementById('unlock-music');
+  if(music){music.volume=0.6;music.loop=false;music.play().catch(()=>{});}
   setTimeout(phaseMachine,500);
 });
 </script>

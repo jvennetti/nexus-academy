@@ -563,6 +563,8 @@ const CODES={joshua:'77POWER',connor:'2FIRE22',allen:'11WIND44'};
 const OPS=['joshua','connor','allen'];
 const confirmed={joshua:false,connor:false,allen:false};
 const STORAGE='nexus_machine_inputs';
+function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
+function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
 
 function save(){
   const d={};
@@ -585,6 +587,7 @@ function onInput(op,silent){
 function sealSlot(op){
   if(confirmed[op])return;
   confirmed[op]=true;
+  playS('password_confirmation.mp3',0.4);
   const pill=document.getElementById('pill-'+op);
   const input=document.getElementById('input-'+op);
   const check=document.getElementById('check-'+op);
@@ -619,6 +622,7 @@ function flashTint(rgba,ms){
 function attemptActivation(){
   if(confirmed.joshua&&confirmed.connor&&confirmed.allen){
     localStorage.setItem('nexus_machine_unlocked','true');
+    playS(pickPower(),0.6);
     flashTint('rgba(0,200,255,0.1)',900);
     const btn=document.getElementById('restore-btn');
     btn.textContent='Signal Acquired — Restoring...';

@@ -311,7 +311,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine-input.html" class="activate-btn" id="activate-btn">RESTORE</a>
+        <a href="machine-input.html" class="activate-btn" id="activate-btn" onclick="playS(pickPower(),0.6)">RESTORE</a>
       </div>
     </div>
   </div>
@@ -463,7 +463,12 @@ function renderModules(s){
         <div class="card-title">${m.title}</div>
       </div>
       <div class="card-status ${isAccessible?'unlocked-tag':'locked-tag'}">${isComplete?'COMPLETE':isAccessible?'UNLOCKED':'LOCKED'}</div>`;
-    if(isAccessible) card.addEventListener('click', ()=>{ window.location.href = m.url; });
+    if(isAccessible) card.addEventListener('click', ()=>{
+      const sfxFile=pickPower();
+      playS(sfxFile,0.3);
+      localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
+      setTimeout(()=>{ window.location.href = m.url; },60);
+    });
     g.appendChild(card);
   });
   // Bonus Vault — always unlocked
@@ -476,7 +481,12 @@ function renderModules(s){
       <div class="card-title">BONUS VAULT</div>
     </div>
     <div class="card-status unlocked-tag">OPEN ACCESS</div>`;
-  bv.addEventListener('click', ()=>{ window.location.href = 'bonus-vault.html'; });
+  bv.addEventListener('click', ()=>{
+    const sfxFile=pickPower();
+    playS(sfxFile,0.3);
+    localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
+    setTimeout(()=>{ window.location.href = 'bonus-vault.html'; },60);
+  });
   g.appendChild(bv);
 }
 
@@ -594,6 +604,7 @@ function unlockBadge(key){
 function flashBadge(key){
   const el = document.getElementById('badge-'+key);
   if(el){ el.classList.add('just-unlocked'); setTimeout(()=>el.classList.remove('just-unlocked'), 600); }
+  playS('wait_sound_3_seconds.wav',0.4);
 }
 
 function showFlash(msg){
@@ -620,6 +631,16 @@ function resetProgress(){
     render(); showFlash('SYSTEM RESET');
   }
 }
+
+function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
+function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
+const hubMusic=new Audio('hub_music.mp3');
+hubMusic.loop=true;hubMusic.volume=0.6;
+hubMusic.play().catch(()=>{
+  const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
+  document.addEventListener('click',startMusic);
+  document.addEventListener('touchstart',startMusic);
+});
 
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 
@@ -713,6 +734,19 @@ if(IS_FIRST_OPEN){
 }
 render();
 if(IS_FIRST_OPEN) runHubBoot();
+const machineAmbientSrc='';
+if(machineAmbientSrc){
+  let ambAudio=null,ambFadeIn=null,ambFadeOut=null;
+  function fadeAudio(a,toVol,ms){if(!a)return;const steps=30,delta=(toVol-a.volume)/steps,iv=ms/steps;let s=0;clearInterval(ambFadeIn);clearInterval(ambFadeOut);const t=setInterval(()=>{a.volume=Math.max(0,Math.min(1,a.volume+delta));if(++s>=steps)clearInterval(t);},iv);}
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        if(!ambAudio){ambAudio=new Audio(machineAmbientSrc);ambAudio.loop=true;ambAudio.volume=0;ambAudio.play().catch(()=>{});}
+        fadeAudio(ambAudio,0.5,1200);
+      } else { fadeAudio(ambAudio,0,800); }
+    });
+  },{threshold:0.25}).observe(document.querySelector('.machine-section'));
+}
 </script>
 </body>
 </html>
