@@ -831,7 +831,7 @@ function addLine(text='', classes=''){
 async function bootCiro(){
   if(bootStarted) return;
   bootStarted = true;
-  playS(pickPower(), 0.3);
+  playS(pickPower(), 0.1);
 
   // hide power button
   powerBtn.classList.add('hidden');
@@ -953,9 +953,9 @@ async function runDialogue(){
   setStatus('ERROR — OVERRIDE','red');
   setFaceText('OVERRIDE','DETECT','!!!','#ff3333');
   updateHUD('ALERT','DARK');
-  playS('../robot_error_1_second_play3times_for_error.wav', 0.2);
-  setTimeout(()=>playS('../robot_error_1_second_play3times_for_error.wav', 0.2), 1200);
-  setTimeout(()=>playS('../robot_error_1_second_play3times_for_error.wav', 0.2), 2400);
+  playS('../robot_error_1_second_play3times_for_error.wav', 0.1);
+  setTimeout(()=>playS('../robot_error_1_second_play3times_for_error.wav', 0.1), 1200);
+  setTimeout(()=>playS('../robot_error_1_second_play3times_for_error.wav', 0.1), 2400);
 
   // hard red flash
   pageTintColor('#ff3333', 0.12, 80);
@@ -1060,7 +1060,7 @@ async function launchNexus(){
   figure.classList.add('alive');
   setStatus('NEXUS ACADEMY ONLINE','live');
   updateHUD('ACTIVE','STRONG');
-  playS('../short_success_1_second.wav', 0.25);
+  playS('../short_success_1_second.wav', 0.1);
 
   // blue surge
   pageTintColor('#00c8ff', 0.06, 80);
@@ -1137,7 +1137,7 @@ async function launchNexus(){
 
 function enterHub(){
   localStorage.setItem('nexus_intro_seen','true');
-  playS('../short_success_1_second.wav', 0.25);
+  playS('../short_success_1_second.wav', 0.1);
   window.location.href = '../hub-joshua.html';
 }
 </script>

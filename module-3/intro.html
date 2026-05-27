@@ -191,7 +191,7 @@ runScene();
     localStorage.removeItem('nexus_sfx_nav');
     const elapsed=(Date.now()-ts)/1000;
     const a=new Audio('../'+file);
-    a.volume=0.3;a.currentTime=Math.min(elapsed,2.5);
+    a.volume=0.1;a.currentTime=Math.min(elapsed,2.5);
     a.play().catch(()=>{});
   }catch(e){}
 })();
