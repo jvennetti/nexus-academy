@@ -816,17 +816,22 @@ if(IS_FIRST_OPEN){
   if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
 }
 if(!localStorage.getItem('nexus_machine_activated')){
-  // Web Audio API for gapless loop; gain-based fade on scroll
-  let _actx=null,_again=null,_abuf=null,_asrc=null,_aon=false;
+  // Web Audio API for gapless loop; setInterval-based gain fade (avoids Web Audio scheduling bugs)
+  let _actx=null,_again=null,_abuf=null,_asrc=null,_aon=false,_volTimer=null;
   function _ambFade(toVol,ms){
-    if(!_actx||!_again) return;
-    const now=_actx.currentTime;
-    _again.gain.cancelScheduledValues(now);
-    _again.gain.setValueAtTime(_again.gain.value,now);
-    _again.gain.linearRampToValueAtTime(toVol,now+ms/1000);
+    if(!_again) return;
+    clearInterval(_volTimer);
+    const start=_again.gain.value, diff=toVol-start, steps=Math.max(1,Math.round(ms/16));
+    let n=0;
+    _volTimer=setInterval(()=>{
+      n++;
+      if(n>=steps){ _again.gain.value=toVol; clearInterval(_volTimer); _volTimer=null; }
+      else { _again.gain.value=start+diff*(n/steps); }
+    },16);
   }
   function _doPlay(){
     if(!_abuf||_asrc) return;
+    _again.gain.value=0;
     _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
     _asrc.connect(_again);_asrc.start(0);
     _ambFade(0.35,0.75);

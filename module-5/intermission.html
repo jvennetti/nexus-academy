@@ -248,7 +248,8 @@ function completeHold(){
   btn.classList.remove('holding');btn.classList.add('done');
   cancelAnimationFrame(raf);arcEl.style.strokeDashoffset=0;
   new Audio('../wait_sound_3_seconds.wav').play().catch(()=>{});
-  setTimeout(()=>{ window.location.href='../module-5/lesson-5-5.html'; },700);
+  if(window.nxTransit) window.nxTransit('../module-5/lesson-5-5.html',true);
+  else setTimeout(()=>{ window.location.href='../module-5/lesson-5-5.html'; },700);
 }
 btn.addEventListener('mousedown',startHold);
 btn.addEventListener('touchstart',e=>{e.preventDefault();startHold();},{passive:false});
