@@ -75,7 +75,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 </nav>
 
 <div class="banner">
-  <img class="banner-img" src="../Challenge Image_ Module 4.png" alt="Module 4 Challenge">
+  <img class="banner-img" src="../images/modules/m4-challenge.png" alt="Module 4 Challenge">
   <div class="banner-overlay"></div>
   <div class="banner-label">
     <div class="banner-title">The Challenge</div>
@@ -161,9 +161,9 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 
 <script>
 function playS(s,v){var a=new Audio(s);a.volume=v===undefined?0.4:v;a.play().catch(function(){});return a;}
-localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title:'Module 4 — Challenge'}));
+localStorage.setItem('nexus_last_page_'+(localStorage.getItem('nexus_current_operator')||'joshua'),JSON.stringify({url:location.pathname,title:'Module 4 — Challenge'}));
 function markComplete() {
-  playS('../password_confirmation.mp3',0.1);
+  playS('../audio/sfx/password-confirm.mp3',0.1);
   localStorage.setItem('nexus_module_4_complete', 'true');
   fetch('https://nexus-academy.netlify.app/.netlify/functions/mark-complete', {
     method: 'POST',

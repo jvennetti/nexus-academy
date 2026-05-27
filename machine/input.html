@@ -547,7 +547,7 @@ body::after{
 
     <button class="restore-btn" id="restore-btn" onclick="attemptActivation()">Restore Machine</button>
     <div class="error-line" id="error-line">Authentication failed — verify codes and retry</div>
-    <a class="hub-return-link" href="hub-joshua.html">Return to Hub</a>
+    <a class="hub-return-link" id="hub-return-link" href="../hub-joshua.html">Return to Hub</a>
 
   </div>
 
@@ -593,7 +593,7 @@ function onInput(op,silent){
 function sealSlot(op){
   if(confirmed[op])return;
   confirmed[op]=true;
-  playS('password_confirmation.mp3',0.1);
+  playS('../audio/sfx/password-confirm.mp3',0.1);
   const pill=document.getElementById('pill-'+op);
   const input=document.getElementById('input-'+op);
   const check=document.getElementById('check-'+op);
@@ -633,10 +633,10 @@ function attemptActivation(){
     const btn=document.getElementById('restore-btn');
     btn.textContent='Signal Acquired — Restoring...';
     btn.style.animation='none';
-    setTimeout(()=>{window.location.href='machine-activated.html';},1100);
+    setTimeout(()=>{window.location.href='../machine/activated.html';},1100);
     return;
   }
-  playS('robot_error_1_second.wav',0.1);
+  playS('../audio/sfx/robot-error.wav',0.1);
   OPS.forEach(op=>{
     if(confirmed[op])return;
     const val=document.getElementById('input-'+op).value.trim().toUpperCase();
@@ -670,7 +670,7 @@ load();
     if(!_ctx){
       _ctx=new(window.AudioContext||window.webkitAudioContext)();
       _gain=_ctx.createGain();_gain.gain.value=VOL;_gain.connect(_ctx.destination);
-      fetch('machine_input_page_music.wav').then(function(r){return r.arrayBuffer();})
+      fetch('../audio/music/machine-ambient.wav').then(function(r){return r.arrayBuffer();})
         .then(function(ab){return _ctx.decodeAudioData(ab);})
         .then(function(buf){_buf=buf;if(_on)go();}).catch(function(){});
     }
@@ -697,6 +697,7 @@ load();
   window.addEventListener('pageshow',function(e){if(e.persisted){_on=false;_src=null;start();}});
 })();
 </script>
-<script src="nexus-transition.js"></script>
+<script>(function(){var op=localStorage.getItem('nexus_current_operator')||'joshua';var l=document.getElementById('hub-return-link');if(l)l.href='../hub-'+op+'.html';})();</script>
+<script src="../nexus-transition.js"></script>
 </body>
 </html>

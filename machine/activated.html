@@ -421,7 +421,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 <body>
 <div id="scanlines"></div>
 <div id="page-tint"></div>
-<audio id="unlock-music" src="machine_unlock_music.mp3" preload="auto"></audio>
+<audio id="unlock-music" src="../audio/music/machine-unlock.mp3" preload="auto"></audio>
 
 <!-- ═══════════════════════════════════
      SECTION 1: THE MACHINE
@@ -664,7 +664,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 
         </div>
         <div id="hub-btn-wrap">
-          <a href="hub-joshua.html" id="hub-btn" onclick="playS('password_confirmation.mp3',0.1)">Return to Hub →</a>
+          <a href="../hub-joshua.html" id="hub-btn" onclick="playS('../audio/sfx/password-confirm.mp3',0.1)">Return to Hub →</a>
         </div>
       </div>
     </div>
@@ -682,7 +682,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 const wait = ms => new Promise(r => setTimeout(r, ms));
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
-const hubMusicActivated=new Audio('hub_music_2.mp3');hubMusicActivated.loop=true;hubMusicActivated.volume=0.34;(window.__bgAudio=window.__bgAudio||[]).push(hubMusicActivated);
+const hubMusicActivated=new Audio('../audio/music/hub-theme.mp3');hubMusicActivated.loop=true;hubMusicActivated.volume=0.34;(window.__bgAudio=window.__bgAudio||[]).push(hubMusicActivated);
 const pageTint = document.getElementById('page-tint');
 const logLines = document.getElementById('log-lines');
 const msgScroll = document.getElementById('msg-scroll');
@@ -855,16 +855,16 @@ async function phaseMachine(){
   addLog('AUTH LAYER — no signal detected','err');
   await wait(260);
   addLog('NODE-A fault: response timeout','err');
-  playS('robot_error_1_second_play3times_for_error.wav',0.2);
-  setTimeout(()=>playS('robot_error_1_second_play3times_for_error.wav',0.2),1200);
-  setTimeout(()=>playS('robot_error_1_second_play3times_for_error.wav',0.2),2400);
+  playS('../audio/sfx/robot-error-x3.wav',0.2);
+  setTimeout(()=>playS('../audio/sfx/robot-error-x3.wav',0.2),1200);
+  setTimeout(()=>playS('../audio/sfx/robot-error-x3.wav',0.2),2400);
   tint('#ff3333',0.05,60);await wait(120);tint('clear',0,350);
   await wait(260);
   addLog('NODE-B fault: response timeout','err');
   await wait(260);
   addLog('Attempting core restart...','warn');
   await wait(600);
-  playS('robot_failure_5_seconds.mp3',0.25);
+  playS('../audio/sfx/robot-failure.mp3',0.25);
   for(let i=0;i<4;i++){tint('#ff3333',0.09,50);await wait(90);tint('clear',0,60);await wait(110);}
   clearLog();
   addLog('Core restart: OK','ok');
@@ -1003,7 +1003,7 @@ async function phaseVanta(){
   const vText=document.getElementById('vanta-text');
   plate.classList.add('show');
   scrollToBottom();
-  playS('decrypting_noise_17_seconds.wav',0.14);
+  playS('../audio/sfx/decrypting-noise.wav',0.14);
   await wait(400);
   vphStatus.textContent='Scanning...';
   fill.style.width='18%';await wait(600);
@@ -1163,6 +1163,7 @@ window.addEventListener('load',()=>{
   setTimeout(phaseMachine,500);
 });
 </script>
-<script src="nexus-transition.js"></script>
+<script>(function(){var op=localStorage.getItem('nexus_current_operator')||'joshua';var l=document.getElementById('hub-btn');if(l)l.href='../hub-'+op+'.html';})();</script>
+<script src="../nexus-transition.js"></script>
 </body>
 </html>

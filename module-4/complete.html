@@ -127,7 +127,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   </div>
 
   <div class="hub-cta" id="hub-cta">
-    <a href="../hub-joshua.html" class="hub-btn" onclick="playS('../password_confirmation.mp3',0.1)">Return to Hub</a>
+    <a href="../hub-joshua.html" class="hub-btn" onclick="playS('../audio/sfx/password-confirm.mp3',0.1)">Return to Hub</a>
     <div class="hub-cta-sub">Progress saved · Badge recorded</div>
   </div>
 
@@ -135,7 +135,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 </div>
 
 <script>
-const _compMusic=new Audio('../module_complete_music.mp3');_compMusic.loop=true;(window.__bgAudio=window.__bgAudio||[]).push(_compMusic);_compMusic.volume=0.4;_compMusic.play().catch(function(){document.addEventListener('click',function h(){_compMusic.play().catch(function(){});document.removeEventListener('click',h);});});window.addEventListener('pageshow',function(e){if(e.persisted)_compMusic.play().catch(function(){});});
+const _compMusic=new Audio('../audio/music/module-complete.mp3');_compMusic.loop=true;(window.__bgAudio=window.__bgAudio||[]).push(_compMusic);_compMusic.volume=0.4;_compMusic.play().catch(function(){document.addEventListener('click',function h(){_compMusic.play().catch(function(){});document.removeEventListener('click',h);});});window.addEventListener('pageshow',function(e){if(e.persisted)_compMusic.play().catch(function(){});});
 const OPERATOR   = localStorage.getItem('nexus_current_operator')||'joshua';
 const MODULE_KEY = 'mod4';
 const BADGE_KEY  = 'architect';
@@ -183,7 +183,7 @@ function setLights(color){
 }
 
 function runReveal(){
-  setTimeout(function(){playS("../wait_sound_3_seconds.wav",0.1);},200);
+  setTimeout(function(){playS("../audio/sfx/wait-sound.wav",0.1);},200);
   setTimeout(()=> document.getElementById('completion-badge').classList.add('animate-in'), 200);
   setTimeout(()=> document.getElementById('label-2').classList.add('animate-in'), 500);
   setTimeout(()=> document.getElementById('label-3').classList.add('animate-in'), 680);
@@ -245,7 +245,7 @@ function startCorruption(){
   // Phase 1 — immediate: box starts pulsing red + 3x error beeps
   wrap.classList.add('corrupt-1');
   overlay.style.background = 'rgba(180,0,0,0.04)';
-  playS('../robot_error_1_second_play3times_for_error.wav',0.35);
+  playS('../audio/sfx/robot-error-x3.wav',0.35);
   _compMusic.pause();
 
   const t1 = setTimeout(()=>{
@@ -255,8 +255,8 @@ function startCorruption(){
     overlay.style.background = 'rgba(180,0,0,0.09)';
     spawnError(ERR_MSGS[errIdx++], 120);
     spawnError(ERR_MSGS[errIdx++], 220);
-    playS('../robot_failure_5_seconds.mp3',0.4);
-    playS('../robot_error_1_second.wav',0.3);
+    playS('../audio/sfx/robot-failure.mp3',0.4);
+    playS('../audio/sfx/robot-error.wav',0.3);
   }, 2000);
   corruptTimers.push(t1);
 
@@ -272,7 +272,7 @@ function startCorruption(){
     spawnError(ERR_MSGS[errIdx++], 80);
     spawnError(ERR_MSGS[errIdx++], 300);
     spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 420);
-    playS('../robot_error_1_second_play3times_for_error.wav',0.45);
+    playS('../audio/sfx/robot-error-x3.wav',0.45);
   }, 4000);
   corruptTimers.push(t2);
 
@@ -280,9 +280,9 @@ function startCorruption(){
     // Phase 4 — 6s: final burst of chaos
     spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 160);
     spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 360);
-    playS('../robot_failure_5_seconds.mp3',0.35);
-    setTimeout(()=>playS('../robot_error_1_second.wav',0.4),400);
-    setTimeout(()=>playS('../robot_error_1_second.wav',0.4),900);
+    playS('../audio/sfx/robot-failure.mp3',0.35);
+    setTimeout(()=>playS('../audio/sfx/robot-error.wav',0.4),400);
+    setTimeout(()=>playS('../audio/sfx/robot-error.wav',0.4),900);
   }, 6000);
   corruptTimers.push(t3);
 }
@@ -299,7 +299,7 @@ function stopCorruption(){
     if(h) h.setAttribute('opacity','0');
   });
   document.querySelectorAll('.error-popup').forEach(el=>el.remove());
-  playS('../short_success_1_second.wav',0.25);
+  playS('../audio/sfx/short-success.wav',0.25);
   setTimeout(function(){ _compMusic.play().catch(function(){}); }, 700);
 }
 /* ══ END CORRUPTION ══ */

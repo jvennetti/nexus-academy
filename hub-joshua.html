@@ -6,16 +6,16 @@
 <title>NEXUS Academy — Joshua's Hub</title>
 <meta property="og:title" content="NEXUS Academy">
 <meta property="og:description" content="A private AI training system. Six modules. One machine. Operator: Joshua.">
-<meta property="og:image" content="https://jvennetti.github.io/nexus-academy/og-preview.png">
+<meta property="og:image" content="https://jvennetti.github.io/nexus-academy/images/og-preview.png">
 <meta property="og:url" content="https://jvennetti.github.io/nexus-academy/hub-joshua.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="NEXUS Academy">
 <meta name="twitter:description" content="A private AI training system. Six modules. One machine. Operator: Joshua.">
-<meta name="twitter:image" content="https://jvennetti.github.io/nexus-academy/og-preview.png">
-<script>if(!localStorage.getItem('nexus_intro_seen')){window.location.replace('pre-course/ciro-intro.html');}</script>
+<meta name="twitter:image" content="https://jvennetti.github.io/nexus-academy/images/og-preview.png">
+<script>if(!localStorage.getItem('nexus_intro_seen_joshua')){window.location.replace('pre-course/ciro-intro.html?op=joshua');}</script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="audio" href="hub_music_2.mp3">
+<link rel="preload" as="audio" href="audio/music/hub-theme.mp3">
 <style>
 :root{
   --navy:#060d1a;--panel:#0d1525;--panel2:#0a1020;
@@ -322,7 +322,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine-input.html" class="activate-btn" id="activate-btn" data-no-transit onclick="machineRestoreTransit(event)">RESTORE</a>
+        <a href="machine/input.html" class="activate-btn" id="activate-btn" data-no-transit onclick="machineRestoreTransit(event)">RESTORE</a>
       </div>
     </div>
   </div>
@@ -345,31 +345,31 @@ const DEV_UNLOCK    = false;
 
 const MODULES = [
   { key:'precourse', label:'Pre-Course', title:'BEFORE YOU BEGIN',
-    locked:'Module_1_Locked.png', unlocked:'Module_1_Unlocked.png',
+    locked:'images/modules/m1-locked.png', unlocked:'images/modules/m1-unlocked.png',
     url:'pre-course/module-intro.html', badge:'system_online',
     next:{ mod:'Pre-Course', title:'7 Years of Building a Learning System in 12 Minutes', url:'pre-course/lesson-0-1.html' } },
   { key:'mod1', label:'Module 1', title:'BOOT UP',
-    locked:'Module_2_Locked.png', unlocked:'Module_2_Unlocked.png',
+    locked:'images/modules/m2-locked.png', unlocked:'images/modules/m2-unlocked.png',
     url:'module-1/intro.html', badge:'boot_sequence',
     next:{ mod:'Module 1', title:"The Only AI Tools You'll Ever Need to Get Rich in 2026", url:'module-1/lesson-1-1.html' } },
   { key:'mod2', label:'Module 2', title:'THE PROMPT ENGINEER',
-    locked:'Module_3_Locked.png', unlocked:'Module_3_Unlocked.png',
+    locked:'images/modules/m3-locked.png', unlocked:'images/modules/m3-unlocked.png',
     url:'module-2/intro.html', badge:'signal_steady',
     next:{ mod:'Module 2', title:"Claude vs ChatGPT — Which One's Actually Better?", url:'module-2/lesson-2-1.html' } },
   { key:'mod3', label:'Module 3', title:'THE AUTOMATION LAYER',
-    locked:'Module_4_Locked.png', unlocked:'Module_4_Unlocked.png',
+    locked:'images/modules/m4-locked.png', unlocked:'images/modules/m4-unlocked.png',
     url:'module-3/intro.html', badge:'commander',
     next:{ mod:'Module 3', title:'Introducing Cowork', url:'module-3/lesson-3-1.html' } },
   { key:'mod4', label:'Module 4', title:'THE AGENT BLUEPRINT',
-    locked:'Module_5_Locked.png', unlocked:'Module_5_Unlocked.png',
+    locked:'images/modules/m5-locked.png', unlocked:'images/modules/m5-unlocked.png',
     url:'module-4/intro.html', badge:'architect',
     next:{ mod:'Module 4', title:'How to Build AI Agents in 2026', url:'module-4/lesson-4-1.html' } },
   { key:'mod5', label:'Module 5', title:'LEAD GENERATION MACHINE',
-    locked:'Module_6_Locked.png', unlocked:'Module_6_Unlocked.png',
+    locked:'images/modules/m6-locked.png', unlocked:'images/modules/m6-unlocked.png',
     url:'module-5/intro.html', badge:'pipeline_inventor',
     next:{ mod:'Module 5', title:'Getting Started with Research in Claude.ai', url:'module-5/lesson-5-1.html' } },
   { key:'mod6', label:'Module 6', title:'CLIENT READY',
-    locked:'Module_7_Locked.png', unlocked:'Module_7_Unlocked.png',
+    locked:'images/modules/m7-locked.png', unlocked:'images/modules/m7-unlocked.png',
     url:'module-6/intro.html', badge:'operator',
     next:{ mod:'Module 6', title:'How to Build a $10M Solo AI Business (Zero Code)', url:'module-6/lesson-6-1.html' } },
 ];
@@ -409,8 +409,8 @@ function render(){
 
 function renderCiro(s){
   const done = MODULES.filter(m=>s[m.key+'_complete']).length;
-  if(!localStorage.getItem('nexus_hub_visited')){
-    localStorage.setItem('nexus_hub_visited','true');
+  if(!localStorage.getItem('nexus_hub_visited_'+OPERATOR)){
+    localStorage.setItem('nexus_hub_visited_'+OPERATOR,'true');
     document.getElementById('ciro-text').innerHTML = '';
   } else if(localStorage.getItem('nexus_machine_activated')){
     document.getElementById('ciro-text').innerHTML = `You have completed NEXUS Academy. Please review the lessons when you need to, and always remember the code: <strong>Predestined to</strong>`;
@@ -442,7 +442,7 @@ function renderProgress(s){
 }
 
 function getLastPage(){
-  try{ return JSON.parse(localStorage.getItem('nexus_last_page')||'null'); }catch(e){ return null; }
+  try{ return JSON.parse(localStorage.getItem('nexus_last_page_'+OPERATOR)||'null'); }catch(e){ return null; }
 }
 function urlToModuleKey(url){
   if(!url) return null;
@@ -495,7 +495,7 @@ function renderModules(s){
   const bv = document.createElement('div');
   bv.className = 'module-card unlocked';
   bv.innerHTML = `
-    <img src="Bonus_Vault_art.png" alt="Bonus Vault" loading="lazy">
+    <img src="images/bonus-vault.png" alt="Bonus Vault" loading="lazy">
     <div class="card-overlay">
       <div class="card-tag">Bonus</div>
       <div class="card-title">BONUS VAULT</div>
@@ -505,8 +505,8 @@ function renderModules(s){
     const sfxFile=pickPower();
     playS(sfxFile,0.1);
     localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
-    if(window.nxTransit) window.nxTransit('bonus-vault.html', true);
-    else setTimeout(()=>{ window.location.href = 'bonus-vault.html'; },60);
+    if(window.nxTransit) window.nxTransit('bonus/vault.html', true);
+    else setTimeout(()=>{ window.location.href = 'bonus/vault.html'; },60);
   });
   g.appendChild(bv);
 }
@@ -599,7 +599,7 @@ function activateMachineVisuals(){
     btn.removeAttribute('data-no-transit');
     btn.setAttribute('onclick','playS(pickPower(),0.1)');
     btn.textContent='ACTIVATED';
-    btn.href='machine-activated.html';
+    btn.href='machine/activated.html';
     btn.style.color='#00c8ff';
     btn.style.background='rgba(0,200,255,0.1)';
     btn.style.borderColor='rgba(0,200,255,0.45)';
@@ -619,7 +619,7 @@ function machineRestoreTransit(e){
       var iv=setInterval(function(){ a.volume=Math.max(0,a.volume-orig/steps); if(a.volume<=0){clearInterval(iv);a.pause();} },25);
     }
   });
-  playS('decrypting_noise_17_seconds.wav', 0.1);
+  playS('audio/sfx/decrypting-noise.wav', 0.1);
   const ov=document.getElementById('nx-overlay');
   const fill=document.getElementById('nx-fill');
   const pct=document.getElementById('nx-pct');
@@ -646,7 +646,7 @@ function machineRestoreTransit(e){
     fill.style.width=p.toFixed(1)+'%';
     pct.textContent=Math.round(p)+'%';
     if(el<5000) requestAnimationFrame(tick);
-    else{ fill.style.width='100%';pct.textContent='100%';setTimeout(function(){window.location.href='machine-input.html';},120); }
+    else{ fill.style.width='100%';pct.textContent='100%';setTimeout(function(){window.location.href='machine/input.html';},120); }
   }
   requestAnimationFrame(tick);
 }
@@ -673,7 +673,7 @@ function unlockBadge(key){
 function flashBadge(key){
   const el = document.getElementById('badge-'+key);
   if(el){ el.classList.add('just-unlocked'); setTimeout(()=>el.classList.remove('just-unlocked'), 600); }
-  playS('wait_sound_3_seconds.wav',0.1);
+  playS('audio/sfx/wait-sound.wav',0.1);
 }
 
 function showFlash(msg){
@@ -693,9 +693,9 @@ window.nexus = { unlockModule, unlockBadge, getState, setState };
 function resetProgress(){
   if(confirm('Reset all progress for '+OPERATOR_NAME+'?')){
     localStorage.removeItem('nexus_'+OPERATOR);
-    localStorage.removeItem('nexus_intro_seen');
-    localStorage.removeItem('nexus_hub_visited');
-    localStorage.removeItem('nexus_last_page');
+    localStorage.removeItem('nexus_intro_seen_'+OPERATOR);
+    localStorage.removeItem('nexus_hub_visited_'+OPERATOR);
+    localStorage.removeItem('nexus_last_page_'+OPERATOR);
     localStorage.removeItem('nexus_machine_activated');
     render(); showFlash('SYSTEM RESET');
   }
@@ -703,7 +703,7 @@ function resetProgress(){
 
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
-const hubMusic=new Audio('hub_music_2.mp3');
+const hubMusic=new Audio('audio/music/hub-theme.mp3');
 hubMusic.loop=true;hubMusic.volume=0.67;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
 hubMusic.play().catch(()=>{
   const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
@@ -803,7 +803,7 @@ async function runHubBoot(){
 }
 
 
-const IS_FIRST_OPEN = !localStorage.getItem('nexus_hub_visited');
+const IS_FIRST_OPEN = !localStorage.getItem('nexus_hub_visited_'+OPERATOR);
 if(IS_FIRST_OPEN){
   ['.ciro-widget','#continue-section','.progress-section','.modules-section','.achievements-section','.machine-section']
     .forEach(sel => { const el = document.querySelector(sel); if(el) el.classList.add('hub-boot-hide'); });
@@ -836,7 +836,7 @@ if(!localStorage.getItem('nexus_machine_activated')){
   document.addEventListener('touchend', machineAmbUnlock);
 
   // Pre-fetch and decode while user is at the top of the page
-  fetch('machine_input_page_music.wav')
+  fetch('audio/music/machine-ambient.wav')
     .then(function(r) { return r.arrayBuffer(); })
     .then(function(ab) { return machineAmbCtx.decodeAudioData(ab); })
     .then(function(buf) {
