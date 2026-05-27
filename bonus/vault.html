@@ -174,7 +174,7 @@ hubMusic.loop=true;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
     fadeIv=setInterval(function(){step++;if(step>=steps){hubMusic.volume=0.67;clearInterval(fadeIv);fadeIv=null;}else{hubMusic.volume=0.67*step/steps;}},16);
   }
   function begin(){
-    if(mode===0){hubMusic.volume=0.67;}else{hubMusic.currentTime=hubMusic.duration*(mode===1?1/3:2/3);fadeIn();}
+    if(mode===0){hubMusic.volume=0.67;}else{hubMusic.currentTime=mode===1?105:hubMusic.duration*(2/3);fadeIn();}
     return hubMusic.play();
   }
   function init(){

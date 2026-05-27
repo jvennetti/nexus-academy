@@ -264,7 +264,7 @@ Implemented in nexus-academy and should be copied exactly to nexus-open.
 The `hub-theme.mp3` track is ~3m 56s at 320kbps.  
 Three modes (random each page load):
 - Mode 0: 0:00 — plays immediately at full volume, no fade
-- Mode 1: ~1:18 (78s) — 3-second fade-in
+- Mode 1: 1:45 (105s, hardcoded) — 3-second fade-in
 - Mode 2: ~2:37 (157s) — 3-second fade-in
 
 The JS block for this is in the hub files (and vault/activated) — copy it directly.
