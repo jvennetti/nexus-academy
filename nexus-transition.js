@@ -4,15 +4,17 @@
   S.textContent='#nx-overlay{position:fixed;inset:0;background:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;opacity:1;transition:opacity 0.45s ease;pointer-events:none;}#nx-overlay.blocking{pointer-events:all;}#nx-overlay.gone{opacity:0;}.nx-bar-wrap{width:240px;height:1px;background:rgba(0,200,255,0.1);position:relative;overflow:visible;}.nx-bar-fill{position:absolute;left:0;top:0;height:1px;width:0%;background:#00c8ff;box-shadow:0 0 8px rgba(0,200,255,0.9),0 0 18px rgba(0,200,255,0.4);transition:none;}.nx-st{font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:0.45em;color:rgba(0,200,255,0.38);text-transform:uppercase;}.nx-pc{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.18em;color:rgba(0,200,255,0.55);}';
   document.head.appendChild(S);
 
-  // ── Preload transition sound using script's own absolute URL ──
-  // document.currentScript is available during synchronous script execution
+  // ── Preload all 3 transition sounds using script's own absolute URL ──
   var _base='';
   try{ if(document.currentScript&&document.currentScript.src) _base=document.currentScript.src.replace(/\/[^\/]*$/,'/'); }catch(e){}
-  var _sfxEl=document.createElement('audio');
-  _sfxEl.src=_base+'transition_sound_effect.wav';
-  _sfxEl.preload='auto';
-  _sfxEl.volume=0.1;
-  document.head.appendChild(_sfxEl);
+  var _sfxEls=['transition_sound_effect.wav','transition_sound_effect_2.wav','transition_sound_effect_3.wav'].map(function(f){
+    var el=document.createElement('audio');
+    el.src=_base+f;
+    el.preload='auto';
+    el.volume=0.06;
+    document.head.appendChild(el);
+    return el;
+  });
 
   // ── Overlay DOM ──
   var ov=document.createElement('div');
@@ -63,8 +65,9 @@
     pct.textContent='0%';
     status.textContent='LOADING';
     if(!skipSound){
-      _sfxEl.currentTime=0;
-      _sfxEl.play().catch(function(){});
+      var sfx=_sfxEls[Math.floor(Math.random()*_sfxEls.length)];
+      sfx.currentTime=0;
+      sfx.play().catch(function(){});
     }
 
     // 3 speed variants: [progress%, time_ms] keyframes
