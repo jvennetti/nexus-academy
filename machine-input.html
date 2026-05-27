@@ -304,14 +304,13 @@ body::after{
   75%{transform:translateX(5px)}
 }
 .shake{animation:shake 0.44s ease-in-out}
-#back-to-hub{position:fixed;top:18px;left:22px;z-index:9999;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.25em;color:rgba(0,200,255,0.45);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
-#back-to-hub:hover{color:rgba(0,200,255,0.9);}
+.hub-return-link{display:block;text-align:center;margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.25em;color:rgba(0,200,255,0.28);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.hub-return-link:hover{color:rgba(0,200,255,0.6);}
 .reset-btn{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;background:none;border:1px solid rgba(255,255,255,0.05);border-radius:4px;color:rgba(255,255,255,0.1);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;padding:9px 20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;white-space:nowrap}
 .reset-btn:hover{border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.2)}
 </style>
 </head>
 <body>
-<a id="back-to-hub" href="hub-joshua.html">← Hub</a>
 <div id="page-tint"></div>
 
 <!-- MACHINE GEOMETRY -->
@@ -548,6 +547,7 @@ body::after{
 
     <button class="restore-btn" id="restore-btn" onclick="attemptActivation()">Restore Machine</button>
     <div class="error-line" id="error-line">Authentication failed — verify codes and retry</div>
+    <a class="hub-return-link" href="hub-joshua.html">Return to Hub</a>
 
   </div>
 
@@ -662,10 +662,39 @@ function adminReset(){
   }
 }
 load();
-window._machineAmb=new Audio('machine_input_page_music.wav');
-window._machineAmb.loop=true;window._machineAmb.volume=0.29;
-window._machineAmb.play().catch(()=>{const s=()=>{window._machineAmb.play().catch(()=>{});document.removeEventListener('click',s);document.removeEventListener('touchstart',s);};document.addEventListener('click',s);document.addEventListener('touchstart',s);});
-window.addEventListener('pageshow',function(e){if(e.persisted)window._machineAmb.play().catch(()=>{});});
+// Web Audio API for gapless loop (HTMLAudioElement has a click at the loop point)
+(function(){
+  var VOL=0.29,_ctx=null,_gain=null,_buf=null,_src=null,_on=false;
+  function ctx(){
+    if(!_ctx){
+      _ctx=new(window.AudioContext||window.webkitAudioContext)();
+      _gain=_ctx.createGain();_gain.gain.value=VOL;_gain.connect(_ctx.destination);
+      fetch('machine_input_page_music.wav').then(function(r){return r.arrayBuffer();})
+        .then(function(ab){return _ctx.decodeAudioData(ab);})
+        .then(function(buf){_buf=buf;if(_on)go();}).catch(function(){});
+    }
+    return _ctx;
+  }
+  function go(){
+    if(!_buf||_src) return;
+    _src=_ctx.createBufferSource();_src.buffer=_buf;_src.loop=true;
+    _src.connect(_gain);_src.start(0);
+  }
+  function start(){
+    var c=ctx();_on=true;
+    if(c.state==='suspended') c.resume().then(function(){go();});
+    else go();
+  }
+  window._machineAmb={
+    get paused(){return !_on||!_ctx||_ctx.state!=='running';},
+    play:function(){start();return Promise.resolve();}
+  };
+  (window.__bgAudio=window.__bgAudio||[]).push(window._machineAmb);
+  start();
+  var _h=function(){start();document.removeEventListener('click',_h);document.removeEventListener('touchstart',_h);};
+  document.addEventListener('click',_h);document.addEventListener('touchstart',_h);
+  window.addEventListener('pageshow',function(e){if(e.persisted){_on=false;_src=null;start();}});
+})();
 </script>
 <script src="nexus-transition.js"></script>
 </body>
