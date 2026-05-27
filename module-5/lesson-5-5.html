@@ -111,7 +111,7 @@ window.addEventListener('load',()=>{
   const v=localStorage.getItem('nexus_ts_'+location.pathname);
   if(v) showSaved(v);
   const title=document.querySelector('h1.lesson-title')?.textContent||'';
-  localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title}));
+  localStorage.setItem('nexus_last_page_'+(localStorage.getItem('nexus_current_operator')||'joshua'),JSON.stringify({url:location.pathname,title}));
 });
 </script>
 <script src="../nexus-transition.js"></script>

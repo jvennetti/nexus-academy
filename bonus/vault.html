@@ -68,9 +68,9 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 <body>
 
 <nav>
-  <a href="hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
+  <a href="../hub-joshua.html" class="wordmark" id="hub-wordmark">NEXUS <span>ACADEMY</span></a>
   <div class="nav-label">Bonus Vault</div>
-  <a href="hub-joshua.html" class="nav-back">← Hub</a>
+  <a href="../hub-joshua.html" class="nav-back" id="hub-back">← Hub</a>
 </nav>
 
 <div class="browser-shell">
@@ -162,7 +162,7 @@ function buildCards(){
   });
 }
 
-const hubMusic=new Audio('hub_music_2.mp3');
+const hubMusic=new Audio('../audio/music/hub-theme.mp3');
 hubMusic.loop=true;hubMusic.volume=0.67;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
 hubMusic.play().catch(function(){document.addEventListener('click',function h(){hubMusic.play().catch(function(){});document.removeEventListener('click',h);});});
 window.addEventListener('pageshow',function(e){if(e.persisted)hubMusic.play().catch(function(){});});
@@ -216,9 +216,10 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePopup({ targ
 buildCards();
 
 window.addEventListener('load',()=>{
-  localStorage.setItem('nexus_last_page', JSON.stringify({url:location.pathname, title:'Bonus Vault'}));
+  localStorage.setItem('nexus_last_page_'+(localStorage.getItem('nexus_current_operator')||'joshua'), JSON.stringify({url:location.pathname, title:'Bonus Vault'}));
 });
 </script>
-<script src="nexus-transition.js"></script>
+<script>(function(){var op=localStorage.getItem('nexus_current_operator')||'joshua';var hu='../hub-'+op+'.html';var wm=document.getElementById('hub-wordmark');var bk=document.getElementById('hub-back');if(wm)wm.href=hu;if(bk)bk.href=hu;})();</script>
+<script src="../nexus-transition.js"></script>
 </body>
 </html>

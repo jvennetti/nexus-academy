@@ -10,7 +10,7 @@
   // ── Preload all 3 transition sounds using script's own absolute URL ──
   var _base='';
   try{ if(document.currentScript&&document.currentScript.src) _base=document.currentScript.src.replace(/\/[^\/]*$/,'/'); }catch(e){}
-  var _sfxEls=['transition_sound_effect.wav','transition_sound_effect_2.wav','transition_sound_effect_3.wav'].map(function(f){
+  var _sfxEls=['audio/sfx/transition-1.wav','audio/sfx/transition-2.wav','audio/sfx/transition-3.wav'].map(function(f){
     var el=document.createElement('audio');
     el.src=_base+f;
     el.preload='auto';

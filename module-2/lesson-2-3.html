@@ -81,7 +81,7 @@ h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700
 <script>
 window.addEventListener('load',()=>{
   const title=document.querySelector('h1.lesson-title')?.textContent||'';
-  localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title}));
+  localStorage.setItem('nexus_last_page_'+(localStorage.getItem('nexus_current_operator')||'joshua'),JSON.stringify({url:location.pathname,title}));
 });
 </script>
 <script src="../nexus-transition.js"></script>
