@@ -4,6 +4,12 @@
   S.textContent='#nx-overlay{position:fixed;inset:0;background:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;opacity:1;transition:opacity 0.45s ease;pointer-events:none;}#nx-overlay.blocking{pointer-events:all;}#nx-overlay.gone{opacity:0;}.nx-bar-wrap{width:240px;height:1px;background:rgba(0,200,255,0.1);position:relative;overflow:visible;}.nx-bar-fill{position:absolute;left:0;top:0;height:1px;width:0%;background:#00c8ff;box-shadow:0 0 8px rgba(0,200,255,0.9),0 0 18px rgba(0,200,255,0.4);transition:none;}.nx-st{font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:0.45em;color:rgba(0,200,255,0.38);text-transform:uppercase;}.nx-pc{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.18em;color:rgba(0,200,255,0.55);}';
   document.head.appendChild(S);
 
+  // ── Preload transition sound ──
+  var _dep=window.location.pathname.split('/').filter(Boolean).length-1;
+  var _root=_dep>0?new Array(_dep).fill('..').join('/')+'/':'';
+  var _sfx=new Audio(_root+'wait_sound_3_seconds.wav');
+  _sfx.preload='auto';_sfx.volume=0.1;
+
   // ── Overlay DOM ──
   var ov=document.createElement('div');
   ov.id='nx-overlay';
@@ -52,9 +58,7 @@
     fill.style.width='0%';
     pct.textContent='0%';
     status.textContent='LOADING';
-    var depth=window.location.pathname.split('/').filter(Boolean).length-1;
-    var root=depth>0?new Array(depth).fill('..').join('/')+'/':'';
-    var sfx=new Audio(root+'wait_sound_3_seconds.wav');sfx.volume=0.1;sfx.play().catch(function(){});
+    _sfx.currentTime=0;_sfx.play().catch(function(){});
 
     // 3 speed variants: [progress%, time_ms] keyframes
     var variants=[
