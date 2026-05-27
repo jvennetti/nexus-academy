@@ -817,41 +817,29 @@ if(IS_FIRST_OPEN){
   if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
 }
 if(!localStorage.getItem('nexus_machine_activated')){
-  // Web Audio API gapless loop; original scheduling approach restored (was working)
-  let _actx=null,_again=null,_abuf=null,_asrc=null,_aon=false;
-  function _ambInit(){
-    if(_actx) return;
-    _actx=new(window.AudioContext||window.webkitAudioContext)();
-    _again=_actx.createGain();_again.gain.value=0;_again.connect(_actx.destination);
-    fetch('machine_input_page_music.wav').then(r=>r.arrayBuffer())
-      .then(ab=>_actx.decodeAudioData(ab))
-      .then(buf=>{_abuf=buf;if(_aon)_ambPlay();}).catch(()=>{});
-  }
+  // HTMLAudioElement streams immediately — no full-file download needed before playback
+  const _amb=new Audio('machine_input_page_music.wav');
+  _amb.loop=true; _amb.volume=0;
+  let _ambTimer=null;
   function _ambFade(toVol,ms){
-    if(!_actx||!_again) return;
-    const now=_actx.currentTime;
-    const g=_again.gain;
-    if(g.cancelAndHoldAtTime) g.cancelAndHoldAtTime(now);
-    else{ g.cancelScheduledValues(now); g.setValueAtTime(g.value,now); }
-    g.linearRampToValueAtTime(toVol,now+ms/1000);
-  }
-  function _ambPlay(){
-    if(!_abuf||_asrc) return;
-    _again.gain.value=0;
-    _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
-    _asrc.connect(_again);_asrc.start(0);
-    // Ramp starts here — tied to when audio actually begins, not a fixed timer
-    setTimeout(()=>{ if(_aon) _ambFade(0.35,0.75); },500);
+    clearInterval(_ambTimer);
+    const start=_amb.volume,diff=toVol-start,steps=Math.max(1,Math.round(ms/16));
+    let n=0;
+    _ambTimer=setInterval(()=>{
+      n++;
+      if(n>=steps){_amb.volume=toVol;clearInterval(_ambTimer);_ambTimer=null;}
+      else{_amb.volume=start+diff*(n/steps);}
+    },16);
   }
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
-        _ambInit();_aon=true;
-        if(_actx.state==='suspended') _actx.resume().then(()=>_ambPlay());
-        else _ambPlay();
-        // If source already running (scroll away + back), just fade back in
-        if(_asrc) _ambFade(0.35,0.75);
-      } else { _aon=false;_ambFade(0,0.75); }
+        _amb.play().catch(()=>{});
+        setTimeout(()=>_ambFade(0.35,0.75),500);
+      } else {
+        _ambFade(0,0.75);
+        setTimeout(()=>{ if(!_amb.volume) _amb.pause(); },850);
+      }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
 }
