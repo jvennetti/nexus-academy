@@ -742,12 +742,27 @@ function resetProgress(){
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `audio/sfx/power-on-${Math.ceil(Math.random()*3)}.mp3`;}
 const hubMusic=new Audio('audio/music/hub-theme.mp3');
-hubMusic.loop=true;hubMusic.volume=0.67;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
-hubMusic.play().catch(()=>{
-  const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
-  document.addEventListener('click',startMusic);
-  document.addEventListener('touchstart',startMusic);
-});
+hubMusic.loop=true;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
+(function(){
+  var mode=Math.floor(Math.random()*3);
+  var fadeIv=null;
+  function fadeIn(){
+    if(fadeIv)clearInterval(fadeIv);
+    hubMusic.volume=0;
+    var step=0,steps=Math.round(3000/16);
+    fadeIv=setInterval(function(){step++;if(step>=steps){hubMusic.volume=0.67;clearInterval(fadeIv);fadeIv=null;}else{hubMusic.volume=0.67*step/steps;}},16);
+  }
+  function begin(){
+    if(mode===0){hubMusic.volume=0.67;}else{hubMusic.currentTime=hubMusic.duration*(mode===1?1/3:2/3);fadeIn();}
+    return hubMusic.play();
+  }
+  function init(){
+    if(mode===0||hubMusic.readyState>=1){
+      begin().catch(function(){var s=function(){document.removeEventListener('click',s);document.removeEventListener('touchstart',s);begin().catch(function(){});};document.addEventListener('click',s);document.addEventListener('touchstart',s);});
+    }else{hubMusic.addEventListener('loadedmetadata',function(){init();},{once:true});}
+  }
+  init();
+})();
 window.addEventListener('pageshow',(e)=>{if(e.persisted)hubMusic.play().catch(()=>{});});
 
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
@@ -863,17 +878,6 @@ if(!localStorage.getItem('nexus_machine_activated')){
   var machineAmbStarted = false;
   var machineAmbWantPlay = false;
   var machineAmbStopGen = 0;
-  var hubMusicFadeTimer = null;
-  function fadeHubMusic(targetVol, durationMs){
-    if(hubMusicFadeTimer) clearInterval(hubMusicFadeTimer);
-    var start = hubMusic.volume, diff = targetVol - start;
-    var steps = Math.max(1, Math.round(durationMs / 16)), step = 0;
-    hubMusicFadeTimer = setInterval(function(){
-      step++;
-      if(step >= steps){ hubMusic.volume = Math.max(0, Math.min(1, targetVol)); clearInterval(hubMusicFadeTimer); hubMusicFadeTimer = null; }
-      else { hubMusic.volume = Math.max(0, Math.min(1, start + diff * (step / steps))); }
-    }, 16);
-  }
 
   // Unlock AudioContext on first user gesture (boot animation click covers this)
   function machineAmbUnlock() {
@@ -916,8 +920,7 @@ if(!localStorage.getItem('nexus_machine_activated')){
   function machineAmbDoPlay() {
     if (!machineAmbBuffer) { machineAmbWantPlay = true; return; }
     // If source exists, it's either playing or mid-fade-out — cancel stop, fade back in
-    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.126, 500); fadeHubMusic(0.335, 1000); return; }
-    fadeHubMusic(0.335, 1000);
+    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.126, 500); return; }
     if (machineAmbCtx.state === 'suspended') machineAmbCtx.resume();
     machineAmbGain = machineAmbCtx.createGain();
     machineAmbGain.gain.value = 0;
@@ -934,7 +937,6 @@ if(!localStorage.getItem('nexus_machine_activated')){
   function machineAmbDoStop() {
     if (!machineAmbSource) return;
     machineAmbWantPlay = false;
-    fadeHubMusic(0.67, 1000);
     machineAmbFade(0, 500);
     var gen = ++machineAmbStopGen;
     var src = machineAmbSource;
