@@ -816,17 +816,17 @@ if(IS_FIRST_OPEN){
   if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
 }
 if(!localStorage.getItem('nexus_machine_activated')){
-  // Web Audio API for gapless loop; setInterval-based gain fade (avoids Web Audio scheduling bugs)
+  // Web Audio API gapless loop; setInterval gain fade; 500ms silence before fade-in
   let _actx=null,_again=null,_abuf=null,_asrc=null,_aon=false,_volTimer=null;
   function _ambFade(toVol,ms){
     if(!_again) return;
     clearInterval(_volTimer);
-    const start=_again.gain.value, diff=toVol-start, steps=Math.max(1,Math.round(ms/16));
+    const start=_again.gain.value,diff=toVol-start,steps=Math.max(1,Math.round(ms/16));
     let n=0;
     _volTimer=setInterval(()=>{
       n++;
-      if(n>=steps){ _again.gain.value=toVol; clearInterval(_volTimer); _volTimer=null; }
-      else { _again.gain.value=start+diff*(n/steps); }
+      if(n>=steps){_again.gain.value=toVol;clearInterval(_volTimer);_volTimer=null;}
+      else{_again.gain.value=start+diff*(n/steps);}
     },16);
   }
   function _doPlay(){
@@ -834,7 +834,7 @@ if(!localStorage.getItem('nexus_machine_activated')){
     _again.gain.value=0;
     _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
     _asrc.connect(_again);_asrc.start(0);
-    _ambFade(0.35,0.75);
+    setTimeout(()=>{ if(_aon) _ambFade(0.35,0.75); },500);
   }
   function _ambInit(){
     if(_actx) return;
@@ -850,14 +850,23 @@ if(!localStorage.getItem('nexus_machine_activated')){
         }
       }).catch(()=>{});
   }
+  // Unlock AudioContext on first user gesture (needed for Safari/iOS)
+  function _tryResume(){
+    if(_actx&&_aon&&!_asrc){
+      if(_actx.state==='suspended') _actx.resume().then(_doPlay);
+      else if(_abuf) _doPlay();
+    }
+  }
+  document.addEventListener('click',_tryResume,{once:true});
+  document.addEventListener('scroll',_tryResume,{once:true,passive:true});
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         _aon=true;
-        if(!_actx){ _ambInit(); }
-        else if(_asrc){ _ambFade(0.35,0.75); }
-        else if(_actx.state==='suspended'){ _actx.resume().then(_doPlay); }
-        else { _doPlay(); }
+        if(!_actx){_ambInit();}
+        else if(_asrc){_ambFade(0.35,0.75);}
+        else if(_actx.state==='suspended'){_actx.resume().then(_doPlay);}
+        else{_doPlay();}
       } else {
         _aon=false;
         _ambFade(0,0.75);

@@ -636,6 +636,7 @@ function attemptActivation(){
     setTimeout(()=>{window.location.href='machine-activated.html';},1100);
     return;
   }
+  playS('robot_error_1_second.wav',0.1);
   OPS.forEach(op=>{
     if(confirmed[op])return;
     const val=document.getElementById('input-'+op).value.trim().toUpperCase();
