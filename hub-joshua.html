@@ -505,7 +505,8 @@ function renderModules(s){
     const sfxFile=pickPower();
     playS(sfxFile,0.1);
     localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
-    setTimeout(()=>{ window.location.href = 'bonus-vault.html'; },60);
+    if(window.nxTransit) window.nxTransit('bonus-vault.html', true);
+    else setTimeout(()=>{ window.location.href = 'bonus-vault.html'; },60);
   });
   g.appendChild(bv);
 }
@@ -817,6 +818,19 @@ if(IS_FIRST_OPEN){
 if(!localStorage.getItem('nexus_machine_activated')){
   // Web Audio API for gapless loop; gain-based fade on scroll
   let _actx=null,_again=null,_abuf=null,_asrc=null,_aon=false;
+  function _ambFade(toVol,ms){
+    if(!_actx||!_again) return;
+    const now=_actx.currentTime;
+    _again.gain.cancelScheduledValues(now);
+    _again.gain.setValueAtTime(_again.gain.value,now);
+    _again.gain.linearRampToValueAtTime(toVol,now+ms/1000);
+  }
+  function _ambPlay(){
+    if(!_abuf||_asrc) return;
+    _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
+    _asrc.connect(_again);_asrc.start(0);
+    _ambFade(0.35,0.5);
+  }
   function _ambInit(){
     if(_actx) return;
     _actx=new(window.AudioContext||window.webkitAudioContext)();
@@ -825,26 +839,22 @@ if(!localStorage.getItem('nexus_machine_activated')){
       .then(ab=>_actx.decodeAudioData(ab))
       .then(buf=>{_abuf=buf;if(_aon)_ambPlay();}).catch(()=>{});
   }
-  function _ambPlay(){
-    if(!_abuf||_asrc) return;
-    _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
-    _asrc.connect(_again);_asrc.start(0);
-  }
-  function _ambFade(toVol,ms){
-    if(!_actx||!_again) return;
-    const now=_actx.currentTime;
-    _again.gain.cancelScheduledValues(now);
-    _again.gain.setValueAtTime(_again.gain.value,now);
-    _again.gain.linearRampToValueAtTime(toVol,now+ms/1000);
-  }
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
-        _ambInit();_aon=true;
-        if(_actx.state==='suspended') _actx.resume().then(()=>_ambPlay());
-        else _ambPlay();
-        _ambFade(0.35,1.2);
-      } else { _aon=false;_ambFade(0,0.8); }
+        _aon=true;
+        if(!_actx){
+          _ambInit();
+        } else if(_actx.state==='suspended'){
+          _actx.resume().then(()=>{ _ambPlay(); });
+        } else {
+          _ambPlay();
+          _ambFade(0.35,0.5);
+        }
+      } else {
+        _aon=false;
+        _ambFade(0,0.5);
+      }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
 }

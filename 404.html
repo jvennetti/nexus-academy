@@ -71,10 +71,19 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
   </div>
 
-  <a href="hub-joshua.html" class="hub-btn">← Return to Hub</a>
+  <a href="hub-joshua.html" id="hub-link" class="hub-btn">← Return to Hub</a>
 </div>
 
 <script>
+// Build absolute hub URL so relative link doesn't re-trigger 404 from any path depth
+(function(){
+  const op = localStorage.getItem('nexus_current_operator') || 'joshua';
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  const root = parts.length > 1 ? '/' + parts[0] + '/' : '/';
+  const link = document.getElementById('hub-link');
+  if(link) link.href = root + 'hub-' + op + '.html';
+})();
+
 const LINES = [
   { text: "This transmission doesn't exist.", pause: 700 },
   { text: "No signal at this address.", pause: 600 },

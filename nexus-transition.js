@@ -45,7 +45,8 @@
     var hasBg=false,anyPlaying=false;
     (window.__bgAudio||[]).forEach(function(a){ if(a){hasBg=true;if(!a.paused)anyPlaying=true;} });
     ['_ciroSong','_machineAmb'].forEach(function(k){ if(window[k]){hasBg=true;if(!window[k].paused)anyPlaying=true;} });
-    if(hasBg&&!anyPlaying) muBtn.style.display='block';
+    var isHub=/\bhub-[a-z]+\.html/i.test(window.location.href);
+    if(isHub&&hasBg&&!anyPlaying) muBtn.style.display='block';
   },900);
 
   // ── Fade in on page load (overlay starts black, fades to clear) ──
