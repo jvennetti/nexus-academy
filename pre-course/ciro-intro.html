@@ -681,9 +681,7 @@ const headRect    = document.getElementById('head-rect');
 const headGroup   = document.getElementById('ciro-head');
 
 let bootStarted   = false;
-
-// Background music
-(function(){var bg=new Audio('../audio/music/ciro-intro.mp3');bg.loop=true;bg.volume=0.3;bg.play().catch(function(){document.addEventListener('click',function h(){bg.play().catch(function(){});document.removeEventListener('click',h);});});(window.__bgAudio=window.__bgAudio||[]).push(bg);})();
+let bg            = null;
 
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
@@ -835,6 +833,10 @@ async function bootCiro(){
   if(bootStarted) return;
   bootStarted = true;
   playS(pickPower(), 0.1);
+  bg = new Audio('../audio/music/ciro-intro.mp3');
+  bg.loop = true; bg.volume = 0.3;
+  bg.play().catch(function(){});
+  (window.__bgAudio = window.__bgAudio || []).push(bg);
 
   // hide power button
   powerBtn.classList.add('hidden');
@@ -935,7 +937,6 @@ async function runDialogue(){
   playS('../audio/sfx/short-success.wav', 0.1);
   headTurn(-8, 400);
   await wait(400);
-  playS('../audio/sfx/short-success.wav', 0.1);
   headTurn(0, 300);
 
   let l4 = addLine('yellow');
@@ -1016,7 +1017,6 @@ async function runDialogue(){
   playS('../audio/sfx/short-success.wav', 0.1);
   headTurn(10, 350);
   await wait(350);
-  playS('../audio/sfx/short-success.wav', 0.1);
   headTurn(0, 300);
 
   let l10 = addLine('yellow');
@@ -1033,7 +1033,7 @@ async function runDialogue(){
   await wait(200);
   pageTintColor('clear', 0, 700);
 
-  playS('../audio/sfx/robot-error.wav', 0.1);
+  playS('../audio/sfx/robot-error-x3.wav', 0.1);
   let l11 = addLine('red');
   await typeLine(l11, 'This is my last stable cycle.');
   await wait(1000);
@@ -1099,7 +1099,6 @@ async function launchNexus(){
   playS('../audio/sfx/short-success.wav', 0.1);
   headTurn(-6, 300);
   await wait(300);
-  playS('../audio/sfx/short-success.wav', 0.1);
   headTurn(0, 250);
 
   // clear lines, start Page B content
