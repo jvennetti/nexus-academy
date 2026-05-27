@@ -212,7 +212,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePopup({ targ
   let lineIdx = 0, charIdx = 0, text = '';
 
   function typeLine(){
-    if(lineIdx >= CIRO_LINES.length){ el.innerHTML = text + '<span class="ciro-cursor"></span>'; return; }
+    if(lineIdx >= CIRO_LINES.length){ el.innerHTML = text; return; }
     const line = CIRO_LINES[lineIdx];
     if(charIdx < line.text.length){
       text += line.text[charIdx++];
@@ -224,7 +224,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePopup({ targ
         text += ' ';
         setTimeout(typeLine, line.pauseAfter || 400);
       } else {
-        el.innerHTML = text + '<span class="ciro-cursor"></span>';
+        el.innerHTML = text;
       }
     }
   }
