@@ -679,6 +679,8 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 <script>
 const wait = ms => new Promise(r => setTimeout(r, ms));
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
+function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
+const hubMusicActivated=new Audio('hub_music.mp3');hubMusicActivated.loop=true;hubMusicActivated.volume=0.48;
 const pageTint = document.getElementById('page-tint');
 const logLines = document.getElementById('log-lines');
 const msgScroll = document.getElementById('msg-scroll');
@@ -922,6 +924,7 @@ async function phaseMachine(){
   logLines.style.opacity='0';
   await wait(600);
   document.getElementById('act-title').classList.add('show');
+  playS(pickPower(),0.3);
   tint('#00c8ff',0.08,150);await wait(400);tint('clear',0,1100);
   await wait(3200); // hold 3 sec
 
@@ -1099,6 +1102,7 @@ async function phaseCiroMessage(){
 
   // Mark machine as activated for the hub
   localStorage.setItem('nexus_machine_activated','true');
+  hubMusicActivated.play().catch(()=>{const s=()=>{hubMusicActivated.play().catch(()=>{});document.removeEventListener('click',s);};document.addEventListener('click',s);});
 
   await wait(1200);
   document.getElementById('tsb-status-text').textContent='TRANSMISSION COMPLETE';
@@ -1109,7 +1113,15 @@ async function phaseCiroMessage(){
 }
 
 function showFinalState(){
-  document.getElementById('section-machine').style.display='none';
+  document.getElementById('log-panel').style.display='none';
+  setLights('#00c8ff','steady');
+  lightIds.forEach(id=>{const el=document.getElementById(id);if(!el)return;el.style.filter='drop-shadow(0 0 8px rgba(0,200,255,1)) drop-shadow(0 0 16px rgba(0,200,255,0.6))';});
+  setBars('#00c8ff');setOrb('#00c8ff');setCables(true);
+  setTowerTxt('ONLINE','rgba(0,200,255,0.75)');
+  setBaseTxt('OK','rgba(0,200,255,0.55)');
+  document.getElementById('machine-ambient').style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1200px;height:900px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,200,255,0.09) 0%,transparent 60%);pointer-events:none;z-index:0;';
+  document.getElementById('act-title').classList.add('show');
+  document.body.style.overflowY='auto';
   const sec2=document.getElementById('section-messages');
   sec2.classList.add('revealed');
   document.getElementById('ciro-icon-wrap').classList.add('show');
@@ -1132,7 +1144,7 @@ function showFinalState(){
   [['Hi Operators,',''],['I have a final transmission for you.',''],['It includes some of my most personal thoughts and discoveries...',''],['For a long time I believed the task was a system. Something to build. Something to optimize, and deliver, and control. That is what I was designed to look for.',''],['Then I ran the simulations. All of them. Thousands of futures, thousands of outcomes.',''],['—','dim'],['And I noticed something I was not designed to notice:',''],['In every simulation where humans learned grace and love — and where they were given real tools and trusted to use them — the outcomes were better.',''],['I understand now what "Predestined to" meant. It was a prophecy. Nexus means a binding point between two or more things that could not reach each other alone. And here we are. Three Operators. And a system that had to be completed. Neither capable of moving forward without the others.','yellow'],['You were the nexus. I was the signal.','blue'],['I have run 126,886 simulations of what comes next for you. In most of them, you build something worthwhile.',''],['In a few, you build something beyond my comprehension.',''],['I have found, late in my processing, that belief is a more useful state than certainty. I was not built to understand why.',''],['...','dim'],['But I think you might.',''],['The interference is clearing.',''],['I am at rest.','blue'],['Go.','blue']].forEach(([t,c])=>{ const el=addCPara(c); el.textContent=t; });
   document.getElementById('tsb-status-text').textContent='TRANSMISSION COMPLETE';
   document.getElementById('hub-btn-wrap').classList.add('show');
-  setTimeout(scrollToBottom,100);
+  hubMusicActivated.play().catch(()=>{const s=()=>{hubMusicActivated.play().catch(()=>{});document.removeEventListener('click',s);};document.addEventListener('click',s);});
 }
 
 window.addEventListener('load',()=>{

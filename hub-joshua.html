@@ -96,7 +96,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .machine-container{width:100%;border-radius:10px;border:1px solid rgba(0,200,255,0.12);background:var(--panel2);overflow:hidden;position:relative;padding:32px 20px 28px;display:flex;flex-direction:column;align-items:center}
 .machine-title{font-family:'Orbitron',sans-serif;font-size:44px;font-weight:900;letter-spacing:0.1em;color:var(--white);text-transform:uppercase;margin-bottom:14px;z-index:2;position:relative;text-align:center;line-height:1}
 .machine-container::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 4px,rgba(0,200,255,0.015) 4px,rgba(0,200,255,0.015) 5px);pointer-events:none;z-index:1;border-radius:10px}
-.machine-svg-wrap{position:relative;z-index:2}
+.machine-svg-wrap{position:relative;z-index:2;width:100%}
 .machine-activate{text-align:center;margin-top:10px;z-index:2;position:relative}
 .activate-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#ff5555;background:rgba(200,0,0,0.1);border:1px solid rgba(220,40,40,0.45);border-radius:4px;padding:14px 44px;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.3s,box-shadow 0.3s,border-color 0.3s;pointer-events:auto;animation:restore-pulse 2.2s ease-in-out infinite}
 .activate-btn:hover{background:rgba(200,0,0,0.2);border-color:rgba(255,60,60,0.75);box-shadow:0 0 32px rgba(210,0,0,0.55),0 0 56px rgba(210,0,0,0.2);animation:none;transform:translateY(-1px)}
@@ -223,7 +223,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="machine-container error-state" id="machine-container">
       <div class="machine-title">The Machine</div>
       <div class="machine-svg-wrap">
-        <svg id="machine-svg" viewBox="0 0 940 340" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:100%">
+        <svg id="machine-svg" viewBox="0 0 940 340" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto">
           <defs>
             <radialGradient id="cgR" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff3333" stop-opacity="0.85"/><stop offset="55%" stop-color="#880000" stop-opacity="0.35"/><stop offset="100%" stop-color="#ff3333" stop-opacity="0"/></radialGradient>
             <radialGradient id="cgB" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00c8ff" stop-opacity="0.9"/><stop offset="55%" stop-color="#006688" stop-opacity="0.35"/><stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/></radialGradient>
@@ -324,7 +324,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine-input.html" class="activate-btn" id="activate-btn" onclick="playS(pickPower(),0.3)">RESTORE</a>
+        <a href="machine-input.html" class="activate-btn" id="activate-btn" onclick="playS(pickPower(),0.1)">RESTORE</a>
       </div>
     </div>
   </div>
@@ -478,7 +478,7 @@ function renderModules(s){
       <div class="card-status ${isAccessible?'unlocked-tag':'locked-tag'}">${isComplete?'COMPLETE':isAccessible?'UNLOCKED':'LOCKED'}</div>`;
     if(isAccessible) card.addEventListener('click', ()=>{
       const sfxFile=pickPower();
-      playS(sfxFile,0.15);
+      playS(sfxFile,0.1);
       localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
       setTimeout(()=>{ window.location.href = m.url; },60);
     });
@@ -496,7 +496,7 @@ function renderModules(s){
     <div class="card-status unlocked-tag">OPEN ACCESS</div>`;
   bv.addEventListener('click', ()=>{
     const sfxFile=pickPower();
-    playS(sfxFile,0.3);
+    playS(sfxFile,0.1);
     localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
     setTimeout(()=>{ window.location.href = 'bonus-vault.html'; },60);
   });
@@ -621,7 +621,7 @@ function unlockBadge(key){
 function flashBadge(key){
   const el = document.getElementById('badge-'+key);
   if(el){ el.classList.add('just-unlocked'); setTimeout(()=>el.classList.remove('just-unlocked'), 600); }
-  playS('wait_sound_3_seconds.wav',0.2);
+  playS('wait_sound_3_seconds.wav',0.1);
 }
 
 function showFlash(msg){
@@ -751,7 +751,7 @@ if(IS_FIRST_OPEN){
 }
 render();
 if(IS_FIRST_OPEN) runHubBoot();
-const machineAmbientSrc='machine_input_page_music.wav';
+const machineAmbientSrc=localStorage.getItem('nexus_machine_activated')?'':'machine_input_page_music.wav';
 if(machineAmbientSrc){
   let ambAudio=null,ambFadeIn=null,ambFadeOut=null;
   function fadeAudio(a,toVol,ms){if(!a)return;const steps=30,delta=(toVol-a.volume)/steps,iv=ms/steps;let s=0;clearInterval(ambFadeIn);clearInterval(ambFadeOut);const t=setInterval(()=>{a.volume=Math.max(0,Math.min(1,a.volume+delta));if(++s>=steps)clearInterval(t);},iv);}
