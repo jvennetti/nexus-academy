@@ -932,8 +932,10 @@ async function runDialogue(){
   // amber wash on entire page
   await flashTint('#ffcc00', 0.04, 200, 1200);
 
+  playS('../short_success_1_second.wav', 0.1);
   headTurn(-8, 400);
   await wait(400);
+  playS('../short_success_1_second.wav', 0.1);
   headTurn(0, 300);
 
   let l4 = addLine('yellow');
@@ -1011,8 +1013,10 @@ async function runDialogue(){
 
   await flashTint('#ffcc00', 0.05, 300, 800);
 
+  playS('../short_success_1_second.wav', 0.1);
   headTurn(10, 350);
   await wait(350);
+  playS('../short_success_1_second.wav', 0.1);
   headTurn(0, 300);
 
   let l10 = addLine('yellow');
@@ -1029,6 +1033,7 @@ async function runDialogue(){
   await wait(200);
   pageTintColor('clear', 0, 700);
 
+  playS('../robot_error_1_second.wav', 0.1);
   let l11 = addLine('red');
   await typeLine(l11, 'This is my last stable cycle.');
   await wait(1000);
@@ -1091,8 +1096,10 @@ async function launchNexus(){
   await wait(600);
 
   // head nod of recognition
+  playS('../short_success_1_second.wav', 0.1);
   headTurn(-6, 300);
   await wait(300);
+  playS('../short_success_1_second.wav', 0.1);
   headTurn(0, 250);
 
   // clear lines, start Page B content
@@ -1136,10 +1143,8 @@ async function launchNexus(){
   await wait(600);
   beginBtn.classList.add('visible');
 
-  // auto-navigate after a short delay — button is also clickable as fallback
-  await wait(3200);
-  enterHub();
 }
+
 
 function enterHub(){
   localStorage.setItem('nexus_intro_seen','true');

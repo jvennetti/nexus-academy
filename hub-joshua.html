@@ -322,7 +322,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine-input.html" class="activate-btn" id="activate-btn" onclick="playS(pickPower(),0.1)">RESTORE</a>
+        <a href="machine-input.html" class="activate-btn" id="activate-btn" data-no-transit onclick="machineRestoreTransit(event)">RESTORE</a>
       </div>
     </div>
   </div>
@@ -595,6 +595,8 @@ function activateMachineVisuals(){
 
   const btn=document.getElementById('activate-btn');
   if(btn){
+    btn.removeAttribute('data-no-transit');
+    btn.setAttribute('onclick','playS(pickPower(),0.1)');
     btn.textContent='ACTIVATED';
     btn.href='machine-activated.html';
     btn.style.color='#00c8ff';
@@ -604,6 +606,47 @@ function activateMachineVisuals(){
     btn.style.animation='none';
     btn.style.textShadow='0 0 8px rgba(0,200,255,0.6)';
   }
+}
+
+function machineRestoreTransit(e){
+  e.preventDefault();
+  // Fade hub music out
+  (window.__bgAudio||[]).forEach(function(a){
+    if(a && !a.paused){
+      var steps=20,orig=a.volume;
+      var iv=setInterval(function(){ a.volume=Math.max(0,a.volume-orig/steps); if(a.volume<=0){clearInterval(iv);a.pause();} },25);
+    }
+  });
+  playS('decrypting_noise_17_seconds.wav', 0.1);
+  const ov=document.getElementById('nx-overlay');
+  const fill=document.getElementById('nx-fill');
+  const pct=document.getElementById('nx-pct');
+  const status=document.getElementById('nx-status');
+  fill.style.background='#ff4422';
+  fill.style.boxShadow='0 0 8px rgba(255,68,34,0.9),0 0 18px rgba(255,68,34,0.4)';
+  pct.style.color='rgba(255,100,60,0.55)';
+  status.style.color='rgba(255,100,60,0.38)';
+  ov.classList.remove('gone');
+  ov.classList.add('blocking');
+  fill.style.width='0%';
+  pct.textContent='0%';
+  status.textContent='DECRYPTING';
+  const kfs=[[0,0],[8,800],[18,1800],[19,2600],[45,3500],[80,4500],[100,5000]];
+  const labels=['DECRYPTING','ACCESSING CORE','INITIALIZING'];
+  let start=null,kfi=0;
+  function tick(ts){
+    if(!start) start=ts;
+    const el=ts-start;
+    status.textContent=labels[Math.min(Math.floor(el/1667),labels.length-1)];
+    while(kfi<kfs.length-1&&el>=kfs[kfi+1][1]) kfi++;
+    const c=kfs[kfi],n=kfs[Math.min(kfi+1,kfs.length-1)];
+    const p=c===n?c[0]:c[0]+(n[0]-c[0])*Math.min(1,(el-c[1])/(n[1]-c[1]));
+    fill.style.width=p.toFixed(1)+'%';
+    pct.textContent=Math.round(p)+'%';
+    if(el<5000) requestAnimationFrame(tick);
+    else{ fill.style.width='100%';pct.textContent='100%';setTimeout(function(){window.location.href='machine-input.html';},120); }
+  }
+  requestAnimationFrame(tick);
 }
 
 function unlockModule(key){
@@ -697,6 +740,7 @@ async function runHubBoot(){
   const modulesSec   = document.querySelector('.modules-section');
   const achievSec    = document.querySelector('.achievements-section');
   const machineSec   = document.querySelector('.machine-section');
+  const continueSec  = document.getElementById('continue-section');
   const tagLine      = document.querySelector('.ciro-tag-line');
   const ciroTextEl   = document.getElementById('ciro-text');
 
@@ -723,8 +767,13 @@ async function runHubBoot(){
   await wait(500);
 
   // Phase 4: progress
+  playS(pickPower(), 0.1);
   progressSec.classList.remove('hub-boot-hide');
   progressSec.classList.add('hub-boot-in');
+  if(continueSec && continueSec.style.display !== 'none'){
+    continueSec.classList.remove('hub-boot-hide');
+    continueSec.classList.add('hub-boot-in');
+  }
   await wait(650);
 
   // Phase 5: modules + per-card stagger
@@ -754,7 +803,7 @@ async function runHubBoot(){
 
 const IS_FIRST_OPEN = !localStorage.getItem('nexus_hub_visited');
 if(IS_FIRST_OPEN){
-  ['.ciro-widget','.progress-section','.modules-section','.achievements-section','.machine-section']
+  ['.ciro-widget','#continue-section','.progress-section','.modules-section','.achievements-section','.machine-section']
     .forEach(sel => { const el = document.querySelector(sel); if(el) el.classList.add('hub-boot-hide'); });
 }
 render();
