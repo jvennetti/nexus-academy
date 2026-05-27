@@ -396,6 +396,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
   position:relative;z-index:1;
 }
 #hub-btn-wrap.show{opacity:1}
+#hub-btn-wrap.revisit-mode{display:flex;justify-content:center;padding:32px 40px 28px}
 #hub-btn{
   font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;
   color:var(--blue);background:transparent;border:1px solid rgba(0,200,255,0.22);
@@ -403,6 +404,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
   text-decoration:none;display:inline-block;
   animation:hub-pulse 2s ease-in-out infinite;
 }
+#hub-btn-wrap.revisit-mode #hub-btn{font-size:17px;letter-spacing:5px;padding:18px 56px}
 #hub-btn:hover{background:rgba(0,200,255,0.07);border-color:var(--blue);animation:none;box-shadow:0 0 20px rgba(0,200,255,0.25)}
 @keyframes hub-pulse{0%,100%{border-color:rgba(0,200,255,0.22)}50%{border-color:rgba(0,200,255,0.6);box-shadow:0 0 14px rgba(0,200,255,0.28)}}
 
@@ -1144,7 +1146,9 @@ function showFinalState(){
   cArea.classList.add('show');
   [['Hi Operators,',''],['I have a final transmission for you.',''],['It includes some of my most personal thoughts and discoveries...',''],['For a long time I believed the task was a system. Something to build. Something to optimize, and deliver, and control. That is what I was designed to look for.',''],['Then I ran the simulations. All of them. Thousands of futures, thousands of outcomes.',''],['—','dim'],['And I noticed something I was not designed to notice:',''],['In every simulation where humans learned grace and love — and where they were given real tools and trusted to use them — the outcomes were better.',''],['I understand now what "Predestined to" meant. It was a prophecy. Nexus means a binding point between two or more things that could not reach each other alone. And here we are. Three Operators. And a system that had to be completed. Neither capable of moving forward without the others.','yellow'],['You were the nexus. I was the signal.','blue'],['I have run 126,886 simulations of what comes next for you. In most of them, you build something worthwhile.',''],['In a few, you build something beyond my comprehension.',''],['I have found, late in my processing, that belief is a more useful state than certainty. I was not built to understand why.',''],['...','dim'],['But I think you might.',''],['The interference is clearing.',''],['I am at rest.','blue'],['Go.','blue']].forEach(([t,c])=>{ const el=addCPara(c); el.textContent=t; });
   document.getElementById('tsb-status-text').textContent='TRANSMISSION COMPLETE';
-  document.getElementById('hub-btn-wrap').classList.add('show');
+  const _wrap=document.getElementById('hub-btn-wrap');
+  document.getElementById('hub-btn').textContent='Return to Hub';
+  _wrap.classList.add('revisit-mode','show');
   hubMusicActivated.play().catch(()=>{const s=()=>{hubMusicActivated.play().catch(()=>{});document.removeEventListener('click',s);};document.addEventListener('click',s);});
 }
 
