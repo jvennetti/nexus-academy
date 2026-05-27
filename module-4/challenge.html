@@ -23,7 +23,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .nav-back:hover{color:var(--blue);border-color:var(--blue-border)}
 .banner{width:100%;height:420px;position:relative;overflow:hidden;background:#0d1628}
 .banner-img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;filter:brightness(0.72)}
-.banner-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,var(--bg) 100%)}
+.banner-overlay{position:absolute;inset:0;background:linear-gradient(to bottom, transparent 30%, var(--bg) 100%)}
 .banner-label{position:absolute;bottom:44px;left:0;right:0;text-align:center}
 .banner-title{font-family:'Orbitron',sans-serif;font-size:36px;font-weight:900;letter-spacing:3px;color:var(--white);text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,0.7)}
 .browser-shell{width:1280px;margin:0 auto}
@@ -33,8 +33,8 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .body-copy p+p{margin-top:14px}
 .body-copy strong{font-weight:500;color:var(--offwhite)}
 .scenario-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
-.setup-strip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px 40px;margin-bottom:36px}
-.setup-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.setup-strip{background:var(--box);border:1px solid var(--border);border-left:3px solid rgba(0,200,255,0.5);border-radius:0 6px 6px 0;padding:22px 28px;margin-bottom:36px}
+.setup-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
 .challenge-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
 .challenge-title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:28px;text-align:center}
 .step-list{list-style:none;display:flex;flex-direction:column;gap:20px}
@@ -42,12 +42,14 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--blue-border);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--blue);margin-top:2px}
 .step-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.75;color:var(--body-text)}
 .step-text strong{font-weight:500;color:var(--offwhite)}
+.step-text ul{margin:10px 0 4px 18px;display:flex;flex-direction:column;gap:6px}
+.step-text em{color:var(--muted);font-style:italic}
 .deliverable-box{background:var(--bg);border:1px solid var(--blue-border);border-radius:8px;padding:32px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .deliverable-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text)}
-.extension-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:28px 36px;margin-bottom:36px}
-.extension-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.extension-text{font-family:'Lexend',sans-serif;font-size:14px;font-weight:300;line-height:1.8;color:var(--body-text)}
+.deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text);text-align:left}
+.deliverable-text ul{margin:10px 0 4px 18px;display:flex;flex-direction:column;gap:6px}
+.extension-box{background:var(--box);border:1px solid var(--border);border-radius:8px;padding:28px 40px;margin-bottom:36px}
+.extension-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.8;color:var(--muted);text-align:left}
 .integration-note{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-left:2px solid rgba(0,200,255,0.3);border-radius:0 6px 6px 0;padding:20px 26px;margin-bottom:48px}
 .integration-text{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)}
 .integration-text strong{font-weight:500;color:var(--body-text)}
@@ -61,6 +63,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .nav-btn:hover{border-color:var(--blue-border);background:var(--blue-dim)}
 .nav-dir{font-family:'Lexend',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 .nav-name{font-family:'Lexend',sans-serif;font-size:14px;font-weight:500;color:var(--white);line-height:1.4}
+.prompt-block{background:#060e1a;border:1px solid var(--border);border-radius:6px;padding:16px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.75;color:#a8c8e0;margin:12px 0}
 </style>
 </head>
 <body>
@@ -85,14 +88,14 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <div class="scenario-box">
     <div class="section-title">Real-World Scenario</div>
     <div class="body-copy">
-      <p>ClearView Advisory is a boutique consulting firm. Their team is producing client deliverables manually — proposal documents, research briefs, presentation decks. Every engagement starts from scratch: the same structure, the same research process, the same formatting work. The partner leading the engagement estimates they spend 6–8 hours per proposal that should take 90 minutes. They've asked you to build a system that changes that.</p>
+      <p>Module 4 drew a clear line between automations and agents. You know what that line is now. This challenge asks you to build an end-to-end professional services workflow — from brief to research to client-ready document — and automate at least one step in the chain so it runs without you. You're building for a fictional client. The output should look real enough to send to an actual one.</p>
     </div>
   </div>
 
   <div class="setup-strip">
-    <div class="setup-label">Before you build, create your environment</div>
+    <div class="setup-label">Step 1 — Generate your environment</div>
     <div class="body-copy">
-      <p>Open Claude and ask it to generate everything you need to run this scenario: a fictional ClearView client brief (company name, industry, engagement type, 3–5 key questions they want answered), a Skill document defining ClearView's voice, their proposal structure (executive summary, research findings, recommended approach, next steps), and a sample one-page research summary on that client's industry so you know what the output should look like. Save the Skill. You now have a real environment.</p>
+      <p>Open Claude and ask it to generate a complete working environment for a fictional boutique consulting firm called <strong>ClearView Advisory</strong>. Ask Claude to produce three clearly labeled documents: a one-page company brief (their services, typical client, voice and tone, and proposal structure — executive summary, research findings, recommended approach, next steps), a client engagement brief for a fictional healthcare staffing client who wants to understand how AI could reduce their administrative burden, and one sample research summary on the healthcare staffing industry. Save all three. The company brief becomes your Cowork Skill. The client brief is your task input. The sample research summary is your quality bar — every output you produce should clear this standard.</p>
     </div>
   </div>
 
@@ -101,35 +104,48 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
     <ol class="step-list">
       <li class="step-item">
         <div class="step-num">1</div>
-        <div class="step-text"><strong>Research brief</strong> — Use Claude's deep research mode to produce a structured research summary on the client's industry based on the brief. The output should be usable in a proposal without editing.</div>
+        <div class="step-text"><strong>Build your Skill.</strong> Create a Cowork Skill called "ClearView Advisory." Build it from the company brief: who they are, how they communicate, what their proposal structure looks like. Paste the sample summary in as a reference. Test in isolation first: ask Cowork to produce a one-paragraph executive summary for the healthcare staffing client using only the Skill and client brief as input. Refine until it sounds like ClearView, not Claude.</div>
       </li>
       <li class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text"><strong>Proposal document</strong> — Using Claude in Excel or PowerPoint (Lesson 4.8), build a client-ready proposal deck for ClearView based on your research. Apply the voice and structure from the Skill you created. The output should look like something you'd actually send to a client.</div>
+        <div class="step-text"><strong>The Research Brief.</strong> Inside a Claude Project with the ClearView Skill and client brief in the knowledge base, use Claude's deep research mode to produce a structured research brief on the healthcare staffing industry. It should directly answer: what are the biggest administrative pain points, where is AI currently being applied in this space, and what are the three highest-ROI opportunities for a firm their size. This document goes directly into your proposal — it should not need editing to be usable.</div>
       </li>
       <li class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text"><strong>Agent handoff</strong> — Set up a Cowork task or n8n workflow that automates at least one repeating step in this pipeline — either the research trigger, the document generation, or a follow-up task (such as drafting a follow-up email when the proposal is complete).</div>
+        <div class="step-text"><strong>The Proposal Document.</strong> Using Claude in PowerPoint or Word (as shown in Lesson 33), build a client-ready proposal applying the ClearView structure: executive summary, research findings, recommended approach, next steps. If Claude in PowerPoint isn't available, build it as a well-formatted Google Doc or Claude Artifact. The standard: it should look like something you would actually send to a client.</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Automate one step.</strong> Set up a Cowork task or Zapier workflow that automates one repeating step in this pipeline.
+          <ul>
+            <li>Option A: when you add a new client brief to a Google Sheet row, trigger a Cowork task that drafts the executive summary section automatically.</li>
+            <li>Option B: when the proposal is complete, trigger a task that drafts a follow-up email pulling the client's name, company, and engagement topic from the brief — and saves it as a draft in your own Gmail.</li>
+          </ul>
+          Either option should run with one trigger. Test it. The test run is part of the deliverable.
+        </div>
       </li>
     </ol>
   </div>
 
   <div class="deliverable-box">
     <div class="section-title">Your Deliverable</div>
-    <div class="deliverable-text">A proposal document that looks client-ready, produced in under 30 minutes of active work — plus at least one automated step that would run without your involvement on the next engagement.</div>
+    <div class="deliverable-text">
+      <ul>
+        <li>A ClearView Cowork Skill that produces on-brand output</li>
+        <li>A research brief from deep research mode that's usable without editing</li>
+        <li>A proposal document that passes the "would I actually send this?" test</li>
+        <li>One automated step that runs with a single trigger and produces output in your own tools</li>
+      </ul>
+    </div>
   </div>
 
   <div class="extension-box">
-    <div class="extension-label">Extension</div>
-    <div class="extension-text">Build a second agent that takes the completed proposal and drafts a personalized outreach email to the prospective client — pulling their name, company, and engagement focus from the brief — and stages it in Gmail via Zapier MCP, ready to send with one click.</div>
-  </div>
-
-  <div class="integration-note">
-    <div class="integration-text"><strong>Integration note:</strong> The pattern here — brief → research → document → outreach — is the same workflow that runs inside every professional services firm, law practice, and consulting engagement. The Operator who can compress this from a week to a morning is not competing on hours. They're competing on a different playing field entirely.</div>
+    <div class="section-title" style="font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:14px;text-align:left">Extension</div>
+    <div class="extension-text">Set up a complete Cowork task that takes a new client brief as input and produces all four proposal sections in sequence — executive summary, research, recommendations, next steps — using ClearView's voice throughout. Run it against the healthcare staffing brief. Time how long it takes from trigger to finished document.</div>
   </div>
 
   <div class="cta-row">
-    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <a href="complete.html" class="mark-complete-btn" onclick="markComplete()">Mark Complete</a>
     <div class="cta-sub">Routes to module completion</div>
   </div>
 
@@ -142,5 +158,16 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 
 </div>
 </div>
+
+<script>
+function markComplete() {
+  localStorage.setItem('nexus_module_4_complete', 'true');
+  fetch('https://nexus-academy.netlify.app/.netlify/functions/mark-complete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({folder: 'module-4'})
+  }).catch(function(){});
+}
+</script>
 </body>
 </html>

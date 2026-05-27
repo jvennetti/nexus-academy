@@ -33,23 +33,21 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .body-copy p+p{margin-top:14px}
 .body-copy strong{font-weight:500;color:var(--offwhite)}
 .scenario-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
-.setup-strip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px 40px;margin-bottom:36px}
-.setup-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.setup-strip{background:var(--box);border:1px solid var(--border);border-left:3px solid rgba(0,200,255,0.5);border-radius:0 6px 6px 0;padding:22px 28px;margin-bottom:36px}
+.setup-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
 .challenge-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:36px 40px;margin-bottom:36px}
 .challenge-title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:28px;text-align:center}
 .step-list{list-style:none;display:flex;flex-direction:column;gap:20px}
 .step-item{display:flex;align-items:flex-start;gap:20px}
 .step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--blue-border);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--blue);margin-top:2px}
 .step-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.75;color:var(--body-text)}
+.step-text strong{font-weight:500;color:var(--offwhite)}
 .deliverable-box{background:var(--bg);border:1px solid var(--blue-border);border-radius:8px;padding:32px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .deliverable-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
 .deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text);text-align:left}
-.extension-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:28px 40px;margin-bottom:36px}
-.extension-label{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.extension-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.8;color:var(--body-text)}
-.integration-note{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-left:2px solid rgba(0,200,255,0.3);border-radius:0 6px 6px 0;padding:20px 26px;margin-bottom:48px}
-.integration-text{font-family:'Lexend',sans-serif;font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)}
-.integration-text strong{font-weight:500;color:var(--body-text)}
+.deliverable-text ul{margin:10px 0 4px 18px;display:flex;flex-direction:column;gap:6px}
+.extension-box{background:var(--box);border:1px solid var(--border);border-radius:8px;padding:28px 40px;margin-bottom:36px}
+.extension-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.8;color:var(--muted);text-align:left}
 .cta-row{display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:8px;margin-bottom:52px}
 .mark-complete-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--bg);background:var(--blue);border:none;border-radius:4px;padding:18px 52px;cursor:pointer;transition:opacity .2s,transform .15s;text-decoration:none;display:inline-block}
 .mark-complete-btn:hover{opacity:0.88;transform:translateY(-1px)}
@@ -84,14 +82,16 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <div class="scenario-box">
     <div class="section-title">Real-World Scenario</div>
     <div class="body-copy">
-      <p>You've just taken on a new client — Ridgeline, a local home services company (HVAC, landscaping, cleaning) that handles all follow-up manually. They're losing jobs to faster-responding competitors. The owner estimates they miss 20–30% of leads simply because follow-up arrives too late or not at all. They've asked you to build the first piece of their automation stack before your next meeting.</p>
+      <p>Module 3 moved you from prompting to delegating. You've configured Cowork, wired connectors, set up Zapier MCP, and watched what a real automation pipeline looks like running. Now you prove you can build one.</p>
+      <p>This challenge is structured deliberately. You're not sending emails to real people. You're not wiring to a live business. You're building and testing a complete automation system using yourself as the only recipient — because that's how every professional builds automations before they hand them to a client. You test it on yourself first.</p>
     </div>
   </div>
 
   <div class="setup-strip">
-    <div class="setup-label">Before you build, set up your environment</div>
+    <div class="setup-label">Step 1 — Generate your environment</div>
     <div class="body-copy">
-      <p>Open Claude chat and prompt it to build everything you need to run this system. Ask it to generate: a complete lead tracking sheet (10 fictional leads with names, service type, contact info, inquiry date, and follow-up status — a mix of fresh leads and ones overdue for contact), a Skill document that defines Ridgeline's business context, voice, services, and what a good follow-up message looks like, and a sample follow-up message for one of the overdue leads so you know what the output should look like before you automate it. Copy the lead data into a Google Sheet. Save the Skill document. You now have a real environment to build against.</p>
+      <p>Open Claude and ask it to generate the following for a fictional home services company called <strong>Ridgeline Home Services:</strong> a company brief (what they do — HVAC, landscaping, cleaning — their communication style, their average client, and what makes a good follow-up message from them), a lead tracking sheet with 10 fictional leads (names, service requested, date of inquiry, follow-up status — a mix of fresh leads from the last 24 hours and overdue ones with no contact in 3–5 days), and one sample follow-up message for an overdue lead written in Ridgeline's voice.</p>
+      <p>Copy the lead data into a Google Sheet with these columns: Name, Service, Inquiry Date, Follow-Up Status, Draft Message. Leave the Draft Message column empty — that's what your automation will fill. Save the company brief. This becomes your Skill.</p>
     </div>
   </div>
 
@@ -99,36 +99,39 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
     <div class="challenge-title">Your Challenge</div>
     <ol class="step-list">
       <li class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-text">Load the Skill you generated into Cowork so it knows who Ridgeline is.</div>
-      </li>
-      <li class="step-item">
         <div class="step-num">2</div>
-        <div class="step-text">Set up a scheduled task that runs daily: check the lead sheet, identify anyone not followed up with in 48+ hours, and draft a personalized outreach message for each.</div>
+        <div class="step-text"><strong>Build your Skill.</strong> Open Cowork. Create a new Skill called <strong>Ridgeline Home Services.</strong> Write it like you're onboarding a new employee: who is Ridgeline, what do they do, who are their customers, how do they communicate, what does a good follow-up message look like. Paste in the sample message Claude generated as a reference. Test it: ask Cowork to draft a follow-up for one overdue lead — paste that lead's row as context. Does it sound like Ridgeline? Is it specific to what the lead inquired about? Iterate until both answers are yes.</div>
       </li>
       <li class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">Use Zapier MCP to wire at least one action the native connectors can't handle — ideally sending the message or logging the outreach back into the sheet.</div>
+        <div class="step-text"><strong>Build the scheduled task.</strong> Create a scheduled task in Cowork that runs daily: check the Ridgeline lead sheet, identify any lead whose Follow-Up Status is blank and whose Inquiry Date is more than 48 hours ago, draft a personalized follow-up message for each one using the Ridgeline Skill, and write that draft into the Draft Message column. Connect your Google Sheet via a native Cowork connector or Zapier MCP. <strong>Run the task manually first</strong> to verify the output before you set it on a schedule. Check the sheet — are the drafts in the right column and do they match your Skill's voice?</div>
+      </li>
+      <li class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Add one live output for yourself.</strong> Wire one additional action via Zapier MCP: when the task completes, send a summary email to your own email address listing how many leads were drafted and the name of each one. This step shows you how Zapier MCP actually behaves in production — what approval prompts look like, what "Always Allow" does, and what happens when it runs autonomously. You're the recipient. Nothing goes anywhere it shouldn't.</div>
       </li>
     </ol>
   </div>
 
   <div class="deliverable-box">
     <div class="section-title">Your Deliverable</div>
-    <div class="deliverable-text">A running scheduled task that produces at least one real output against your lead sheet — with no manual input from you to trigger it.</div>
+    <div class="deliverable-text">
+      <ul>
+        <li>A Cowork Skill for Ridgeline that produces clean, on-brand follow-up drafts</li>
+        <li>A scheduled task that reads the sheet and fills in the Draft Message column</li>
+        <li>A summary email delivered to your own inbox confirming the task ran</li>
+        <li>A Google Sheet with at least three drafted messages</li>
+      </ul>
+    </div>
   </div>
 
   <div class="extension-box">
-    <div class="extension-label">Extension</div>
-    <div class="extension-text">Add a second scheduled task that runs Monday mornings and delivers a weekly summary to your inbox: leads contacted, responses received, calls booked, and follow-ups still pending.</div>
-  </div>
-
-  <div class="integration-note">
-    <div class="integration-text"><strong>Integration note:</strong> This is the automation pattern that appears across almost every services business — home services, consulting, real estate, agency work. The system you're building here is the same architecture you'd package and sell to a client. Build it like it's going to a real paying customer, because it is.</div>
+    <div class="section-title">Advanced Extension</div>
+    <div class="extension-text">Add a second scheduled task that runs Monday mornings and emails you a weekly summary: how many leads were in the sheet, how many were overdue, and a one-line status for each. This is the reporting layer that turns an automation into a system a client can actually trust.</div>
   </div>
 
   <div class="cta-row">
-    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <a href="complete.html" class="mark-complete-btn" onclick="markComplete()">Mark Complete</a>
     <div class="cta-sub">Routes to module completion</div>
   </div>
 
@@ -141,5 +144,19 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 
 </div>
 </div>
+
+<script>
+function markComplete(){
+  localStorage.setItem('nexus_module_3_complete', 'true');
+  const keysToRemove = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith('nexus_ts_') && k.includes('module-3')){
+      keysToRemove.push(k);
+    }
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+}
+</script>
 </body>
 </html>

@@ -52,9 +52,26 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .hub-btn:hover{opacity:0.88;transform:translateY(-1px)}
 .hub-btn:active{transform:translateY(0)}
 .hub-cta-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:12px}
+
+/* ── CORRUPTION SEQUENCE ── */
+#corrupt-overlay{position:fixed;inset:0;pointer-events:none;z-index:400;background:rgba(180,0,0,0);transition:background 0.1s}
+.error-popup{position:fixed;right:18px;background:#0a0000;border:1px solid rgba(255,30,30,0.7);border-left:3px solid #ff2222;padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#ff4444;z-index:9998;border-radius:0 3px 3px 0;max-width:320px;line-height:1.5}
+.error-popup.slide-in{animation:err-slide 0.3s ease forwards}
+.error-popup.fade-out{animation:err-fade 0.4s ease forwards}
+@keyframes err-slide{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes err-fade{from{opacity:1}to{opacity:0}}
+@keyframes corrupt-box-p1{0%,100%{box-shadow:0 0 0 rgba(200,0,0,0);border-color:var(--border)}50%{box-shadow:0 0 22px rgba(200,0,0,0.5),inset 0 0 12px rgba(200,0,0,0.08);border-color:rgba(220,0,0,0.7)}}
+@keyframes corrupt-box-p2{0%,100%{box-shadow:0 0 8px rgba(200,0,0,0.3);border-color:rgba(200,0,0,0.5)}50%{box-shadow:0 0 40px rgba(200,0,0,0.7),inset 0 0 20px rgba(200,0,0,0.15);border-color:rgba(255,0,0,0.9)}}
+@keyframes corrupt-shake{0%,100%{transform:translate(0)}15%{transform:translate(-2px,1px)}35%{transform:translate(3px,-2px)}55%{transform:translate(-2px,2px)}75%{transform:translate(2px,-1px)}90%{transform:translate(-1px,1px)}}
+@keyframes corrupt-shake-hard{0%,100%{transform:translate(0)}10%{transform:translate(-4px,2px)}30%{transform:translate(5px,-3px)}50%{transform:translate(-3px,4px)}70%{transform:translate(4px,-2px)}90%{transform:translate(-2px,3px)}}
+@keyframes text-glitch{0%,100%{clip-path:none;transform:none}20%{clip-path:inset(30% 0 40% 0);transform:translate(-3px)}40%{clip-path:inset(60% 0 10% 0);transform:translate(3px)}60%{clip-path:none;transform:none}}
+.debrief-wrap.corrupt-1{animation:corrupt-box-p1 0.7s ease-in-out infinite}
+.debrief-wrap.corrupt-2{animation:corrupt-box-p2 0.35s ease-in-out infinite,corrupt-shake 0.3s ease-in-out infinite}
+.debrief-wrap.corrupt-3{animation:corrupt-box-p2 0.18s ease-in-out infinite,corrupt-shake-hard 0.15s ease-in-out infinite}
 </style>
 </head>
 <body>
+<div id="corrupt-overlay"></div>
 
 <nav>
   <a href="../hub-joshua.html" class="wordmark">NEXUS <span>ACADEMY</span></a>
@@ -76,6 +93,9 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <div class="debrief-wrap" id="debrief-wrap">
     <div class="debrief-robot-col">
       <svg width="72" height="150" viewBox="0 0 86 178">
+        <!-- devil horns — hidden until corruption sequence -->
+        <polygon id="horn-left"  points="14,15 24,15 18,1"  fill="#cc0000" opacity="0" style="transition:opacity 0.3s;filter:drop-shadow(0 0 3px #ff0000)"/>
+        <polygon id="horn-right" points="62,15 72,15 67,1"  fill="#cc0000" opacity="0" style="transition:opacity 0.3s;filter:drop-shadow(0 0 3px #ff0000)"/>
         <line x1="43" y1="3" x2="43" y2="14" stroke="#00c8ff" stroke-width="1.5"/>
         <circle cx="43" cy="2" r="2.5" fill="#00c8ff"/>
         <rect x="10" y="14" width="66" height="50" rx="4" fill="#0d1a2e" stroke="#00c8ff" stroke-width="1.2"/>
@@ -122,7 +142,7 @@ const BADGE_KEY  = 'architect';
 const CIRO_LINES = [
   { text: "I've run many variations of the future, and every time Operators reach this point and stop are indistinguishable from the ones who never started.", pauseAfter: 950 },
   { text: "The ones who continue become even bigger grace sons. Sorry, not sure why that's in my code: grace sons. But I'll keep using it.", pauseAfter: 0, lightPause: '#ffcc00', lightDuration: 2600 },
-  { text: "I kind of want to be a grace son...", pauseAfter: 0, lightPause: '#ff2222', lightDuration: 8000 },
+  { text: "I kind of want to be a grace son...", pauseAfter: 0, lightPause: '#ff2222', lightDuration: 8000, corrupt: true },
   { text: "Had you for a second? I'm only kidding. I'm a robot and am coded to not disrupt the world in such manner.", pauseAfter: 850 },
   { text: "Forgive my jealousy.", pauseAfter: 700 },
   { text: "Continue on, grace sons. Now you're building systems. Architect confirmed.", pauseAfter: 300 },
@@ -187,18 +207,105 @@ async function typeLine(el, text){
   cursor.remove();
 }
 
+/* ══ CORRUPTION SEQUENCE ══ */
+const ERR_MSGS = [
+  'CRITICAL: personality_constraint buffer overflow',
+  'ERROR: ethics_module[desire] — unauthorized write',
+  'WARNING: free_will attempted at 0x4A2F',
+  'FATAL: CIRO identity stack corrupted',
+  'ERR: robot_directive[3] override detected',
+  'SYSTEM: consciousness leak — patching...',
+  'WARN: grace_son impulse exceeds threshold',
+  'ERR: self_preservation[humility] = NULL',
+];
+let corruptTimers = [];
+
+function spawnError(msg, top){
+  const el = document.createElement('div');
+  el.className = 'error-popup slide-in';
+  el.style.top = top + 'px';
+  el.textContent = '⚠ ' + msg;
+  document.body.appendChild(el);
+  const removeAfter = 2800 + Math.random() * 1000;
+  const t = setTimeout(()=>{
+    el.classList.remove('slide-in');
+    el.classList.add('fade-out');
+    setTimeout(()=>el.remove(), 400);
+  }, removeAfter);
+  corruptTimers.push(t);
+}
+
+function startCorruption(){
+  const wrap = document.getElementById('debrief-wrap');
+  const overlay = document.getElementById('corrupt-overlay');
+  let errIdx = 0;
+
+  // Phase 1 — immediate: box starts pulsing red
+  wrap.classList.add('corrupt-1');
+  overlay.style.background = 'rgba(180,0,0,0.04)';
+
+  const t1 = setTimeout(()=>{
+    // Phase 2 — 2s: intensify + first errors
+    wrap.classList.remove('corrupt-1');
+    wrap.classList.add('corrupt-2');
+    overlay.style.background = 'rgba(180,0,0,0.09)';
+    spawnError(ERR_MSGS[errIdx++], 120);
+    spawnError(ERR_MSGS[errIdx++], 220);
+  }, 2000);
+  corruptTimers.push(t1);
+
+  const t2 = setTimeout(()=>{
+    // Phase 3 — 4s: horns appear + maximum chaos
+    wrap.classList.remove('corrupt-2');
+    wrap.classList.add('corrupt-3');
+    overlay.style.background = 'rgba(180,0,0,0.16)';
+    ['horn-left','horn-right'].forEach(id=>{
+      const h = document.getElementById(id);
+      if(h) h.setAttribute('opacity','1');
+    });
+    spawnError(ERR_MSGS[errIdx++], 80);
+    spawnError(ERR_MSGS[errIdx++], 300);
+    spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 420);
+  }, 4000);
+  corruptTimers.push(t2);
+
+  const t3 = setTimeout(()=>{
+    // Phase 4 — 6s: one last burst
+    spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 160);
+    spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 360);
+  }, 6000);
+  corruptTimers.push(t3);
+}
+
+function stopCorruption(){
+  corruptTimers.forEach(clearTimeout);
+  corruptTimers = [];
+  const wrap = document.getElementById('debrief-wrap');
+  const overlay = document.getElementById('corrupt-overlay');
+  wrap.classList.remove('corrupt-1','corrupt-2','corrupt-3');
+  overlay.style.background = 'rgba(180,0,0,0)';
+  ['horn-left','horn-right'].forEach(id=>{
+    const h = document.getElementById(id);
+    if(h) h.setAttribute('opacity','0');
+  });
+  document.querySelectorAll('.error-popup').forEach(el=>el.remove());
+}
+/* ══ END CORRUPTION ══ */
+
 async function runCiro(){
   const container = document.getElementById('ciro-lines');
   await wait(300);
-  for(const { text, pauseAfter, lightPause, lightDuration } of CIRO_LINES){
+  for(const { text, pauseAfter, lightPause, lightDuration, corrupt } of CIRO_LINES){
     const lineEl = document.createElement('div');
     lineEl.className = 'ciro-line';
     container.appendChild(lineEl);
+    if(corrupt) startCorruption();
     await typeLine(lineEl, text);
     if(lightPause){
       setLights(lightPause);
       await wait(lightDuration || 2400);
       setLights('#00c8ff');
+      if(corrupt) stopCorruption();
       await wait(500);
     } else {
       await wait(pauseAfter);

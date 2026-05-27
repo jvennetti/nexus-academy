@@ -1,0 +1,22 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/"
+  to = "/hub-joshua.html"
+  status = 302
+
+[[redirects]]
+  from = "/joshua"
+  to = "/hub-joshua.html"
+  status = 200
+
+[[redirects]]
+  from = "/connor"
+  to = "/hub-connor.html"
+  status = 200
+
+[[redirects]]
+  from = "/allen"
+  to = "/hub-allen.html"
+  status = 200

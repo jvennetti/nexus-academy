@@ -39,6 +39,9 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 .step-item{display:flex;align-items:flex-start;gap:20px}
 .step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid var(--blue-border);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--blue);margin-top:2px}
 .step-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:300;line-height:1.75;color:var(--body-text)}
+.step-text strong{font-weight:500;color:var(--offwhite)}
+.step-text ul{margin:10px 0 4px 18px;display:flex;flex-direction:column;gap:6px}
+.client-msg{background:rgba(0,200,255,0.04);border-left:3px solid rgba(0,200,255,0.35);padding:16px 20px;margin:14px 0;font-style:italic;color:var(--body-text);border-radius:0 4px 4px 0;font-size:14px;line-height:1.8}
 .deliverable-box{background:var(--bg);border:1px solid var(--blue-border);border-radius:8px;padding:32px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .deliverable-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
 .deliverable-text{font-family:'Lexend',sans-serif;font-size:15px;font-weight:400;line-height:1.8;color:var(--body-text);text-align:left}
@@ -79,9 +82,10 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <div class="scenario-box">
     <div class="section-title">Real-World Scenario</div>
     <div class="body-copy">
-      <p>You've just been introduced to a potential client — a local law firm with 8 attorneys. They've heard about AI but have done nothing with it. Before your second conversation, they send you a quick message:</p>
-      <p><strong>"We're open to exploring AI, but honestly we don't know where to start or if it's even relevant for us. Can you send something over?"</strong></p>
-      <p>They're not asking for a proposal. They're asking for a reason to keep talking.</p>
+      <p>Before you touch a single tool, you need to prove to yourself that you already understand something real about this space. Module 1 was about the macro shift — why this moment matters, what kind of thinking wins, and what you're actually building toward.</p>
+      <p>This challenge has nothing to do with tools. It has everything to do with thinking.</p>
+      <p>You've just been introduced to a potential client — a local law firm with 8 attorneys. They've heard about AI but have done nothing with it. Before your second conversation, they send you a short message:</p>
+      <div class="client-msg">"We're open to exploring AI, but honestly we don't know where to start or if it's even relevant for us. Can you send something over?"</div>
     </div>
   </div>
 
@@ -89,31 +93,37 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
     <div class="challenge-title">Your Challenge</div>
     <ol class="step-list">
       <li class="step-item">
-        <div class="step-num">1</div>
-        <div class="step-text">Read their message again. Put yourself in the position of someone they already trust — not a vendor. What would that person say?</div>
+        <div class="step-num">A</div>
+        <div class="step-text"><strong>Write the wrong response.</strong> Write the reply you would have sent before Module 1 — the one that's vague, or generic, or sounds like a consultant trying to impress someone. Get it out of your system. Write it out completely before moving on.</div>
       </li>
       <li class="step-item">
-        <div class="step-num">2</div>
-        <div class="step-text">Draft a 3–5 sentence reply that gives them one concrete, credible example of how a firm their size has already used AI to save meaningful time or reduce cost, positions this as the start of something (not a sales pitch), and sounds like a human wrote it — not a consultant.</div>
+        <div class="step-num">B</div>
+        <div class="step-text"><strong>Write the right response.</strong> Write the reply you'd send now. Three to five sentences. It should:
+          <ul>
+            <li>Give them one concrete, credible example of how a firm their size has already used AI to save meaningful time or reduce cost</li>
+            <li>Position this as the beginning of a conversation, not a pitch</li>
+            <li>Sound like a person wrote it, not a deck</li>
+          </ul>
+        </div>
       </li>
       <li class="step-item">
         <div class="step-num">3</div>
-        <div class="step-text">Read it out loud before you finish. If it sounds like a pitch deck, rewrite it. Use only what you learned in Module 1 — no tools yet, just your thinking.</div>
+        <div class="step-text"><strong>Write one sentence</strong> underneath Response B that names the biggest difference between the two. Not which one is better — you know that. What specifically changed in how you thought about it.</div>
       </li>
     </ol>
   </div>
 
   <div class="deliverable-box">
     <div class="section-title">Your Deliverable</div>
-    <div class="deliverable-text">A 3–5 sentence reply you could actually send. Write it out — keep it. You'll come back to it later in the course when you have the tools to build what you're describing.</div>
+    <div class="deliverable-text">Two responses written. One sentence of reflection. If you skipped Response A, go back — the contrast is the lesson. Keep both somewhere you can find them.</div>
   </div>
 
   <div class="integration-note">
-    <div class="integration-text"><strong>Integration note:</strong> Legal &amp; Professional Services is one of the highest-leverage AI adoption areas — case research, contract review, billing capture. You don't need to know the technical details yet. You just need to know there are incredible needs to be met.</div>
+    <div class="integration-text"><strong>Why this matters:</strong> At the end of Module 6 you'll look at these again. The gap between Response A and what you'll be capable of by then is the entire point of this course.</div>
   </div>
 
   <div class="cta-row">
-    <a href="complete.html" class="mark-complete-btn">Mark Complete</a>
+    <a href="complete.html" class="mark-complete-btn" onclick="markComplete()">Mark Complete</a>
     <div class="cta-sub">Routes to module completion</div>
   </div>
 
@@ -126,5 +136,19 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 
 </div>
 </div>
+
+<script>
+function markComplete(){
+  localStorage.setItem('nexus_module_1_complete', 'true');
+  const keysToRemove = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith('nexus_ts_') && k.includes('module-1')){
+      keysToRemove.push(k);
+    }
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+}
+</script>
 </body>
 </html>
