@@ -195,7 +195,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
   <div class="continue-section" id="continue-section" style="display:none">
     <div class="section-label">Continue Where You Left Off</div>
-    <a class="continue-btn" id="continue-btn" href="#" onclick="playS('password_confirmation.mp3',0.1)">
+    <a class="continue-btn" id="continue-btn" href="#" onclick="playS(pickPower(),0.1)">
       <div class="continue-left">
         <div class="continue-label" id="continue-mod-tag">—</div>
         <div class="continue-title" id="continue-lesson-title">—</div>
@@ -455,8 +455,8 @@ function renderContinue(s){
   if(!found){ sec.style.display='none'; return; }
   sec.style.display = 'block';
   const last = getLastPage();
-  let url   = found.next.url;
-  let title = found.next.title;
+  let url   = found.url;      // default: module intro page
+  let title = found.title;    // default: module title
   if(last && urlToModuleKey(last.url) === found.key){
     url   = last.url;
     title = last.title;
@@ -658,7 +658,7 @@ function resetProgress(){
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
 const hubMusic=new Audio('hub_music_2.mp3');
-hubMusic.loop=true;hubMusic.volume=0.67;
+hubMusic.loop=true;hubMusic.volume=0.67;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
 hubMusic.play().catch(()=>{
   const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
   document.addEventListener('click',startMusic);

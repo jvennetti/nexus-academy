@@ -1,8 +1,11 @@
 (function(){
   // ── Styles ──
   var S=document.createElement('style');
-  S.textContent='#nx-overlay{position:fixed;inset:0;background:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;opacity:1;transition:opacity 0.45s ease;pointer-events:none;}#nx-overlay.blocking{pointer-events:all;}#nx-overlay.gone{opacity:0;}.nx-bar-wrap{width:240px;height:1px;background:rgba(0,200,255,0.1);position:relative;overflow:visible;}.nx-bar-fill{position:absolute;left:0;top:0;height:1px;width:0%;background:#00c8ff;box-shadow:0 0 8px rgba(0,200,255,0.9),0 0 18px rgba(0,200,255,0.4);transition:none;}.nx-st{font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:0.45em;color:rgba(0,200,255,0.38);text-transform:uppercase;}.nx-pc{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.18em;color:rgba(0,200,255,0.55);}';
+  S.textContent='#nx-overlay{position:fixed;inset:0;background:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;opacity:1;transition:opacity 0.45s ease;pointer-events:none;}#nx-overlay.blocking{pointer-events:all;}#nx-overlay.gone{opacity:0;}.nx-bar-wrap{width:240px;height:1px;background:rgba(0,200,255,0.1);position:relative;overflow:visible;}.nx-bar-fill{position:absolute;left:0;top:0;height:1px;width:0%;background:#00c8ff;box-shadow:0 0 8px rgba(0,200,255,0.9),0 0 18px rgba(0,200,255,0.4);transition:none;}.nx-st{font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:0.45em;color:rgba(0,200,255,0.38);text-transform:uppercase;}.nx-pc{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.18em;color:rgba(0,200,255,0.55);}#nx-audio-fix{position:fixed;top:14px;right:16px;z-index:9990;background:none;border:1px solid rgba(0,200,255,0.2);border-radius:3px;color:rgba(0,200,255,0.45);font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:0.18em;padding:6px 12px;cursor:pointer;text-transform:uppercase;display:none;transition:color 0.2s,border-color 0.2s;}#nx-audio-fix:hover{color:rgba(0,200,255,0.75);border-color:rgba(0,200,255,0.4);}';
   document.head.appendChild(S);
+
+  // ── Global bg audio registry (pages push their looping music here) ──
+  window.__bgAudio=window.__bgAudio||[];
 
   // ── Preload all 3 transition sounds using script's own absolute URL ──
   var _base='';
@@ -25,6 +28,25 @@
   var fill=document.getElementById('nx-fill');
   var pct=document.getElementById('nx-pct');
   var status=document.getElementById('nx-status');
+
+  // ── "No Music?" fallback button ──
+  var muBtn=document.createElement('button');
+  muBtn.id='nx-audio-fix';
+  muBtn.textContent='No Music? Click Here';
+  muBtn.addEventListener('click',function(){
+    [].forEach.call(document.querySelectorAll('audio'),function(a){ if(a.paused&&a.src) a.play().catch(function(){}); });
+    ['_ciroSong','_machineAmb'].forEach(function(k){ if(window[k]&&window[k].paused) window[k].play().catch(function(){}); });
+    (window.__bgAudio||[]).forEach(function(a){ if(a&&a.paused) a.play().catch(function(){}); });
+    muBtn.style.display='none';
+  });
+  document.body.appendChild(muBtn);
+  // Show button only if this page has bg audio that failed to autoplay
+  setTimeout(function(){
+    var hasBg=false,anyPlaying=false;
+    (window.__bgAudio||[]).forEach(function(a){ if(a){hasBg=true;if(!a.paused)anyPlaying=true;} });
+    ['_ciroSong','_machineAmb'].forEach(function(k){ if(window[k]){hasBg=true;if(!window[k].paused)anyPlaying=true;} });
+    if(hasBg&&!anyPlaying) muBtn.style.display='block';
+  },900);
 
   // ── Fade in on page load (overlay starts black, fades to clear) ──
   function fadeIn(){

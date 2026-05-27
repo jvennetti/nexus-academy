@@ -163,7 +163,7 @@ function buildCards(){
 }
 
 const hubMusic=new Audio('hub_music_2.mp3');
-hubMusic.loop=true;hubMusic.volume=0.67;
+hubMusic.loop=true;hubMusic.volume=0.67;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
 hubMusic.play().catch(function(){document.addEventListener('click',function h(){hubMusic.play().catch(function(){});document.removeEventListener('click',h);});});
 window.addEventListener('pageshow',function(e){if(e.persisted)hubMusic.play().catch(function(){});});
 function fadeHubMusic(toVol,ms){

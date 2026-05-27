@@ -135,7 +135,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 </div>
 
 <script>
-const _compMusic=new Audio('../module_complete_music.mp3');_compMusic.loop=true;_compMusic.volume=0.4;_compMusic.play().catch(function(){document.addEventListener('click',function h(){_compMusic.play().catch(function(){});document.removeEventListener('click',h);});});window.addEventListener('pageshow',function(e){if(e.persisted)_compMusic.play().catch(function(){});});
+const _compMusic=new Audio('../module_complete_music.mp3');_compMusic.loop=true;(window.__bgAudio=window.__bgAudio||[]).push(_compMusic);_compMusic.volume=0.4;_compMusic.play().catch(function(){document.addEventListener('click',function h(){_compMusic.play().catch(function(){});document.removeEventListener('click',h);});});window.addEventListener('pageshow',function(e){if(e.persisted)_compMusic.play().catch(function(){});});
 const OPERATOR   = 'joshua';
 const MODULE_KEY = 'mod4';
 const BADGE_KEY  = 'architect';

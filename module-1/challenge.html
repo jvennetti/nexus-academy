@@ -138,6 +138,8 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 </div>
 
 <script>
+function playS(s,v){var a=new Audio(s);a.volume=v===undefined?0.4:v;a.play().catch(function(){});return a;}
+localStorage.setItem('nexus_last_page',JSON.stringify({url:location.pathname,title:'Module 1 — Challenge'}));
 function markComplete(){
   playS('../password_confirmation.mp3',0.1);
   localStorage.setItem('nexus_module_1_complete', 'true');
@@ -151,7 +153,6 @@ function markComplete(){
   keysToRemove.forEach(k => localStorage.removeItem(k));
 }
 </script>
-function playS(s,v){var a=new Audio(s);a.volume=v===undefined?0.4:v;a.play().catch(function(){});return a;}
 <script src="../nexus-transition.js"></script>
 </body>
 </html>
