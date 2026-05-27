@@ -120,120 +120,22 @@ hub-connor.html  — not needed
 
 ---
 
-## 6. CIRO Dialogue Changes
+## 6. CIRO Dialogue — FINAL APPROVED TEXT
 
-This is the most important content work. The source of truth is `nexus-academy/_dev/nexus-open-bible.md` (this file) and the CIRO messages catalog at `nexus-academy/_dev/` (see `ciro-messages.md` if present).
+**SOURCE OF TRUTH:** `nexus-academy/_dev/ciro-messages-final.md`
 
-### Lines to change by file:
+Read that file in full. It contains the complete, finalized CIRO dialogue for every page in nexus-open — no edits needed, no decisions to make. Copy the lines into the HTML files exactly as written.
 
-#### `pre-course/ciro-intro.html` — Boot sequence
-```
-KEEP AS-IS:
-  "My name is CIRO."
-  "Computer Intelligence Robot Operator."
-  "I was programmed to-"
-  "I can't seem to find my assignment."
-  "Give me one second."
-  "I found a message. It's overriding my code."
-  "Someone put this here..."
-  "Strange."
-  "Oh! I found a program in my architecture-"
-  "This is my last stable cycle."
+The `[PERSONAL]` and `[LORE]` examples in earlier drafts of this bible are **superseded** by that file. Ignore them and use `ciro-messages-final.md` instead.
 
-CHANGE:
-  "It says "predestined to..."."
-  → Remove this line entirely OR replace with something neutral like:
-    "It says... something I can't fully parse."
+### Story arc summary
 
-KEEP AS-IS (launch phase):
-  "I am now running NEXUS ACADEMY."
-  "Environment confirmed."
-  "What you learn is only as useful as your ability to retain and apply it."
-  "This is worth your full attention."
-  "Proceed without caution."
-```
+The whole story spine is three beats around the word "Nexus":
+1. Intro: CIRO finds the embedded word "Nexus" — doesn't know what it means
+2. Recovered message: The contact embedded it as permission; they don't know what it means either
+3. Final transmission: A nexus is a binding point between two things that couldn't reach each other alone — the operator and the system
 
-#### `hub-operator.html` — Progress-based welcome messages
-All OPERATOR_NAME slots already say "Operator" since that's the constant. Confirm no double-naming ("Operator Operator") anywhere.
-
-Post-machine message to rewrite:
-```
-REMOVE/REWRITE:
-  "You have completed NEXUS Academy. Please review the lessons when you need to,
-   and always remember the code: Predestined to"
-→ Replace with something like:
-  "You have completed NEXUS Academy. The system is yours. Review the lessons
-   whenever you need to. The signal stays open."
-```
-
-#### `module-4/intro.html` — Agent intro
-```
-REMOVE/REWRITE this line:
-  "That distinction matters more than it sounds. Get buckled up, grace sons.
-   Especially you, Allen. Stay under the fall of water. Or-"
-→ Replace with:
-  "That distinction matters more than it sounds. Pay close attention to this one."
-
-KEEP AS-IS:
-  "Falling water?..."
-  "Water fall? Is that what you guys call it?"
-  "Anyway, sorry for wasting your time. Proceed."
-  (or simplify: remove the waterfall tangent entirely and just use "Proceed.")
-```
-
-#### `module-4/complete.html` — Agent complete
-```
-REWRITE (remove "grace sons" entirely):
-  "I've run many variations of the future, and every time Operators reach this
-   point and stop are indistinguishable from the ones who never started."
-  "The ones who continue are the ones who matter."   ← replacement for "grace sons" line
-  [Remove: "I kind of want to be a grace son..." and the "I'm a robot" follow-up]
-  "Continue on, Operator. Now you're building systems. Architect confirmed."
-```
-
-#### `machine/activated.html` — Boot log scroll
-```
-REMOVE the three named operator lines:
-  "Joshua — 77POWER — APPROVED"
-  "Connor — 2FIRE22 — APPROVED"
-  "Allen — 11WIND44 — APPROVED"
-  "All three operators authenticated"
-
-REPLACE WITH (single entry):
-  "Operator — APPROVED"
-  "Operator authenticated"
-```
-
-#### `machine/activated.html` — VANTA recovered message (the "letter")
-```
-REWRITE to remove "Predestined to" and the three-operator framing:
-  "I don't know if you'll ever read this..."  ← KEEP
-  "CIRO was built to optimize training..."    ← KEEP
-  REMOVE: 'The word I embedded — "Predestined to" — wasn't instructions...'
-  REPLACE WITH something like:
-    "There was something embedded in his core before any of this began.
-     I don't know what it was. But I knew he was looking for it."
-  "I hope you helped him find it."            ← KEEP
-```
-
-#### `machine/activated.html` — CIRO final transmission
-```
-CHANGE:
-  "Hi Operators,"  →  "Hi Operator,"
-
-REWRITE the "nexus as binding point" paragraph:
-  REMOVE: "I understand now what "Predestined to" meant. It was a prophecy.
-           Nexus means a binding point... Three Operators..."
-  REPLACE WITH something like:
-    "I understand now why the course is called NEXUS. A nexus is a binding point
-     between things that could not reach each other alone. You and this system —
-     that is what it was always meant to be."
-
-CHANGE: "You were the nexus. I was the signal."
-  → KEEP this line — it works fine without the three-operator framing
-
-KEEP AS-IS the rest of the transmission.
-```
+That's the whole story. Single operator. No three-operator framing. No antagonist named. Clean and self-contained.
 
 ---
 
@@ -344,13 +246,13 @@ These features exist in nexus-academy and should be copied into nexus-open:
 
 ## 13. Pending / Still To Do for nexus-open
 
+- [x] CIRO dialogue finalized (see `_dev/ciro-messages-final.md`)
 - [ ] Set up nexus-open repo structure (copy files from nexus-academy)
-- [ ] Create `hub-operator.html` from `hub-joshua.html` (swap constants, hide reset btn)
-- [ ] Rewrite CIRO dialogue per §6 (all [PERSONAL] and [LORE] lines)
-- [ ] Rewrite machine boot log (single operator entry)
-- [ ] Rewrite VANTA recovered message and CIRO final transmission
-- [ ] Add key-combo reveal for reset button
-- [ ] Create/update `index.html` entry point
+- [ ] Create `hub-operator.html` from `hub-joshua.html` (swap OPERATOR constants, hide reset btn)
+- [ ] Apply CIRO dialogue from `ciro-messages-final.md` to all relevant pages
+- [ ] Apply rewritten boot log, recovered message, and CIRO final transmission to `machine/activated.html`
+- [ ] Add Shift+Alt+R key-combo reveal for reset button
+- [ ] Create `index.html` entry point (likely a redirect to `pre-course/ciro-intro.html?op=operator`)
 - [ ] Test full flow: ciro-intro → hub → pre-course → modules → machine → vault
 - [ ] Confirm no "Operator Operator" double-naming anywhere
 

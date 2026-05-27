@@ -14,8 +14,9 @@
 
 ## nexus-open (separate repo, separate environment)
 
-- [ ] User needs to create GitHub PAT and add to new environment variables as `GH_TOKEN=<token>` — OR set up a new environment with both repos connected
-- [ ] Build nexus-open from scratch per `_dev/nexus-open-bible.md`
+- [x] CIRO dialogue finalized — see `_dev/ciro-messages-final.md`
+- [ ] User to set up new Claude Code environment with both repos connected
+- [ ] Build nexus-open from scratch per `_dev/nexus-open-bible.md` (using `ciro-messages-final.md` as dialogue source of truth)
 
 ---
 
