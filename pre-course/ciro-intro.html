@@ -954,6 +954,8 @@ async function runDialogue(){
   setFaceText('OVERRIDE','DETECT','!!!','#ff3333');
   updateHUD('ALERT','DARK');
   playS('../robot_error_1_second_play3times_for_error.wav', 0.2);
+  setTimeout(()=>playS('../robot_error_1_second_play3times_for_error.wav', 0.2), 1200);
+  setTimeout(()=>playS('../robot_error_1_second_play3times_for_error.wav', 0.2), 2400);
 
   // hard red flash
   pageTintColor('#ff3333', 0.12, 80);
@@ -979,7 +981,6 @@ async function runDialogue(){
   await typeLine(l7, "Someone put this here...");
   await wait(400);
 
-  playS('../robot_error_1_second.wav', 0.18);
   let l8 = addLine('red');
   l8.style.animation = 'glitch 0.35s ease-in-out 2';
   await typeLine(l8, 'It says "predestined to...".');
@@ -1018,7 +1019,6 @@ async function runDialogue(){
   figure.classList.remove('yellow-glow');
   figure.classList.add('error-glow');
   setFaceText('LAST','CYCLE','...','#ff3333');
-  playS('../robot_failure_5_seconds.mp3', 0.2);
   pageTintColor('#ff3333', 0.1, 80);
   await wait(200);
   pageTintColor('clear', 0, 700);
@@ -1137,6 +1137,7 @@ async function launchNexus(){
 
 function enterHub(){
   localStorage.setItem('nexus_intro_seen','true');
+  playS('../short_success_1_second.wav', 0.25);
   window.location.href = '../hub-joshua.html';
 }
 </script>

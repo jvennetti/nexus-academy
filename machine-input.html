@@ -649,6 +649,11 @@ function attemptActivation(){
 }
 function onKey(e){if(e.key==='Enter')attemptActivation();}
 load();
+(function(){
+  const amb=new Audio('machine_input_page_music.wav');
+  amb.loop=true;amb.volume=0.48;
+  amb.play().catch(()=>{const s=()=>{amb.play().catch(()=>{});document.removeEventListener('click',s);document.removeEventListener('touchstart',s);};document.addEventListener('click',s);document.addEventListener('touchstart',s);});
+})();
 </script>
 </body>
 </html>

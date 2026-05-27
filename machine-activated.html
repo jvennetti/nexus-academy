@@ -852,6 +852,8 @@ async function phaseMachine(){
   await wait(260);
   addLog('NODE-A fault: response timeout','err');
   playS('robot_error_1_second_play3times_for_error.wav',0.2);
+  setTimeout(()=>playS('robot_error_1_second_play3times_for_error.wav',0.2),1200);
+  setTimeout(()=>playS('robot_error_1_second_play3times_for_error.wav',0.2),2400);
   tint('#ff3333',0.05,60);await wait(120);tint('clear',0,350);
   await wait(260);
   addLog('NODE-B fault: response timeout','err');
@@ -906,7 +908,6 @@ async function phaseMachine(){
   await wait(700);
   tint('#ff3333',0.06,60);await wait(100);tint('clear',0,300);
   clearLog();
-  playS('robot_error_1_second.wav',0.18);
   addLog('ANOMALY — foreign embed in sector 7','err');
   await wait(500);
   addLog('Decrypting... origin unknown','warn');

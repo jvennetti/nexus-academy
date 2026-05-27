@@ -751,7 +751,7 @@ if(IS_FIRST_OPEN){
 }
 render();
 if(IS_FIRST_OPEN) runHubBoot();
-const machineAmbientSrc='';
+const machineAmbientSrc='machine_input_page_music.wav';
 if(machineAmbientSrc){
   let ambAudio=null,ambFadeIn=null,ambFadeOut=null;
   function fadeAudio(a,toVol,ms){if(!a)return;const steps=30,delta=(toVol-a.volume)/steps,iv=ms/steps;let s=0;clearInterval(ambFadeIn);clearInterval(ambFadeOut);const t=setInterval(()=>{a.volume=Math.max(0,Math.min(1,a.volume+delta));if(++s>=steps)clearInterval(t);},iv);}

@@ -241,11 +241,14 @@ function tickProgress(){
   if(pct<1)raf=requestAnimationFrame(tickProgress);
 }
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
+const hubMusic=new Audio('../hub_music.mp3');hubMusic.loop=false;hubMusic.volume=0.48;
+hubMusic.play().catch(()=>{const s=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',s);document.removeEventListener('touchstart',s);};document.addEventListener('click',s);document.addEventListener('touchstart',s);});
 function completeHold(){
   holding=false;
   btn.classList.remove('holding');btn.classList.add('done');
   cancelAnimationFrame(raf);arcEl.style.strokeDashoffset=0;
   playS('../short_success_1_second.wav',0.2);
+  const step=hubMusic.volume/10;const fade=setInterval(()=>{if(hubMusic.volume>step){hubMusic.volume-=step;}else{hubMusic.volume=0;hubMusic.pause();clearInterval(fade);}},33);
   setTimeout(()=>{ window.location.href='../module-4/lesson-4-5.html'; },700);
 }
 btn.addEventListener('mousedown',startHold);
