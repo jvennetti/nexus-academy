@@ -570,7 +570,7 @@ const OPS=['joshua','connor','allen'];
 const confirmed={joshua:false,connor:false,allen:false};
 const STORAGE='nexus_machine_inputs';
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
-function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
+function pickPower(){return `../audio/sfx/power-on-${Math.ceil(Math.random()*3)}.mp3`;}
 
 function save(){
   const d={};
