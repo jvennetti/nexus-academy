@@ -158,11 +158,10 @@ Finish the course to find your passcode and help restore the Machine.
 **Rewrite to:**
 ```
 // MACHINE STATUS — DORMANT
-The Machine has been dormant for years — its core fractured, its signal lost, its memory locked behind safeguards. The keys were buried before the system went silent, waiting for an Operator who could complete the sequence.
-Finish the course to find your passcode and help restore the Machine.
+The Machine has been dormant for years — its core fractured, its signal lost, its memory locked behind safeguards. The key was buried, waiting for an Operator who could complete the sequence. Finish the course to find the passcode and restore the Machine.
 ```
 
-(Drops VANTA, drops "three signals." Keeps the dramatic tone and the "finish the course to get your passcode" call-to-action.)
+(Drops VANTA, drops "three signals." Keeps the dramatic tone and the call-to-action.)
 
 ### B. machine/input.html — full collapse from 3 inputs to 1
 
