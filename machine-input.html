@@ -652,11 +652,10 @@ function attemptActivation(){
 }
 function onKey(e){if(e.key==='Enter')attemptActivation();}
 load();
-(function(){
-  const amb=new Audio('machine_input_page_music.wav');
-  amb.loop=true;amb.volume=0.29;
-  amb.play().catch(()=>{const s=()=>{amb.play().catch(()=>{});document.removeEventListener('click',s);document.removeEventListener('touchstart',s);};document.addEventListener('click',s);document.addEventListener('touchstart',s);});
-})();
+window._machineAmb=new Audio('machine_input_page_music.wav');
+window._machineAmb.loop=true;window._machineAmb.volume=0.29;
+window._machineAmb.play().catch(()=>{const s=()=>{window._machineAmb.play().catch(()=>{});document.removeEventListener('click',s);document.removeEventListener('touchstart',s);};document.addEventListener('click',s);document.addEventListener('touchstart',s);});
+window.addEventListener('pageshow',function(e){if(e.persisted)window._machineAmb.play().catch(()=>{});});
 </script>
 <script src="nexus-transition.js"></script>
 </body>

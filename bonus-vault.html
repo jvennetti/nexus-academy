@@ -162,7 +162,17 @@ function buildCards(){
   });
 }
 
+const hubMusic=new Audio('hub_music_2.mp3');
+hubMusic.loop=true;hubMusic.volume=0.67;
+hubMusic.play().catch(function(){document.addEventListener('click',function h(){hubMusic.play().catch(function(){});document.removeEventListener('click',h);});});
+window.addEventListener('pageshow',function(e){if(e.persisted)hubMusic.play().catch(function(){});});
+function fadeHubMusic(toVol,ms){
+  var steps=25,delta=(toVol-hubMusic.volume)/steps,iv=ms/steps,s=0;
+  var t=setInterval(function(){hubMusic.volume=Math.max(0,Math.min(1,hubMusic.volume+delta));if(++s>=steps)clearInterval(t);},iv);
+}
+
 function openPopup(v){
+  fadeHubMusic(0,500);
   document.getElementById('popup-title').textContent = v.title;
   document.getElementById('popup-iframe').src = `https://www.youtube.com/embed/${v.id}?autoplay=1`;
   document.getElementById('popup-overlay').classList.add('open');
@@ -172,6 +182,7 @@ function closePopup(e){
   if(e && e.target !== document.getElementById('popup-overlay') && !e.target.classList.contains('popup-close')) return;
   document.getElementById('popup-overlay').classList.remove('open');
   document.getElementById('popup-iframe').src = '';
+  fadeHubMusic(0.67,500);
 }
 
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePopup({ target: document.getElementById('popup-overlay') }); });

@@ -194,7 +194,7 @@ runScene();
     a.play().catch(()=>{});
   }catch(e){}
 })();
-(function(){var s=new Audio("../ciro-intro%20song.mp3");s.loop=true;s.volume=0.3;s.play().catch(function(){document.addEventListener("click",function h(){s.play().catch(function(){});document.removeEventListener("click",h);});});})();
+(function(){window._ciroSong=new Audio("../ciro-intro%20song.mp3");window._ciroSong.loop=true;window._ciroSong.volume=0.18;window._ciroSong.play().catch(function(){document.addEventListener("click",function h(){window._ciroSong.play().catch(function(){});document.removeEventListener("click",h);});});window.addEventListener("pageshow",function(e){if(e.persisted)window._ciroSong.play().catch(function(){});});})();
 </script>
 <script src="../nexus-transition.js"></script>
 </body>

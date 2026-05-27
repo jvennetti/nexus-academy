@@ -774,7 +774,7 @@ if(machineAmbientSrc){
     entries.forEach(e=>{
       if(e.isIntersecting){
         if(!ambAudio){ambAudio=new Audio(machineAmbientSrc);ambAudio.loop=true;ambAudio.volume=0;ambAudio.play().catch(()=>{});}
-        fadeAudio(ambAudio,0.5,1200);
+        fadeAudio(ambAudio,0.35,1200);
       } else { fadeAudio(ambAudio,0,800); }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
