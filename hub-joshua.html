@@ -835,10 +835,10 @@ if(!localStorage.getItem('nexus_machine_activated')){
       if(e.isIntersecting){
         _ambStarted=true;
         _amb.play().catch(()=>{});
-        _ambFade(0.35,750);
+        _ambFade(0.35,500);
       } else if(_ambStarted){
-        _ambFade(0,750);
-        setTimeout(()=>{ if(_amb.volume<0.01){_amb.pause();_amb.volume=0;} },900);
+        _ambFade(0,500);
+        setTimeout(()=>{ if(_amb.volume<0.01){_amb.pause();_amb.volume=0;} },650);
       }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
