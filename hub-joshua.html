@@ -817,31 +817,50 @@ if(IS_FIRST_OPEN){
   if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
 }
 if(!localStorage.getItem('nexus_machine_activated')){
-  // HTMLAudioElement streams immediately — no full-file download needed before playback
-  const _amb=new Audio('machine_input_page_music.wav');
-  _amb.loop=true; _amb.volume=0;
-  let _ambTimer=null;
-  function _ambFade(toVol,ms){
-    clearInterval(_ambTimer);
-    const start=_amb.volume,diff=toVol-start,steps=Math.max(1,Math.round(ms/16));
-    let n=0;
-    _ambTimer=setInterval(()=>{
-      n++;
-      if(n>=steps){_amb.volume=toVol;clearInterval(_ambTimer);_ambTimer=null;}
-      else{_amb.volume=start+diff*(n/steps);}
-    },16);
-  }
-  new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        _amb.play().catch(()=>{});
-        setTimeout(()=>_ambFade(0.35,0.75),500);
+  var machineAmb = new Audio('machine_input_page_music.wav');
+  machineAmb.loop = true;
+  machineAmb.volume = 0;
+  var machineAmbTimer = null;
+  var machineAmbStarted = false;
+
+  function machineAmbFade(targetVol, durationMs) {
+    clearInterval(machineAmbTimer);
+    var startVol = machineAmb.volume;
+    var diff = targetVol - startVol;
+    var steps = Math.max(1, Math.round(durationMs / 16));
+    var step = 0;
+    machineAmbTimer = setInterval(function() {
+      step++;
+      if (step >= steps) {
+        machineAmb.volume = targetVol;
+        clearInterval(machineAmbTimer);
+        machineAmbTimer = null;
       } else {
-        _ambFade(0,0.75);
-        setTimeout(()=>{ if(!_amb.volume) _amb.pause(); },850);
+        machineAmb.volume = startVol + diff * (step / steps);
+      }
+    }, 16);
+  }
+
+  var machineObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        machineAmbStarted = true;
+        machineAmb.play().catch(function(){});
+        machineAmbFade(0.35, 500);
+      } else {
+        if (!machineAmbStarted) return;
+        machineAmbFade(0, 500);
+        setTimeout(function() {
+          if (machineAmb.volume < 0.01) {
+            machineAmb.pause();
+            machineAmb.volume = 0;
+          }
+        }, 650);
       }
     });
-  },{threshold:0.25}).observe(document.querySelector('.machine-section'));
+  }, { threshold: 0.25 });
+
+  machineObserver.observe(document.querySelector('.machine-section'));
 }
 </script>
 <script src="nexus-transition.js"></script>
