@@ -683,11 +683,11 @@ const headGroup   = document.getElementById('ciro-head');
 let bootStarted   = false;
 
 // Background music
-(function(){var bg=new Audio('../ciro-intro%20song.mp3');bg.loop=true;bg.volume=0.3;bg.play().catch(function(){document.addEventListener('click',function h(){bg.play().catch(function(){});document.removeEventListener('click',h);});});(window.__bgAudio=window.__bgAudio||[]).push(bg);})();
+(function(){var bg=new Audio('../audio/music/ciro-intro.mp3');bg.loop=true;bg.volume=0.3;bg.play().catch(function(){document.addEventListener('click',function h(){bg.play().catch(function(){});document.removeEventListener('click',h);});});(window.__bgAudio=window.__bgAudio||[]).push(bg);})();
 
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
-function pickPower(){return `../power_on_${Math.ceil(Math.random()*3)}.mp3`;}
+function pickPower(){return `../audio/sfx/power-on-${Math.ceil(Math.random()*3)}.mp3`;}
 
 /* ══════════════════════════════════════════
    COLOR HELPERS

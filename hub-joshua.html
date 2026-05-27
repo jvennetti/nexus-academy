@@ -702,7 +702,7 @@ function resetProgress(){
 }
 
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
-function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
+function pickPower(){return `audio/sfx/power-on-${Math.ceil(Math.random()*3)}.mp3`;}
 const hubMusic=new Audio('audio/music/hub-theme.mp3');
 hubMusic.loop=true;hubMusic.volume=0.67;(window.__bgAudio=window.__bgAudio||[]).push(hubMusic);
 hubMusic.play().catch(()=>{
