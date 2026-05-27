@@ -825,11 +825,11 @@ if(!localStorage.getItem('nexus_machine_activated')){
     _again.gain.setValueAtTime(_again.gain.value,now);
     _again.gain.linearRampToValueAtTime(toVol,now+ms/1000);
   }
-  function _ambPlay(){
+  function _doPlay(){
     if(!_abuf||_asrc) return;
     _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
     _asrc.connect(_again);_asrc.start(0);
-    _ambFade(0.35,0.5);
+    _ambFade(0.35,0.75);
   }
   function _ambInit(){
     if(_actx) return;
@@ -837,23 +837,25 @@ if(!localStorage.getItem('nexus_machine_activated')){
     _again=_actx.createGain();_again.gain.value=0;_again.connect(_actx.destination);
     fetch('machine_input_page_music.wav').then(r=>r.arrayBuffer())
       .then(ab=>_actx.decodeAudioData(ab))
-      .then(buf=>{_abuf=buf;if(_aon)_ambPlay();}).catch(()=>{});
+      .then(buf=>{
+        _abuf=buf;
+        if(_aon){
+          if(_actx.state==='suspended') _actx.resume().then(_doPlay);
+          else _doPlay();
+        }
+      }).catch(()=>{});
   }
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         _aon=true;
-        if(!_actx){
-          _ambInit();
-        } else if(_actx.state==='suspended'){
-          _actx.resume().then(()=>{ _ambPlay(); });
-        } else {
-          _ambPlay();
-          _ambFade(0.35,0.5);
-        }
+        if(!_actx){ _ambInit(); }
+        else if(_asrc){ _ambFade(0.35,0.75); }
+        else if(_actx.state==='suspended'){ _actx.resume().then(_doPlay); }
+        else { _doPlay(); }
       } else {
         _aon=false;
-        _ambFade(0,0.5);
+        _ambFade(0,0.75);
       }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
