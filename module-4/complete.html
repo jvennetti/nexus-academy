@@ -246,6 +246,7 @@ function startCorruption(){
   wrap.classList.add('corrupt-1');
   overlay.style.background = 'rgba(180,0,0,0.04)';
   playS('../robot_error_1_second_play3times_for_error.wav',0.35);
+  _compMusic.pause();
 
   const t1 = setTimeout(()=>{
     // Phase 2 — 2s: intensify + first errors + failure siren
@@ -299,6 +300,7 @@ function stopCorruption(){
   });
   document.querySelectorAll('.error-popup').forEach(el=>el.remove());
   playS('../short_success_1_second.wav',0.25);
+  setTimeout(function(){ _compMusic.play().catch(function(){}); }, 700);
 }
 /* ══ END CORRUPTION ══ */
 

@@ -306,6 +306,8 @@ body::after{
 .shake{animation:shake 0.44s ease-in-out}
 #back-to-hub{position:fixed;top:18px;left:22px;z-index:9999;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.25em;color:rgba(0,200,255,0.45);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
 #back-to-hub:hover{color:rgba(0,200,255,0.9);}
+.reset-btn{display:block;margin:32px auto 0;background:none;border:1px solid rgba(255,255,255,0.05);border-radius:4px;color:rgba(255,255,255,0.1);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;padding:9px 20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
+.reset-btn:hover{border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.2)}
 </style>
 </head>
 <body>
@@ -560,6 +562,7 @@ body::after{
   </div>
 
 </div>
+<button class="reset-btn" onclick="adminReset()">[ Machine Input Reset — Dev Only ]</button>
 
 <script>
 const CODES={joshua:'77POWER',connor:'2FIRE22',allen:'11WIND44'};
@@ -651,6 +654,13 @@ function attemptActivation(){
   setTimeout(()=>err.classList.remove('show'),3600);
 }
 function onKey(e){if(e.key==='Enter')attemptActivation();}
+function adminReset(){
+  if(confirm('Reset all machine input passwords?')){
+    localStorage.removeItem('nexus_machine_inputs');
+    localStorage.removeItem('nexus_machine_unlocked');
+    window.location.reload();
+  }
+}
 load();
 window._machineAmb=new Audio('machine_input_page_music.wav');
 window._machineAmb.loop=true;window._machineAmb.volume=0.29;
