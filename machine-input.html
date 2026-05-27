@@ -587,7 +587,7 @@ function onInput(op,silent){
 function sealSlot(op){
   if(confirmed[op])return;
   confirmed[op]=true;
-  playS('password_confirmation.mp3',0.4);
+  playS('password_confirmation.mp3',0.2);
   const pill=document.getElementById('pill-'+op);
   const input=document.getElementById('input-'+op);
   const check=document.getElementById('check-'+op);
@@ -622,7 +622,7 @@ function flashTint(rgba,ms){
 function attemptActivation(){
   if(confirmed.joshua&&confirmed.connor&&confirmed.allen){
     localStorage.setItem('nexus_machine_unlocked','true');
-    playS(pickPower(),0.6);
+    playS(pickPower(),0.3);
     flashTint('rgba(0,200,255,0.1)',900);
     const btn=document.getElementById('restore-btn');
     btn.textContent='Signal Acquired — Restoring...';

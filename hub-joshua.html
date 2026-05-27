@@ -15,6 +15,7 @@
 <meta name="twitter:image" content="https://jvennetti.github.io/nexus-academy/og-preview.png">
 <script>if(!localStorage.getItem('nexus_intro_seen')){window.location.replace('pre-course/ciro-intro.html');}</script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="audio" href="hub_music.mp3">
 <style>
 :root{
   --navy:#060d1a;--panel:#0d1525;--panel2:#0a1020;
@@ -323,7 +324,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine-input.html" class="activate-btn" id="activate-btn" onclick="playS(pickPower(),0.6)">RESTORE</a>
+        <a href="machine-input.html" class="activate-btn" id="activate-btn" onclick="playS(pickPower(),0.3)">RESTORE</a>
       </div>
     </div>
   </div>
@@ -477,7 +478,7 @@ function renderModules(s){
       <div class="card-status ${isAccessible?'unlocked-tag':'locked-tag'}">${isComplete?'COMPLETE':isAccessible?'UNLOCKED':'LOCKED'}</div>`;
     if(isAccessible) card.addEventListener('click', ()=>{
       const sfxFile=pickPower();
-      playS(sfxFile,0.3);
+      playS(sfxFile,0.15);
       localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
       setTimeout(()=>{ window.location.href = m.url; },60);
     });
@@ -620,7 +621,7 @@ function unlockBadge(key){
 function flashBadge(key){
   const el = document.getElementById('badge-'+key);
   if(el){ el.classList.add('just-unlocked'); setTimeout(()=>el.classList.remove('just-unlocked'), 600); }
-  playS('wait_sound_3_seconds.wav',0.4);
+  playS('wait_sound_3_seconds.wav',0.2);
 }
 
 function showFlash(msg){
@@ -651,7 +652,7 @@ function resetProgress(){
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
 const hubMusic=new Audio('hub_music.mp3');
-hubMusic.loop=true;hubMusic.volume=0.6;
+hubMusic.loop=true;hubMusic.volume=0.48;
 hubMusic.play().catch(()=>{
   const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
   document.addEventListener('click',startMusic);

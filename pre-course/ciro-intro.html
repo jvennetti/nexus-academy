@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=1280">
 <title>NEXUS Academy — Initializing CIRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="audio" href="../hub_music.mp3">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -830,7 +831,7 @@ function addLine(text='', classes=''){
 async function bootCiro(){
   if(bootStarted) return;
   bootStarted = true;
-  playS(pickPower(), 0.6);
+  playS(pickPower(), 0.3);
 
   // hide power button
   powerBtn.classList.add('hidden');
@@ -952,7 +953,7 @@ async function runDialogue(){
   setStatus('ERROR — OVERRIDE','red');
   setFaceText('OVERRIDE','DETECT','!!!','#ff3333');
   updateHUD('ALERT','DARK');
-  playS('../robot_error_1_second_play3times_for_error.wav', 0.4);
+  playS('../robot_error_1_second_play3times_for_error.wav', 0.2);
 
   // hard red flash
   pageTintColor('#ff3333', 0.12, 80);
@@ -978,7 +979,7 @@ async function runDialogue(){
   await typeLine(l7, "Someone put this here...");
   await wait(400);
 
-  playS('../robot_error_1_second.wav', 0.35);
+  playS('../robot_error_1_second.wav', 0.18);
   let l8 = addLine('red');
   l8.style.animation = 'glitch 0.35s ease-in-out 2';
   await typeLine(l8, 'It says "predestined to...".');
@@ -1017,7 +1018,7 @@ async function runDialogue(){
   figure.classList.remove('yellow-glow');
   figure.classList.add('error-glow');
   setFaceText('LAST','CYCLE','...','#ff3333');
-  playS('../robot_failure_5_seconds.mp3', 0.4);
+  playS('../robot_failure_5_seconds.mp3', 0.2);
   pageTintColor('#ff3333', 0.1, 80);
   await wait(200);
   pageTintColor('clear', 0, 700);
@@ -1059,7 +1060,7 @@ async function launchNexus(){
   figure.classList.add('alive');
   setStatus('NEXUS ACADEMY ONLINE','live');
   updateHUD('ACTIVE','STRONG');
-  playS('../short_success_1_second.wav', 0.5);
+  playS('../short_success_1_second.wav', 0.25);
 
   // blue surge
   pageTintColor('#00c8ff', 0.06, 80);

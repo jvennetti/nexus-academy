@@ -851,14 +851,14 @@ async function phaseMachine(){
   addLog('AUTH LAYER — no signal detected','err');
   await wait(260);
   addLog('NODE-A fault: response timeout','err');
-  playS('robot_error_1_second_play3times_for_error.wav',0.4);
+  playS('robot_error_1_second_play3times_for_error.wav',0.2);
   tint('#ff3333',0.05,60);await wait(120);tint('clear',0,350);
   await wait(260);
   addLog('NODE-B fault: response timeout','err');
   await wait(260);
   addLog('Attempting core restart...','warn');
   await wait(600);
-  playS('robot_failure_5_seconds.mp3',0.5);
+  playS('robot_failure_5_seconds.mp3',0.25);
   for(let i=0;i<4;i++){tint('#ff3333',0.09,50);await wait(90);tint('clear',0,60);await wait(110);}
   clearLog();
   addLog('Core restart: OK','ok');
@@ -906,7 +906,7 @@ async function phaseMachine(){
   await wait(700);
   tint('#ff3333',0.06,60);await wait(100);tint('clear',0,300);
   clearLog();
-  playS('robot_error_1_second.wav',0.35);
+  playS('robot_error_1_second.wav',0.18);
   addLog('ANOMALY — foreign embed in sector 7','err');
   await wait(500);
   addLog('Decrypting... origin unknown','warn');
@@ -997,7 +997,7 @@ async function phaseVanta(){
   const vText=document.getElementById('vanta-text');
   plate.classList.add('show');
   scrollToBottom();
-  playS('decrypting_noise_17_seconds.wav',0.4);
+  playS('decrypting_noise_17_seconds.wav',0.2);
   await wait(400);
   vphStatus.textContent='Scanning...';
   fill.style.width='18%';await wait(600);
