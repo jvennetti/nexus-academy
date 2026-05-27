@@ -817,10 +817,9 @@ if(IS_FIRST_OPEN){
   if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
 }
 if(!localStorage.getItem('nexus_machine_activated')){
-  // HTMLAudioElement streams immediately — no full-file download needed before playback
   const _amb=new Audio('machine_input_page_music.wav');
   _amb.loop=true; _amb.volume=0;
-  let _ambTimer=null;
+  let _ambTimer=null, _ambStarted=false;
   function _ambFade(toVol,ms){
     clearInterval(_ambTimer);
     const start=_amb.volume,diff=toVol-start,steps=Math.max(1,Math.round(ms/16));
@@ -834,11 +833,12 @@ if(!localStorage.getItem('nexus_machine_activated')){
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
+        _ambStarted=true;
         _amb.play().catch(()=>{});
-        setTimeout(()=>_ambFade(0.35,0.75),500);
-      } else {
-        _ambFade(0,0.75);
-        setTimeout(()=>{ if(!_amb.volume) _amb.pause(); },850);
+        _ambFade(0.35,750);
+      } else if(_ambStarted){
+        _ambFade(0,750);
+        setTimeout(()=>{ if(_amb.volume<0.01){_amb.pause();_amb.volume=0;} },900);
       }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
