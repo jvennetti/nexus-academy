@@ -817,45 +817,95 @@ if(IS_FIRST_OPEN){
   if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
 }
 if(!localStorage.getItem('nexus_machine_activated')){
-  var machineAmb = new Audio('machine_input_page_music.wav');
-  machineAmb.loop = true;
-  machineAmb.volume = 0;
+  var machineAmbCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var machineAmbBuffer = null;
+  var machineAmbGain = null;
+  var machineAmbSource = null;
   var machineAmbTimer = null;
   var machineAmbStarted = false;
+  var machineAmbWantPlay = false;
+  var machineAmbStopGen = 0;
+
+  // Unlock AudioContext on first user gesture (boot animation click covers this)
+  function machineAmbUnlock() {
+    machineAmbCtx.resume();
+    document.removeEventListener('click', machineAmbUnlock);
+    document.removeEventListener('touchend', machineAmbUnlock);
+  }
+  document.addEventListener('click', machineAmbUnlock);
+  document.addEventListener('touchend', machineAmbUnlock);
+
+  // Pre-fetch and decode while user is at the top of the page
+  fetch('machine_input_page_music.wav')
+    .then(function(r) { return r.arrayBuffer(); })
+    .then(function(ab) { return machineAmbCtx.decodeAudioData(ab); })
+    .then(function(buf) {
+      machineAmbBuffer = buf;
+      if (machineAmbWantPlay) machineAmbDoPlay();
+    })
+    .catch(function(){});
 
   function machineAmbFade(targetVol, durationMs) {
     clearInterval(machineAmbTimer);
-    var startVol = machineAmb.volume;
-    var diff = targetVol - startVol;
+    if (!machineAmbGain) return;
+    var start = machineAmbGain.gain.value;
+    var diff = targetVol - start;
     var steps = Math.max(1, Math.round(durationMs / 16));
     var step = 0;
     machineAmbTimer = setInterval(function() {
       step++;
       if (step >= steps) {
-        machineAmb.volume = targetVol;
+        if (machineAmbGain) machineAmbGain.gain.value = targetVol;
         clearInterval(machineAmbTimer);
         machineAmbTimer = null;
       } else {
-        machineAmb.volume = startVol + diff * (step / steps);
+        if (machineAmbGain) machineAmbGain.gain.value = start + diff * (step / steps);
       }
     }, 16);
+  }
+
+  function machineAmbDoPlay() {
+    if (!machineAmbBuffer) { machineAmbWantPlay = true; return; }
+    // If source exists, it's either playing or mid-fade-out — cancel stop, fade back in
+    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.35, 500); return; }
+    if (machineAmbCtx.state === 'suspended') machineAmbCtx.resume();
+    machineAmbGain = machineAmbCtx.createGain();
+    machineAmbGain.gain.value = 0;
+    machineAmbGain.connect(machineAmbCtx.destination);
+    machineAmbSource = machineAmbCtx.createBufferSource();
+    machineAmbSource.buffer = machineAmbBuffer;
+    machineAmbSource.loop = true;
+    machineAmbSource.connect(machineAmbGain);
+    machineAmbSource.start(0);
+    machineAmbFade(0.35, 500);
+    machineAmbWantPlay = false;
+  }
+
+  function machineAmbDoStop() {
+    if (!machineAmbSource) return;
+    machineAmbWantPlay = false;
+    machineAmbFade(0, 500);
+    var gen = ++machineAmbStopGen;
+    var src = machineAmbSource;
+    var gain = machineAmbGain;
+    setTimeout(function() {
+      if (gen !== machineAmbStopGen) return;
+      try { src.stop(); } catch(e) {}
+      src.disconnect();
+      gain.disconnect();
+      if (machineAmbSource === src) machineAmbSource = null;
+      if (machineAmbGain === gain) machineAmbGain = null;
+    }, 650);
   }
 
   var machineObserver = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
         machineAmbStarted = true;
-        machineAmb.play().catch(function(){});
-        machineAmbFade(0.35, 500);
+        machineAmbDoPlay();
       } else {
         if (!machineAmbStarted) return;
-        machineAmbFade(0, 500);
-        setTimeout(function() {
-          if (machineAmb.volume < 0.01) {
-            machineAmb.pause();
-            machineAmb.volume = 0;
-          }
-        }, 650);
+        machineAmbDoStop();
       }
     });
   }, { threshold: 0.25 });
