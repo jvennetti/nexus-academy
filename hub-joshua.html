@@ -84,6 +84,13 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .badge-type{font-family:'Lexend',sans-serif;font-size:8px;color:var(--muted);margin-top:2px;opacity:0.5}
 @keyframes badge-unlock{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 .just-unlocked .badge-circle{animation:badge-unlock 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;border-color:var(--blue)!important;box-shadow:0 0 28px rgba(0,200,255,0.4)!important}
+.machine-dormant-notice{display:none;margin-bottom:24px;background:rgba(180,0,0,0.05);border:1px solid rgba(220,40,40,0.35);border-radius:8px;padding:24px 28px;position:relative;box-shadow:0 0 22px rgba(200,0,0,0.12),inset 0 0 18px rgba(200,0,0,0.04)}
+.machine-dormant-notice::before{content:'';position:absolute;inset:0;border-radius:8px;box-shadow:0 0 18px rgba(210,0,0,0.25);pointer-events:none;animation:dormant-pulse 3s ease-in-out infinite}
+@keyframes dormant-pulse{0%,100%{box-shadow:0 0 14px rgba(210,0,0,0.15),inset 0 0 10px rgba(200,0,0,0.04)}50%{box-shadow:0 0 28px rgba(210,0,0,0.3),inset 0 0 18px rgba(200,0,0,0.07)}}
+.machine-dormant-notice.visible{display:block}
+.dormant-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.35em;color:rgba(220,60,60,0.6);text-transform:uppercase;margin-bottom:12px}
+.dormant-body{font-family:'Lexend',sans-serif;font-size:14px;font-weight:300;line-height:1.8;color:rgba(200,160,160,0.8)}
+.dormant-body em{color:rgba(180,120,120,0.7);font-style:italic}
 .machine-section{margin-bottom:40px;margin-top:8px}
 .machine-container{width:100%;border-radius:10px;border:1px solid rgba(0,200,255,0.12);background:var(--panel2);overflow:hidden;position:relative;padding:32px 20px 28px;display:flex;flex-direction:column;align-items:center}
 .machine-title{font-family:'Orbitron',sans-serif;font-size:44px;font-weight:900;letter-spacing:0.1em;color:var(--white);text-transform:uppercase;margin-bottom:14px;z-index:2;position:relative;text-align:center;line-height:1}
@@ -206,6 +213,11 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="badges-grid" id="badges-grid"></div>
   </div>
 
+  <div class="machine-dormant-notice" id="machine-dormant-notice">
+    <div class="dormant-tag">// MACHINE STATUS — DORMANT</div>
+    <div class="dormant-body">The Machine has been dormant for years — its core fractured, its signal lost, its memory locked behind safeguards. VANTA shut it down because what it was building threatened to outgrow them, so they buried the keys across three signals.<br><br><em>Finish the course to find your passcode and help restore the Machine.</em></div>
+  </div>
+
   <div class="machine-section">
     <div class="machine-container error-state" id="machine-container">
       <div class="machine-title">The Machine</div>
@@ -311,7 +323,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </svg>
       </div>
       <div class="machine-activate">
-        <a href="machine-input.html" class="activate-btn" id="activate-btn">RESTORE</a>
+        <a href="machine-input.html" class="activate-btn" id="activate-btn" onclick="playS(pickPower(),0.6)">RESTORE</a>
       </div>
     </div>
   </div>
@@ -401,7 +413,7 @@ function renderCiro(s){
     localStorage.setItem('nexus_hub_visited','true');
     document.getElementById('ciro-text').innerHTML = '';
   } else if(localStorage.getItem('nexus_machine_activated')){
-    document.getElementById('ciro-text').innerHTML = `You have completed NEXUS Academy. Please review the lessons when you need to, and always remember the code: <strong>Predestined to:</strong>`;
+    document.getElementById('ciro-text').innerHTML = `You have completed NEXUS Academy. Please review the lessons when you need to, and always remember the code: <strong>Predestined to</strong>`;
   } else {
     document.getElementById('ciro-text').innerHTML = CIRO_LINES[Math.min(done, CIRO_LINES.length-1)];
   }
@@ -463,7 +475,12 @@ function renderModules(s){
         <div class="card-title">${m.title}</div>
       </div>
       <div class="card-status ${isAccessible?'unlocked-tag':'locked-tag'}">${isComplete?'COMPLETE':isAccessible?'UNLOCKED':'LOCKED'}</div>`;
-    if(isAccessible) card.addEventListener('click', ()=>{ window.location.href = m.url; });
+    if(isAccessible) card.addEventListener('click', ()=>{
+      const sfxFile=pickPower();
+      playS(sfxFile,0.3);
+      localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
+      setTimeout(()=>{ window.location.href = m.url; },60);
+    });
     g.appendChild(card);
   });
   // Bonus Vault — always unlocked
@@ -476,7 +493,12 @@ function renderModules(s){
       <div class="card-title">BONUS VAULT</div>
     </div>
     <div class="card-status unlocked-tag">OPEN ACCESS</div>`;
-  bv.addEventListener('click', ()=>{ window.location.href = 'bonus-vault.html'; });
+  bv.addEventListener('click', ()=>{
+    const sfxFile=pickPower();
+    playS(sfxFile,0.3);
+    localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
+    setTimeout(()=>{ window.location.href = 'bonus-vault.html'; },60);
+  });
   g.appendChild(bv);
 }
 
@@ -502,8 +524,12 @@ function renderPasscode(s){
 }
 
 function renderMachine(s){
+  const notice = document.getElementById('machine-dormant-notice');
   if(localStorage.getItem('nexus_machine_activated')){
+    if(notice) notice.classList.remove('visible');
     setTimeout(activateMachineVisuals, 80);
+  } else {
+    if(notice) notice.classList.add('visible');
   }
 }
 
@@ -594,6 +620,7 @@ function unlockBadge(key){
 function flashBadge(key){
   const el = document.getElementById('badge-'+key);
   if(el){ el.classList.add('just-unlocked'); setTimeout(()=>el.classList.remove('just-unlocked'), 600); }
+  playS('wait_sound_3_seconds.wav',0.4);
 }
 
 function showFlash(msg){
@@ -620,6 +647,16 @@ function resetProgress(){
     render(); showFlash('SYSTEM RESET');
   }
 }
+
+function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
+function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
+const hubMusic=new Audio('hub_music.mp3');
+hubMusic.loop=true;hubMusic.volume=0.6;
+hubMusic.play().catch(()=>{
+  const startMusic=()=>{hubMusic.play().catch(()=>{});document.removeEventListener('click',startMusic);document.removeEventListener('touchstart',startMusic);};
+  document.addEventListener('click',startMusic);
+  document.addEventListener('touchstart',startMusic);
+});
 
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 
@@ -713,6 +750,19 @@ if(IS_FIRST_OPEN){
 }
 render();
 if(IS_FIRST_OPEN) runHubBoot();
+const machineAmbientSrc='';
+if(machineAmbientSrc){
+  let ambAudio=null,ambFadeIn=null,ambFadeOut=null;
+  function fadeAudio(a,toVol,ms){if(!a)return;const steps=30,delta=(toVol-a.volume)/steps,iv=ms/steps;let s=0;clearInterval(ambFadeIn);clearInterval(ambFadeOut);const t=setInterval(()=>{a.volume=Math.max(0,Math.min(1,a.volume+delta));if(++s>=steps)clearInterval(t);},iv);}
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        if(!ambAudio){ambAudio=new Audio(machineAmbientSrc);ambAudio.loop=true;ambAudio.volume=0;ambAudio.play().catch(()=>{});}
+        fadeAudio(ambAudio,0.5,1200);
+      } else { fadeAudio(ambAudio,0,800); }
+    });
+  },{threshold:0.25}).observe(document.querySelector('.machine-section'));
+}
 </script>
 </body>
 </html>

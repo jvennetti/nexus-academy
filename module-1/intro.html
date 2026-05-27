@@ -184,6 +184,18 @@ async function runScene(){
   runTransmission();
 }
 runScene();
+(function(){
+  const nav=localStorage.getItem('nexus_sfx_nav');
+  if(!nav)return;
+  try{
+    const {file,ts}=JSON.parse(nav);
+    localStorage.removeItem('nexus_sfx_nav');
+    const elapsed=(Date.now()-ts)/1000;
+    const a=new Audio('../'+file);
+    a.volume=0.3;a.currentTime=Math.min(elapsed,2.5);
+    a.play().catch(()=>{});
+  }catch(e){}
+})();
 </script>
 </body>
 </html>

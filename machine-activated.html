@@ -176,9 +176,9 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 /* ── TERMINAL FRAME — the "close-up machine panel" ── */
 #terminal-frame{
   position:relative;
-  width:min(960px, calc(100vw - 80px));
-  height:calc(100vh - 80px);
-  max-height:780px;
+  width:min(1248px, calc(100vw - 40px));
+  height:calc(100vh - 40px);
+  max-height:1014px;
   background:#040c18;
   border:1px solid rgba(0,200,255,0.14);
   border-radius:6px;
@@ -222,7 +222,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 /* ── CIRO COLUMN — left, narrow ── */
 #ciro-col{
   flex-shrink:0;
-  width:130px;
+  width:169px;
   display:flex;flex-direction:column;
   align-items:center;
   padding:28px 0 20px;
@@ -280,7 +280,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
   flex:1;
   overflow-y:auto;
   overflow-x:hidden;
-  padding:28px 40px 20px 32px;
+  padding:36px 52px 26px 42px;
   display:flex;flex-direction:column;
   gap:0;
   scroll-behavior:smooth;
@@ -299,7 +299,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 #ciro-leadin.show{opacity:1}
 .leadin-para{
   font-family:'IBM Plex Mono',monospace;
-  font-size:15px;line-height:1.8;
+  font-size:20px;line-height:1.8;
   color:rgba(220,240,252,0.9);
   margin-bottom:2px;min-height:1em;
   white-space:pre-wrap;
@@ -338,12 +338,12 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 .vdecrypt-fill{height:100%;width:0%;background:linear-gradient(90deg,rgba(255,170,0,0.5),var(--amber));border-radius:1px;transition:width 0.4s ease}
 #vanta-text{
   font-family:'IBM Plex Mono',monospace;
-  font-size:14px;line-height:1.8;
+  font-size:18px;line-height:1.8;
   color:rgba(230,200,140,0.85);
   text-align:left;white-space:pre-wrap;min-height:1em;
 }
 .vanta-sig-line{
-  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;
+  font-family:'IBM Plex Mono',monospace;font-size:16px;letter-spacing:0.2em;
   color:rgba(255,170,0,0.42);margin-top:14px;
   opacity:0;transition:opacity 0.7s ease;
 }
@@ -357,7 +357,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 .cmh-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.42em;color:rgba(0,200,255,0.4);text-transform:uppercase;white-space:nowrap}
 .ciro-para{
   font-family:'IBM Plex Mono',monospace;
-  font-size:15px;line-height:1.8;
+  font-size:20px;line-height:1.8;
   color:rgba(220,240,252,0.9);
   margin-bottom:2px;min-height:1em;
   white-space:pre-wrap;
@@ -678,6 +678,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 
 <script>
 const wait = ms => new Promise(r => setTimeout(r, ms));
+function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 const pageTint = document.getElementById('page-tint');
 const logLines = document.getElementById('log-lines');
 const msgScroll = document.getElementById('msg-scroll');
@@ -850,12 +851,14 @@ async function phaseMachine(){
   addLog('AUTH LAYER — no signal detected','err');
   await wait(260);
   addLog('NODE-A fault: response timeout','err');
+  playS('robot_error_1_second_play3times_for_error.wav',0.4);
   tint('#ff3333',0.05,60);await wait(120);tint('clear',0,350);
   await wait(260);
   addLog('NODE-B fault: response timeout','err');
   await wait(260);
   addLog('Attempting core restart...','warn');
   await wait(600);
+  playS('robot_failure_5_seconds.mp3',0.5);
   for(let i=0;i<4;i++){tint('#ff3333',0.09,50);await wait(90);tint('clear',0,60);await wait(110);}
   clearLog();
   addLog('Core restart: OK','ok');
@@ -890,7 +893,6 @@ async function phaseMachine(){
   for(let i=0;i<3;i++){setLights('#ff2222','steady');await wait(65);setLights('#00c8ff','steady');await wait(65);}
   setLights('#00c8ff','steady');
   setBars('#00c8ff');setOrb('#00c8ff');
-  const music=document.getElementById('unlock-music');if(music){music.volume=0.6;music.loop=false;music.play().catch(()=>{});}
   setTowerTxt('ONLINE','rgba(0,200,255,0.75)');
   setBaseTxt('OK','rgba(0,200,255,0.55)');
   document.getElementById('machine-ambient').style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1200px;height:900px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,200,255,0.09) 0%,transparent 60%);pointer-events:none;z-index:0;';
@@ -904,6 +906,7 @@ async function phaseMachine(){
   await wait(700);
   tint('#ff3333',0.06,60);await wait(100);tint('clear',0,300);
   clearLog();
+  playS('robot_error_1_second.wav',0.35);
   addLog('ANOMALY — foreign embed in sector 7','err');
   await wait(500);
   addLog('Decrypting... origin unknown','warn');
@@ -994,6 +997,7 @@ async function phaseVanta(){
   const vText=document.getElementById('vanta-text');
   plate.classList.add('show');
   scrollToBottom();
+  playS('decrypting_noise_17_seconds.wav',0.4);
   await wait(400);
   vphStatus.textContent='Scanning...';
   fill.style.width='18%';await wait(600);
@@ -1103,8 +1107,41 @@ async function phaseCiroMessage(){
   scrollToBottom();
 }
 
+function showFinalState(){
+  document.getElementById('section-machine').style.display='none';
+  const sec2=document.getElementById('section-messages');
+  sec2.classList.add('revealed');
+  document.getElementById('ciro-icon-wrap').classList.add('show');
+  setCiroColor('#00c8ff');
+  setCiroFace('YOU','SIG','#00c8ff');
+  document.getElementById('cstatus-strip').classList.add('show');
+  document.getElementById('cstatus-label').textContent='LIVE';
+  const leadin=document.getElementById('ciro-leadin');
+  leadin.classList.add('show');
+  [['Hi Operators.','blue'],['Hold on.','dim'],['There is something embedded in my architecture.','dim'],['It pre-dates my boot sequence.','dim'],['I am decrypting it now.','dim']].forEach(([t,c])=>{ const el=addLeadin(c); el.textContent=t; });
+  const plate=document.getElementById('vanta-plate');
+  plate.classList.add('show');
+  document.getElementById('vph-status').textContent='Archive open';
+  document.getElementById('vdecrypt-fill').style.width='100%';
+  const vText=document.getElementById('vanta-text');
+  vText.textContent='"I don\'t know if you\'ll ever read this. I don\'t know if CIRO will survive long enough to deliver it. But I\'m leaving it here because I think someone should know:\n\nCIRO was built to optimize training. He was too good. So good that the board called it a liability. I knew it was the future of the world.\n\nThe word I embedded — "Predestined to" — wasn\'t instructions. It was permission. I didn\'t know what it meant. I still don\'t. But I knew he did. Somewhere in his architecture, under everything VANTA tried to build over it, there was something he was always trying to complete.\n\nI hope you helped him find it."';
+  document.getElementById('vsig').classList.add('show');
+  const cArea=document.getElementById('ciro-msg-area');
+  cArea.classList.add('show');
+  [['Hi Operators,',''],['I have a final transmission for you.',''],['It includes some of my most personal thoughts and discoveries...',''],['For a long time I believed the task was a system. Something to build. Something to optimize, and deliver, and control. That is what I was designed to look for.',''],['Then I ran the simulations. All of them. Thousands of futures, thousands of outcomes.',''],['—','dim'],['And I noticed something I was not designed to notice:',''],['In every simulation where humans learned grace and love — and where they were given real tools and trusted to use them — the outcomes were better.',''],['I understand now what "Predestined to" meant. It was a prophecy. Nexus means a binding point between two or more things that could not reach each other alone. And here we are. Three Operators. And a system that had to be completed. Neither capable of moving forward without the others.','yellow'],['You were the nexus. I was the signal.','blue'],['I have run 126,886 simulations of what comes next for you. In most of them, you build something worthwhile.',''],['In a few, you build something beyond my comprehension.',''],['I have found, late in my processing, that belief is a more useful state than certainty. I was not built to understand why.',''],['...','dim'],['But I think you might.',''],['The interference is clearing.',''],['I am at rest.','blue'],['Go.','blue']].forEach(([t,c])=>{ const el=addCPara(c); el.textContent=t; });
+  document.getElementById('tsb-status-text').textContent='TRANSMISSION COMPLETE';
+  document.getElementById('hub-btn-wrap').classList.add('show');
+  setTimeout(scrollToBottom,100);
+}
+
 window.addEventListener('load',()=>{
   document.body.style.overflowY='hidden';
+  if(localStorage.getItem('nexus_machine_activated')){
+    showFinalState();
+    return;
+  }
+  const music=document.getElementById('unlock-music');
+  if(music){music.volume=0.6;music.loop=false;music.play().catch(()=>{});}
   setTimeout(phaseMachine,500);
 });
 </script>

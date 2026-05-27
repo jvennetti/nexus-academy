@@ -682,6 +682,8 @@ const headGroup   = document.getElementById('ciro-head');
 let bootStarted   = false;
 
 function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
+function pickPower(){return `../power_on_${Math.ceil(Math.random()*3)}.mp3`;}
 
 /* ══════════════════════════════════════════
    COLOR HELPERS
@@ -828,6 +830,7 @@ function addLine(text='', classes=''){
 async function bootCiro(){
   if(bootStarted) return;
   bootStarted = true;
+  playS(pickPower(), 0.6);
 
   // hide power button
   powerBtn.classList.add('hidden');
@@ -949,6 +952,7 @@ async function runDialogue(){
   setStatus('ERROR — OVERRIDE','red');
   setFaceText('OVERRIDE','DETECT','!!!','#ff3333');
   updateHUD('ALERT','DARK');
+  playS('../robot_error_1_second_play3times_for_error.wav', 0.4);
 
   // hard red flash
   pageTintColor('#ff3333', 0.12, 80);
@@ -974,6 +978,7 @@ async function runDialogue(){
   await typeLine(l7, "Someone put this here...");
   await wait(400);
 
+  playS('../robot_error_1_second.wav', 0.35);
   let l8 = addLine('red');
   l8.style.animation = 'glitch 0.35s ease-in-out 2';
   await typeLine(l8, 'It says "predestined to...".');
@@ -1012,6 +1017,7 @@ async function runDialogue(){
   figure.classList.remove('yellow-glow');
   figure.classList.add('error-glow');
   setFaceText('LAST','CYCLE','...','#ff3333');
+  playS('../robot_failure_5_seconds.mp3', 0.4);
   pageTintColor('#ff3333', 0.1, 80);
   await wait(200);
   pageTintColor('clear', 0, 700);
@@ -1053,6 +1059,7 @@ async function launchNexus(){
   figure.classList.add('alive');
   setStatus('NEXUS ACADEMY ONLINE','live');
   updateHUD('ACTIVE','STRONG');
+  playS('../short_success_1_second.wav', 0.5);
 
   // blue surge
   pageTintColor('#00c8ff', 0.06, 80);
