@@ -75,6 +75,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .achievements-section{margin-bottom:40px}
 .badges-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
 .badge-item{display:flex;flex-direction:column;align-items:center;text-align:center;transition:all 0.4s ease}
+.badge-item:not(.locked-badge):hover{transform:scale(1.25)}
 .badge-circle{width:76px;height:76px;border-radius:50%;background:var(--panel2);border:2px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:8px;position:relative;transition:all 0.4s ease}
 .badge-item.earned .badge-circle{border-color:var(--blue-md);background:var(--blue-lo);box-shadow:0 0 18px rgba(0,200,255,0.18),inset 0 0 12px rgba(0,200,255,0.08)}
 .badge-circle::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid transparent;transition:border-color 0.4s}

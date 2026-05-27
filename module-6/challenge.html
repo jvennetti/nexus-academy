@@ -161,6 +161,7 @@ Document 5 — Prayer Bulletin Sample: A complete example weekly prayer bulletin
 
 <script>
 function markComplete(){
+  playS('../password_confirmation.mp3',0.1);
   localStorage.setItem('nexus_module_6_complete', 'true');
   const keysToRemove = [];
   for(let i = 0; i < localStorage.length; i++){
@@ -172,6 +173,7 @@ function markComplete(){
   keysToRemove.forEach(k => localStorage.removeItem(k));
 }
 </script>
+function playS(s,v){var a=new Audio(s);a.volume=v===undefined?0.4:v;a.play().catch(function(){});return a;}
 <script src="../nexus-transition.js"></script>
 </body>
 </html>
