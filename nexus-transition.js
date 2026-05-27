@@ -57,6 +57,8 @@
     if(/pre-course\/complete/.test(p)){ document.title='Pre-Course Complete · NEXUS Academy'; return; }
   })();
 
+  var _lastSfxIdx=-1;
+
   // ── Transition out ──
   function runTransition(href,skipSound){
     ov.classList.remove('gone');
@@ -65,7 +67,10 @@
     pct.textContent='0%';
     status.textContent='LOADING';
     if(!skipSound){
-      var sfx=_sfxEls[Math.floor(Math.random()*_sfxEls.length)];
+      var idx;
+      do{ idx=Math.floor(Math.random()*_sfxEls.length); }while(idx===_lastSfxIdx&&_sfxEls.length>1);
+      _lastSfxIdx=idx;
+      var sfx=_sfxEls[idx];
       sfx.currentTime=0;
       sfx.play().catch(function(){});
     }

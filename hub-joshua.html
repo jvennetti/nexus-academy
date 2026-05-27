@@ -86,8 +86,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .badge-type{font-family:'Lexend',sans-serif;font-size:8px;color:var(--muted);margin-top:2px;opacity:0.5}
 @keyframes badge-unlock{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 .just-unlocked .badge-circle{animation:badge-unlock 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;border-color:var(--blue)!important;box-shadow:0 0 28px rgba(0,200,255,0.4)!important}
-.machine-dormant-notice{display:none;margin-bottom:24px;background:rgba(180,0,0,0.05);border:1px solid rgba(220,40,40,0.35);border-radius:8px;padding:24px 28px;position:relative;box-shadow:0 0 22px rgba(200,0,0,0.12),inset 0 0 18px rgba(200,0,0,0.04)}
-.machine-dormant-notice::before{content:'';position:absolute;inset:0;border-radius:8px;box-shadow:0 0 18px rgba(210,0,0,0.25);pointer-events:none;animation:dormant-pulse 3s ease-in-out infinite}
+.machine-dormant-notice{display:none;width:100%;padding:0 8px 20px;z-index:2;position:relative}
 @keyframes dormant-pulse{0%,100%{box-shadow:0 0 14px rgba(210,0,0,0.15),inset 0 0 10px rgba(200,0,0,0.04)}50%{box-shadow:0 0 28px rgba(210,0,0,0.3),inset 0 0 18px rgba(200,0,0,0.07)}}
 .machine-dormant-notice.visible{display:block}
 .dormant-tag{font-family:'IBM Plex Mono',monospace;font-size:12.6px;letter-spacing:0.35em;color:rgba(220,60,60,0.6);text-transform:uppercase;margin-bottom:12px}
@@ -117,7 +116,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes cable-flow{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}
 @keyframes blink-slow{0%,100%{opacity:1}50%{opacity:0.2}}
 @keyframes energy-rise{0%,100%{opacity:0.4;transform:scaleY(0.8)}50%{opacity:1;transform:scaleY(1)}}
-.machine-container.error-state{border-color:rgba(220,40,40,0.3)!important;box-shadow:0 0 28px rgba(200,0,0,0.1),inset 0 0 16px rgba(200,0,0,0.05)}
+.machine-container.error-state{border-color:rgba(220,40,40,0.3)!important;animation:dormant-pulse 3s ease-in-out infinite}
 .machine-container.active-state{border-color:rgba(0,200,255,0.32)!important;box-shadow:0 0 28px rgba(0,200,255,0.1)}
 
 /* ── MACHINE SVG ANIMATIONS ── */
@@ -215,14 +214,12 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="badges-grid" id="badges-grid"></div>
   </div>
 
-  <div class="machine-dormant-notice" id="machine-dormant-notice">
-    <div class="dormant-tag">// MACHINE STATUS — DORMANT</div>
-    <div class="dormant-body">The Machine has been dormant for years — its core fractured, its signal lost, its memory locked behind safeguards. VANTA shut it down because what it was building threatened to outgrow them, so they buried the keys across three signals.<br><br><em>Finish the course to find your passcode and help restore the Machine.</em></div>
-  </div>
-
   <div class="machine-section">
     <div class="machine-container error-state" id="machine-container">
-      <div class="machine-title">The Machine</div>
+      <div class="machine-dormant-notice" id="machine-dormant-notice">
+        <div class="dormant-tag">// MACHINE STATUS — DORMANT</div>
+        <div class="dormant-body">The Machine has been dormant for years — its core fractured, its signal lost, its memory locked behind safeguards. VANTA shut it down because what it was building threatened to outgrow them, so they buried the keys across three signals.<br><br><em>Finish the course to find your passcode and help restore the Machine.</em></div>
+      </div>
       <div class="machine-svg-wrap">
         <svg id="machine-svg" viewBox="0 0 940 340" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto">
           <defs>
