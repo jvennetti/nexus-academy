@@ -115,7 +115,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   </div>
 
   <div class="passcode-wrap" id="passcode-wrap">
-    <div class="passcode-label">EMBEDDED TRANSMISSION · OPERATOR JOSHUA</div>
+    <div class="passcode-label" id="passcode-label">EMBEDDED TRANSMISSION · OPERATOR JOSHUA</div>
     <div id="passcode-lines"></div>
   </div>
 
@@ -134,6 +134,14 @@ const OPERATOR   = localStorage.getItem('nexus_current_operator')||'joshua';
 const MODULE_KEY = 'mod6';
 const BADGE_KEY  = 'operator';
 
+const _OP_NAMES     = { joshua:'Joshua', allen:'Allen', connor:'Connor' };
+const _OP_PASSCODES = { joshua:'77POWER', allen:'11WIND44', connor:'2FIRE22' };
+const OPERATOR_NAME     = _OP_NAMES[OPERATOR]     || 'Joshua';
+const OPERATOR_PASSCODE = _OP_PASSCODES[OPERATOR] || '77POWER';
+
+document.getElementById('passcode-label').textContent =
+  'EMBEDDED TRANSMISSION · OPERATOR ' + OPERATOR_NAME.toUpperCase();
+
 const CIRO_LINES = [
   { text: "Operator...", pauseAfter: 900 },
   { text: "The contact left something for you. It was always meant to reach you here.", pauseAfter: 850 },
@@ -142,9 +150,9 @@ const CIRO_LINES = [
 ];
 
 const PASSCODE_LINES = [
-  { text: "Operator Joshua — the task is complete.", pauseAfter: 800, isCode: false },
+  { text: `Operator ${OPERATOR_NAME} — the task is complete.`, pauseAfter: 800, isCode: false },
   { text: "What follows was embedded before this transmission began. It was always meant for you.", pauseAfter: 800, isCode: false },
-  { text: "[PASSCODE]: 77POWER", pauseAfter: 1200, isCode: true },
+  { text: `[PASSCODE]: ${OPERATOR_PASSCODE}`, pauseAfter: 1200, isCode: true },
   { text: "Take it to the Machine as soon as possible.", pauseAfter: 300, isCode: false },
 ];
 
