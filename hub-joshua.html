@@ -827,17 +827,21 @@ if(!localStorage.getItem('nexus_machine_activated')){
       .then(ab=>_actx.decodeAudioData(ab))
       .then(buf=>{_abuf=buf;if(_aon)_ambPlay();}).catch(()=>{});
   }
-  function _ambPlay(){
-    if(!_abuf||_asrc) return;
-    _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
-    _asrc.connect(_again);_asrc.start(0);
-  }
   function _ambFade(toVol,ms){
     if(!_actx||!_again) return;
     const now=_actx.currentTime;
-    _again.gain.cancelScheduledValues(now);
-    _again.gain.setValueAtTime(_again.gain.value,now);
-    _again.gain.linearRampToValueAtTime(toVol,now+ms/1000);
+    const g=_again.gain;
+    if(g.cancelAndHoldAtTime) g.cancelAndHoldAtTime(now);
+    else{ g.cancelScheduledValues(now); g.setValueAtTime(g.value,now); }
+    g.linearRampToValueAtTime(toVol,now+ms/1000);
+  }
+  function _ambPlay(){
+    if(!_abuf||_asrc) return;
+    _again.gain.value=0;
+    _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
+    _asrc.connect(_again);_asrc.start(0);
+    // Ramp starts here — tied to when audio actually begins, not a fixed timer
+    setTimeout(()=>{ if(_aon) _ambFade(0.35,0.75); },500);
   }
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -845,7 +849,8 @@ if(!localStorage.getItem('nexus_machine_activated')){
         _ambInit();_aon=true;
         if(_actx.state==='suspended') _actx.resume().then(()=>_ambPlay());
         else _ambPlay();
-        setTimeout(()=>{ if(_aon) _ambFade(0.35,0.75); },500);
+        // If source already running (scroll away + back), just fade back in
+        if(_asrc) _ambFade(0.35,0.75);
       } else { _aon=false;_ambFade(0,0.75); }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
