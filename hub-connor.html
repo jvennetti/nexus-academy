@@ -525,8 +525,7 @@ function renderBadges(s){
 }
 
 function renderPasscode(s){
-  const allDone = MODULES.every(m=>s[m.key+'_complete']);
-  if(allDone){
+  if(s['mod6_complete']){
     document.getElementById('passcode-section').classList.add('visible');
     document.getElementById('passcode-value').textContent = PASSCODE;
   }
