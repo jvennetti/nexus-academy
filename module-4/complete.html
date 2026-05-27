@@ -135,6 +135,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
 </div>
 
 <script>
+const _compMusic=new Audio('../module_complete_music.mp3');_compMusic.loop=true;_compMusic.volume=0.4;_compMusic.play().catch(function(){document.addEventListener('click',function h(){_compMusic.play().catch(function(){});document.removeEventListener('click',h);});});window.addEventListener('pageshow',function(e){if(e.persisted)_compMusic.play().catch(function(){});});
 const OPERATOR   = 'joshua';
 const MODULE_KEY = 'mod4';
 const BADGE_KEY  = 'architect';
@@ -241,22 +242,25 @@ function startCorruption(){
   const overlay = document.getElementById('corrupt-overlay');
   let errIdx = 0;
 
-  // Phase 1 — immediate: box starts pulsing red
+  // Phase 1 — immediate: box starts pulsing red + 3x error beeps
   wrap.classList.add('corrupt-1');
   overlay.style.background = 'rgba(180,0,0,0.04)';
+  playS('../robot_error_1_second_play3times_for_error.wav',0.35);
 
   const t1 = setTimeout(()=>{
-    // Phase 2 — 2s: intensify + first errors
+    // Phase 2 — 2s: intensify + first errors + failure siren
     wrap.classList.remove('corrupt-1');
     wrap.classList.add('corrupt-2');
     overlay.style.background = 'rgba(180,0,0,0.09)';
     spawnError(ERR_MSGS[errIdx++], 120);
     spawnError(ERR_MSGS[errIdx++], 220);
+    playS('../robot_failure_5_seconds.mp3',0.4);
+    playS('../robot_error_1_second.wav',0.3);
   }, 2000);
   corruptTimers.push(t1);
 
   const t2 = setTimeout(()=>{
-    // Phase 3 — 4s: horns appear + maximum chaos
+    // Phase 3 — 4s: horns appear + maximum chaos + more beeps
     wrap.classList.remove('corrupt-2');
     wrap.classList.add('corrupt-3');
     overlay.style.background = 'rgba(180,0,0,0.16)';
@@ -267,13 +271,17 @@ function startCorruption(){
     spawnError(ERR_MSGS[errIdx++], 80);
     spawnError(ERR_MSGS[errIdx++], 300);
     spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 420);
+    playS('../robot_error_1_second_play3times_for_error.wav',0.45);
   }, 4000);
   corruptTimers.push(t2);
 
   const t3 = setTimeout(()=>{
-    // Phase 4 — 6s: one last burst
+    // Phase 4 — 6s: final burst of chaos
     spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 160);
     spawnError(ERR_MSGS[errIdx++ % ERR_MSGS.length], 360);
+    playS('../robot_failure_5_seconds.mp3',0.35);
+    setTimeout(()=>playS('../robot_error_1_second.wav',0.4),400);
+    setTimeout(()=>playS('../robot_error_1_second.wav',0.4),900);
   }, 6000);
   corruptTimers.push(t3);
 }
@@ -290,6 +298,7 @@ function stopCorruption(){
     if(h) h.setAttribute('opacity','0');
   });
   document.querySelectorAll('.error-popup').forEach(el=>el.remove());
+  playS('../short_success_1_second.wav',0.25);
 }
 /* ══ END CORRUPTION ══ */
 
