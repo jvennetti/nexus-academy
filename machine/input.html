@@ -696,6 +696,15 @@ load();
   document.addEventListener('click',_h);document.addEventListener('touchstart',_h);
   window.addEventListener('pageshow',function(e){if(e.persisted){_on=false;_src=null;start();}});
 })();
+(function(){
+  function schedDecrypt(){
+    setTimeout(function(){
+      playS('../audio/sfx/decrypting-noise.wav', 0.05);
+      schedDecrypt();
+    }, 20000 + Math.random()*30000);
+  }
+  schedDecrypt();
+})();
 </script>
 <script>(function(){var op=localStorage.getItem('nexus_current_operator')||'joshua';var l=document.getElementById('hub-return-link');if(l)l.href='../hub-'+op+'.html';})();</script>
 <script src="../nexus-transition.js"></script>
