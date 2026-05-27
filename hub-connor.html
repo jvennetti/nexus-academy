@@ -860,6 +860,17 @@ if(!localStorage.getItem('nexus_machine_activated')){
   var machineAmbStarted = false;
   var machineAmbWantPlay = false;
   var machineAmbStopGen = 0;
+  var hubMusicFadeTimer = null;
+  function fadeHubMusic(targetVol, durationMs){
+    if(hubMusicFadeTimer) clearInterval(hubMusicFadeTimer);
+    var start = hubMusic.volume, diff = targetVol - start;
+    var steps = Math.max(1, Math.round(durationMs / 16)), step = 0;
+    hubMusicFadeTimer = setInterval(function(){
+      step++;
+      if(step >= steps){ hubMusic.volume = Math.max(0, Math.min(1, targetVol)); clearInterval(hubMusicFadeTimer); hubMusicFadeTimer = null; }
+      else { hubMusic.volume = Math.max(0, Math.min(1, start + diff * (step / steps))); }
+    }, 16);
+  }
 
   // Unlock AudioContext on first user gesture (boot animation click covers this)
   function machineAmbUnlock() {
@@ -902,7 +913,8 @@ if(!localStorage.getItem('nexus_machine_activated')){
   function machineAmbDoPlay() {
     if (!machineAmbBuffer) { machineAmbWantPlay = true; return; }
     // If source exists, it's either playing or mid-fade-out — cancel stop, fade back in
-    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.21, 500); return; }
+    if (machineAmbSource) { machineAmbStopGen++; machineAmbFade(0.21, 500); fadeHubMusic(0, 1000); return; }
+    fadeHubMusic(0, 1000);
     if (machineAmbCtx.state === 'suspended') machineAmbCtx.resume();
     machineAmbGain = machineAmbCtx.createGain();
     machineAmbGain.gain.value = 0;
@@ -919,6 +931,7 @@ if(!localStorage.getItem('nexus_machine_activated')){
   function machineAmbDoStop() {
     if (!machineAmbSource) return;
     machineAmbWantPlay = false;
+    fadeHubMusic(0.67, 1000);
     machineAmbFade(0, 500);
     var gen = ++machineAmbStopGen;
     var src = machineAmbSource;
