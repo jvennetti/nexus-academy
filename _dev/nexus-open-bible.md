@@ -139,6 +139,70 @@ That's the whole story. Single operator. No three-operator framing. No antagonis
 
 ---
 
+## 6.5 Non-Dialogue UI Text Rewrites
+
+These are NOT CIRO dialogue lines — they're static UI text in the HTML that still references the three-operator framing. Both need rewriting for nexus-open.
+
+### A. Hub dormant notice — `hub-operator.html`
+
+In nexus-academy `hub-joshua.html` (and allen/connor), under `<div class="machine-dormant-notice">` there's a tag/body block that reads:
+
+```
+// MACHINE STATUS — DORMANT
+The Machine has been dormant for years — its core fractured, its signal lost, its memory locked behind safeguards. VANTA shut it down because what it was building threatened to outgrow them, so they buried the keys across three signals.
+Finish the course to find your passcode and help restore the Machine.
+```
+
+**Problems:** mentions VANTA, mentions "three signals," ties to multi-operator lore.
+
+**Rewrite to:**
+```
+// MACHINE STATUS — DORMANT
+The Machine has been dormant for years — its core fractured, its signal lost, its memory locked behind safeguards. The keys were buried before the system went silent, waiting for an Operator who could complete the sequence.
+Finish the course to find your passcode and help restore the Machine.
+```
+
+(Drops VANTA, drops "three signals." Keeps the dramatic tone and the "finish the course to get your passcode" call-to-action.)
+
+### B. machine/input.html — full collapse from 3 inputs to 1
+
+In nexus-academy this page has THREE password input slots (one per operator) that must all be filled correctly to activate the machine. For nexus-open, collapse to one input.
+
+**HTML changes:**
+
+1. **Warning title** (`<div class="warning-title">` block, ~line 493):
+   - Change `<div class="wt-main">All Operators Must<br><span>Complete the Course</span><br>to Restore the Machine.</div>`
+   - To: `<div class="wt-main">Complete the Course<br><span>to Restore</span><br>the Machine.</div>`
+   - (Or similar — point is: drop "All Operators Must" plural framing.)
+
+2. **Input slots** (`<div class="ops-stack">` block, lines ~501–545):
+   - DELETE the two extra `<div class="op-slot">` blocks for `connor` and `allen`
+   - KEEP only the `joshua` slot, but rename all IDs/classes/handlers:
+     - `id="slot-joshua"` → `id="slot-operator"`
+     - `id="pill-joshua"` → `id="pill-operator"`
+     - `id="input-joshua"` → `id="input-operator"`
+     - `placeholder="Enter code — Joshua"` → `placeholder="Enter your passcode"`
+     - `oninput="onInput('joshua')"` → `oninput="onInput('operator')"`
+     - `id="sname-joshua"` → `id="sname-operator"`
+     - `>Joshua — Confirmed<` → `>Confirmed<`
+     - `id="check-joshua"` → `id="check-operator"`
+     - `id="seal-joshua"` → `id="seal-operator"`
+
+3. **Hub return link** (line ~550): change `href="../hub-joshua.html"` → `href="../hub-operator.html"` (the inline script at the bottom that rewrites the link via `localStorage` also needs the fallback default `'joshua'` → `'operator'`).
+
+**JS changes (around lines 568–657):**
+
+- `const CODES={joshua:'77POWER',connor:'2FIRE22',allen:'11WIND44'};` → `const CODES={operator:'76xJFp*w!W3*'};`
+- `const OPS=['joshua','connor','allen'];` → `const OPS=['operator'];`
+- `const confirmed={joshua:false,connor:false,allen:false};` → `const confirmed={operator:false};`
+- `const idx={joshua:0,connor:1,allen:2};` → `const idx={operator:0};`
+- The activation check `if(confirmed.joshua&&confirmed.connor&&confirmed.allen){` → `if(confirmed.operator){`
+- The hub-return-link script: `localStorage.getItem('nexus_current_operator')||'joshua'` → `localStorage.getItem('nexus_current_operator')||'operator'` and `'../hub-'+op+'.html'` → `'../hub-operator.html'` (since there's only one hub now, the lookup is technically unnecessary but keep it consistent).
+
+**Important:** The visual styling, animations, SVG decorative layer, sound effects, and overall page structure should remain identical. Only the multi-operator pieces collapse.
+
+---
+
 ## 7. Reset Button — Key Combo
 
 In nexus-academy, the reset button is visible but low-opacity. In nexus-open, hide it entirely and reveal only on a key combo.
@@ -249,8 +313,10 @@ These features exist in nexus-academy and should be copied into nexus-open:
 - [x] CIRO dialogue finalized (see `_dev/ciro-messages-final.md`)
 - [ ] Set up nexus-open repo structure (copy files from nexus-academy)
 - [ ] Create `hub-operator.html` from `hub-joshua.html` (swap OPERATOR constants, hide reset btn)
+- [ ] **Rewrite hub dormant notice text** (drops VANTA + "three signals" — see §6.5 A)
 - [ ] Apply CIRO dialogue from `ciro-messages-final.md` to all relevant pages
 - [ ] Apply rewritten boot log, recovered message, and CIRO final transmission to `machine/activated.html`
+- [ ] **Collapse `machine/input.html` from 3 input slots to 1** (HTML + JS — see §6.5 B)
 - [ ] Add Shift+Alt+R key-combo reveal for reset button
 - [ ] Create `index.html` entry point (likely a redirect to `pre-course/ciro-intro.html?op=operator`)
 - [ ] Test full flow: ciro-intro → hub → pre-course → modules → machine → vault

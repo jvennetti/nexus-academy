@@ -15,6 +15,7 @@
 ## nexus-open (separate repo, separate environment)
 
 - [x] CIRO dialogue finalized — see `_dev/ciro-messages-final.md`
+- [x] Bible §6.5 added: hub dormant-notice rewrite + machine/input.html 3-slots-to-1 collapse spec
 - [ ] User to set up new Claude Code environment with both repos connected
 - [ ] Build nexus-open from scratch per `_dev/nexus-open-bible.md` (using `ciro-messages-final.md` as dialogue source of truth)
 
