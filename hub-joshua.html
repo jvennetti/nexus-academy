@@ -611,6 +611,7 @@ function activateMachineVisuals(){
 
 function machineRestoreTransit(e){
   e.preventDefault();
+  playS(pickPower(),0.1);
   // Fade hub music out
   (window.__bgAudio||[]).forEach(function(a){
     if(a && !a.paused){
@@ -816,61 +817,36 @@ if(IS_FIRST_OPEN){
   if(_ciroHtml) typewriteCiro(_ciroEl,_ciroHtml);
 }
 if(!localStorage.getItem('nexus_machine_activated')){
-  // Web Audio API gapless loop; setInterval gain fade; 500ms silence before fade-in
-  let _actx=null,_again=null,_abuf=null,_asrc=null,_aon=false,_volTimer=null;
-  function _ambFade(toVol,ms){
-    if(!_again) return;
-    clearInterval(_volTimer);
-    const start=_again.gain.value,diff=toVol-start,steps=Math.max(1,Math.round(ms/16));
-    let n=0;
-    _volTimer=setInterval(()=>{
-      n++;
-      if(n>=steps){_again.gain.value=toVol;clearInterval(_volTimer);_volTimer=null;}
-      else{_again.gain.value=start+diff*(n/steps);}
-    },16);
-  }
-  function _doPlay(){
-    if(!_abuf||_asrc) return;
-    _again.gain.value=0;
-    _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
-    _asrc.connect(_again);_asrc.start(0);
-    setTimeout(()=>{ if(_aon) _ambFade(0.35,0.75); },500);
-  }
+  // Web Audio API gapless loop; original scheduling approach restored (was working)
+  let _actx=null,_again=null,_abuf=null,_asrc=null,_aon=false;
   function _ambInit(){
     if(_actx) return;
     _actx=new(window.AudioContext||window.webkitAudioContext)();
     _again=_actx.createGain();_again.gain.value=0;_again.connect(_actx.destination);
     fetch('machine_input_page_music.wav').then(r=>r.arrayBuffer())
       .then(ab=>_actx.decodeAudioData(ab))
-      .then(buf=>{
-        _abuf=buf;
-        if(_aon){
-          if(_actx.state==='suspended') _actx.resume().then(_doPlay);
-          else _doPlay();
-        }
-      }).catch(()=>{});
+      .then(buf=>{_abuf=buf;if(_aon)_ambPlay();}).catch(()=>{});
   }
-  // Unlock AudioContext on first user gesture (needed for Safari/iOS)
-  function _tryResume(){
-    if(_actx&&_aon&&!_asrc){
-      if(_actx.state==='suspended') _actx.resume().then(_doPlay);
-      else if(_abuf) _doPlay();
-    }
+  function _ambPlay(){
+    if(!_abuf||_asrc) return;
+    _asrc=_actx.createBufferSource();_asrc.buffer=_abuf;_asrc.loop=true;
+    _asrc.connect(_again);_asrc.start(0);
   }
-  document.addEventListener('click',_tryResume,{once:true});
-  document.addEventListener('scroll',_tryResume,{once:true,passive:true});
+  function _ambFade(toVol,ms){
+    if(!_actx||!_again) return;
+    const now=_actx.currentTime;
+    _again.gain.cancelScheduledValues(now);
+    _again.gain.setValueAtTime(_again.gain.value,now);
+    _again.gain.linearRampToValueAtTime(toVol,now+ms/1000);
+  }
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
-        _aon=true;
-        if(!_actx){_ambInit();}
-        else if(_asrc){_ambFade(0.35,0.75);}
-        else if(_actx.state==='suspended'){_actx.resume().then(_doPlay);}
-        else{_doPlay();}
-      } else {
-        _aon=false;
-        _ambFade(0,0.75);
-      }
+        _ambInit();_aon=true;
+        if(_actx.state==='suspended') _actx.resume().then(()=>_ambPlay());
+        else _ambPlay();
+        setTimeout(()=>{ if(_aon) _ambFade(0.35,0.75); },500);
+      } else { _aon=false;_ambFade(0,0.75); }
     });
   },{threshold:0.25}).observe(document.querySelector('.machine-section'));
 }
