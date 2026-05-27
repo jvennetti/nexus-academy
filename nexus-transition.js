@@ -30,6 +30,7 @@
   } else {
     setTimeout(fadeIn,60);
   }
+  window.addEventListener('pageshow',function(e){ if(e.persisted) fadeIn(); });
 
   // ── Auto tab title from URL ──
   (function(){
@@ -92,6 +93,7 @@
     var href=a.getAttribute('href');
     if(!href||href.charAt(0)==='#'||/^(javascript|mailto|tel):/i.test(href)) return;
     if(/^https?:/i.test(href)) return;
+    if(/lesson-\d+-\d+/.test(window.location.pathname)&&/lesson-\d+-\d+/.test(a.href)) return;
     ev.preventDefault();
     runTransition(a.href);
   });
