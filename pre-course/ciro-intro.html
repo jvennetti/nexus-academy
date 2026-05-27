@@ -1033,7 +1033,6 @@ async function runDialogue(){
   await wait(200);
   pageTintColor('clear', 0, 700);
 
-  playS('../audio/sfx/robot-error-x3.wav', 0.1);
   let l11 = addLine('red');
   await typeLine(l11, 'This is my last stable cycle.');
   await wait(1000);
@@ -1150,6 +1149,7 @@ localStorage.setItem('nexus_current_operator',_introOp);
 
 function enterHub(){
   localStorage.setItem('nexus_intro_seen_'+_introOp,'true');
+  localStorage.removeItem('nexus_hub_visited_'+_introOp);
   playS('../audio/sfx/password-confirm.mp3', 0.1);
   var dest='../hub-'+_introOp+'.html';
   if(window.nxTransit){ window.nxTransit(dest); }
