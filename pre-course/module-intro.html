@@ -150,7 +150,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   <div class="ciro-tx-panel">
     <div id="ciro-lines"></div>
     <div class="tx-sep" id="tx-sep"></div>
-    <a href="lesson-0-1.html" class="begin-btn" id="begin-btn" onclick="(()=>{const a=new Audio('../password_confirmation.mp3');a.volume=0.1;a.play().catch(()=>{});})()">
+    <a href="lesson-0-1.html" class="begin-btn" id="begin-btn" onclick="var _a=new Audio('../password_confirmation.mp3');_a.volume=0.1;_a.play().catch(function(){})">
       Begin Pre-Course <span class="begin-arrow">→</span>
     </a>
   </div>
@@ -290,6 +290,8 @@ runScene();
     a.play().catch(()=>{});
   }catch(e){}
 })();
+(function(){var s=new Audio("../ciro-intro%20song.mp3");s.loop=true;s.volume=0.3;s.play().catch(function(){document.addEventListener("click",function h(){s.play().catch(function(){});document.removeEventListener("click",h);});});})();
 </script>
+<script src="../nexus-transition.js"></script>
 </body>
 </html>

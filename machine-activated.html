@@ -680,7 +680,7 @@ body{background:var(--bg);color:var(--offwhite);font-family:'Lexend',sans-serif;
 const wait = ms => new Promise(r => setTimeout(r, ms));
 function playS(src,vol=0.4){const a=new Audio(src);a.volume=vol;a.play().catch(()=>{});return a;}
 function pickPower(){return `power_on_${Math.ceil(Math.random()*3)}.mp3`;}
-const hubMusicActivated=new Audio('hub_music.mp3');hubMusicActivated.loop=true;hubMusicActivated.volume=0.34;
+const hubMusicActivated=new Audio('hub_music_2.mp3');hubMusicActivated.loop=true;hubMusicActivated.volume=0.34;
 const pageTint = document.getElementById('page-tint');
 const logLines = document.getElementById('log-lines');
 const msgScroll = document.getElementById('msg-scroll');
@@ -1159,5 +1159,6 @@ window.addEventListener('load',()=>{
   setTimeout(phaseMachine,500);
 });
 </script>
+<script src="nexus-transition.js"></script>
 </body>
 </html>

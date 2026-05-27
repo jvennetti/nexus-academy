@@ -107,7 +107,7 @@ nav{background:var(--card);border-bottom:1px solid var(--border);height:64px;dis
   </div>
 
   <div class="hub-cta" id="hub-cta">
-    <a href="../hub-joshua.html" class="hub-btn">Return to Hub</a>
+    <a href="../hub-joshua.html" class="hub-btn" onclick="playS('../password_confirmation.mp3',0.1)">Return to Hub</a>
     <div class="hub-cta-sub">Progress saved · Badge recorded</div>
   </div>
 
@@ -161,6 +161,7 @@ function setLights(color){
 }
 
 function runReveal(){
+  setTimeout(function(){playS("../wait_sound_3_seconds.wav",0.1);},200);
   setTimeout(()=> document.getElementById('completion-badge').classList.add('animate-in'), 200);
   setTimeout(()=> document.getElementById('label-2').classList.add('animate-in'), 500);
   setTimeout(()=> document.getElementById('label-3').classList.add('animate-in'), 680);
@@ -210,6 +211,8 @@ async function runCiro(){
 writeComplete();
 pingHub();
 runReveal();
+function playS(s,v){var a=new Audio(s);a.volume=v===undefined?0.4:v;a.play().catch(function(){});return a;}
 </script>
+<script src="../nexus-transition.js"></script>
 </body>
 </html>
