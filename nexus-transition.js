@@ -67,8 +67,14 @@
     pct.textContent='0%';
     status.textContent='LOADING';
     if(!skipSound){
-      var idx;
-      do{ idx=Math.floor(Math.random()*_sfxEls.length); }while(idx===_lastSfxIdx&&_sfxEls.length>1);
+      // Weighted pick: sound 3 (idx 2) = 50%, sounds 1&2 = 25% each. No repeat in a row.
+      var pool=[];
+      for(var i=0;i<_sfxEls.length;i++){
+        if(i===_lastSfxIdx) continue;
+        var w=(i===2)?2:1;
+        for(var wi=0;wi<w;wi++) pool.push(i);
+      }
+      var idx=pool[Math.floor(Math.random()*pool.length)];
       _lastSfxIdx=idx;
       var sfx=_sfxEls[idx];
       sfx.currentTime=0;
