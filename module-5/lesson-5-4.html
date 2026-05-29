@@ -50,13 +50,10 @@ h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700
 .nav-dir{font-family:'Lexend',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 .nav-name{font-family:'Lexend',sans-serif;font-size:14px;font-weight:500;color:var(--white);line-height:1.4}
 
-.notes-section{margin-top:0;margin-bottom:36px}
-.notes-label{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:8px;opacity:0.65}
-.notes-area{width:100%;min-height:72px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;font-family:'Lexend',sans-serif;font-size:14px;font-weight:300;color:var(--white);outline:none;resize:none;overflow:hidden;line-height:1.7;transition:border-color .2s;box-sizing:border-box}
-.notes-area::placeholder{color:var(--muted);font-weight:300}
-.notes-area:focus{border-color:var(--blue-border)}
-.notes-saved-msg{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--muted);margin-top:5px;height:14px;opacity:0;transition:opacity .4s}
-.notes-saved-msg.show{opacity:1}
+.notes-wrap{margin-bottom:36px}
+textarea.notes-field{display:block;width:100%;min-height:130px;background:rgba(255,255,255,0.028);border:1px solid var(--border);border-radius:8px;padding:20px 24px;color:var(--body-text);font-family:'Lexend',sans-serif;font-size:14px;font-weight:300;line-height:1.75;resize:none;overflow:hidden;outline:none;transition:border-color .2s,background .2s;caret-color:var(--blue)}
+textarea.notes-field::placeholder{color:rgba(90,138,170,0.35);font-style:italic}
+textarea.notes-field:focus{border-color:rgba(0,200,255,0.2);background:rgba(255,255,255,0.038)}
 </style>
 </head>
 <body>
@@ -83,6 +80,9 @@ h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700
   <div class="video-wrapper section">
     <iframe src="https://www.youtube.com/embed/n_lRMtWDU40" title="How to Use Apollo.io — Full Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
+  <div class="notes-wrap">
+    <textarea class="notes-field" id="lesson-notes" placeholder="Notes..."></textarea>
+  </div>
   <div class="takeaways-box section">
     <div class="takeaways-title">Key Takeaways</div>
     <div class="takeaway-item"><div class="t-bullet"></div><div>Apollo's primary value is its database and the ability to filter it with precision: job title, seniority, company size, industry, revenue, buying intent signals, tech stack, location, and more.</div></div>
@@ -90,11 +90,6 @@ h1.lesson-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700
     <div class="takeaway-item"><div class="t-bullet"></div><div>When building a list: start in the Companies tab to identify target accounts by firmographic criteria, then switch to the People tab to find decision makers inside those companies. Working top-down produces higher-quality lists than building from people alone.</div></div>
     <div class="takeaway-item"><div class="t-bullet"></div><div>Export to a Google Sheet and clean it up before it goes anywhere else.</div></div>
     <div class="takeaway-item"><div class="t-bullet"></div><div>Apollo → Clay is a natural handoff: export from Apollo, import to Clay for enrichment, personalization, and transformation.</div></div>
-  </div>
-    <div class="notes-section section">
-    <div class="notes-label">Your Notes</div>
-    <textarea class="notes-area" id="notes-area" placeholder="Type your notes here…"></textarea>
-    <div class="notes-saved-msg" id="notes-saved-msg">Saved</div>
   </div>
   <div class="lesson-nav">
     <a href="intermission.html" class="nav-btn prev">
@@ -127,25 +122,7 @@ window.addEventListener('load',()=>{
   localStorage.setItem('nexus_last_page_'+(localStorage.getItem('nexus_current_operator')||'joshua'),JSON.stringify({url:location.pathname,title}));
 });
 </script>
-(function(){
-  var op=localStorage.getItem('nexus_current_operator')||'joshua';
-  var nKey='nexus_notes_'+op+'_'+location.pathname;
-  var ta=document.getElementById('notes-area');
-  if(!ta) return;
-  function autoResize(){ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';}
-  var saved=localStorage.getItem(nKey)||'';
-  if(saved){ta.value=saved;autoResize();}
-  ta.addEventListener('input',autoResize);
-  var saveTimer;
-  ta.addEventListener('input',function(){
-    clearTimeout(saveTimer);
-    saveTimer=setTimeout(function(){
-      localStorage.setItem(nKey,ta.value);
-      var sv=document.getElementById('notes-saved-msg');
-      if(sv){sv.classList.add('show');setTimeout(function(){sv.classList.remove('show');},1500);}
-    },600);
-  });
-})();
+<script>(function(){var op=localStorage.getItem('nexus_current_operator')||'joshua';var nKey='nexus_notes_'+op+'_'+location.pathname;var ta=document.getElementById('lesson-notes');if(!ta)return;function autoGrow(){ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';}var saved=localStorage.getItem(nKey)||'';if(saved){ta.value=saved;autoGrow();}ta.addEventListener('input',function(){autoGrow();localStorage.setItem(nKey,ta.value);});})();</script>
 <script>(function(){var op=localStorage.getItem('nexus_current_operator')||'joshua';var hu='../hub-'+op+'.html';document.querySelectorAll('a[href*="hub-joshua.html"]').forEach(function(a){a.href=hu;});})();</script>
 <script src="../nexus-transition.js"></script>
 </body>
