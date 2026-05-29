@@ -97,7 +97,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .lesson-expand{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(0.4,0,0.2,1)}
 .lesson-expand.open{max-height:900px}
 .le-inner{padding:22px 26px 26px;border-top:1px solid rgba(0,200,255,0.1);background:rgba(5,12,24,0.75)}
-.le-lbl{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(0,200,255,0.18);display:block;text-align:center}
+.le-lbl{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:14px;margin-top:24px;padding-bottom:8px;border-bottom:1px solid rgba(0,200,255,0.18);display:block;text-align:center}
+.le-lbl:first-child{margin-top:0}
 .le-notes{font-family:'Lexend',sans-serif;font-size:16px;font-weight:300;color:var(--body-text);line-height:1.8;white-space:pre-wrap}
 .le-no-notes{font-family:'Lexend',sans-serif;font-size:14px;color:var(--muted);font-style:italic}
 .le-goto{display:flex;justify-content:flex-end;margin-top:22px;padding-top:16px;border-top:1px solid rgba(0,200,255,0.1)}
@@ -105,6 +106,14 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .le-goto a:hover{opacity:0.65}
 .module-card.complete{animation:mod-done-pulse 4s ease-in-out infinite}
 @keyframes mod-done-pulse{0%,100%{box-shadow:0 0 0 rgba(0,200,255,0)}50%{box-shadow:0 0 16px rgba(0,200,255,0.18)}}
+.bonus-card{border-color:rgba(180,140,0,0.22)!important;aspect-ratio:8/1!important}
+.bonus-card:hover{border-color:rgba(200,160,0,0.4)!important;box-shadow:0 4px 24px rgba(0,0,0,0.35)!important;transform:translateY(-1px)}
+.bonus-card::before{content:'';position:absolute;top:0;right:0;width:45%;height:100%;background:repeating-linear-gradient(-48deg,transparent 0px,transparent 11px,rgba(180,140,0,0.055) 11px,rgba(180,140,0,0.055) 22px);pointer-events:none;z-index:1}
+.bonus-card .card-overlay{background:linear-gradient(to right,rgba(10,5,0,0.92) 0%,rgba(10,5,0,0.3) 70%,transparent 100%);z-index:2;flex-direction:row;align-items:center;justify-content:flex-start;gap:18px;padding:0 22px}
+.bonus-card .card-title{color:#d4a830;text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.1em;font-size:17px}
+.bonus-card .bv-divider{width:1px;height:24px;background:rgba(180,140,0,0.25);flex-shrink:0}
+.bonus-card .bv-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.28em;color:rgba(180,140,0,0.55);text-transform:uppercase;white-space:nowrap}
+.bonus-card .card-status{background:rgba(160,120,0,0.1)!important;border-color:rgba(160,120,0,0.28)!important;color:#a07820!important;z-index:2;top:50%;transform:translateY(-50%)}
 .achievements-section{margin-bottom:40px}
 .badges-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
 .badge-item{display:flex;flex-direction:column;align-items:center;text-align:center;transition:all 0.4s ease}
@@ -619,29 +628,21 @@ function renderModules(s){
       const inner = document.createElement('div');
       const notesBase = location.pathname.substring(0,location.pathname.lastIndexOf('/')+1);
       m.lessons.forEach(l=>{
-        if(l.takeaways){
-          const savedNotes = localStorage.getItem('nexus_notes_'+OPERATOR+'_'+notesBase+l.url)||'';
-          const notesBlock = savedNotes
-            ? `<div class="le-lbl">Your Notes</div><div class="le-notes">${savedNotes.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`
-            : `<div class="le-lbl">Your Notes</div><div class="le-no-notes">No notes taken for this lesson.</div>`;
-          const row = document.createElement('div');
-          row.className = 'lesson-row expandable';
-          row.innerHTML = `<div class="lesson-row-head"><span class="l-num">${l.n}</span><span class="l-name">${l.title}</span><span class="l-arr">+</span></div><div class="lesson-expand"><div class="le-inner">${notesBlock}<div class="le-goto"><a href="${l.url}">Go to Lesson →</a></div></div></div>`;
-          row.querySelector('.lesson-row-head').addEventListener('click',e=>{
-            e.stopPropagation();
-            const exp=row.querySelector('.lesson-expand');
-            const arr=row.querySelector('.l-arr');
-            const open=exp.classList.toggle('open');
-            arr.textContent=open?'−':'+';
-          });
-          inner.appendChild(row);
-        } else {
-          const row = document.createElement('a');
-          row.className = 'lesson-row';
-          row.href = l.url;
-          row.innerHTML = `<span class="l-num">${l.n}</span><span class="l-name">${l.title}</span><span class="l-arr">→</span>`;
-          inner.appendChild(row);
-        }
+        const savedNotes = localStorage.getItem('nexus_notes_'+OPERATOR+'_'+notesBase+l.url)||'';
+        const notesBlock = savedNotes
+          ? `<div class="le-lbl">Your Notes</div><div class="le-notes">${savedNotes.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`
+          : `<div class="le-lbl">Your Notes</div><div class="le-no-notes">No notes taken for this lesson.</div>`;
+        const row = document.createElement('div');
+        row.className = 'lesson-row expandable';
+        row.innerHTML = `<div class="lesson-row-head"><span class="l-num">${l.n}</span><span class="l-name">${l.title}</span><span class="l-arr">+</span></div><div class="lesson-expand"><div class="le-inner">${notesBlock}<div class="le-goto"><a href="${l.url}">Go to Lesson →</a></div></div></div>`;
+        row.querySelector('.lesson-row-head').addEventListener('click',e=>{
+          e.stopPropagation();
+          const exp=row.querySelector('.lesson-expand');
+          const arr=row.querySelector('.l-arr');
+          const open=exp.classList.toggle('open');
+          arr.textContent=open?'−':'+';
+        });
+        inner.appendChild(row);
       });
       tray.appendChild(inner);
       toggle.addEventListener('click', e=>{
@@ -657,12 +658,13 @@ function renderModules(s){
   });
   // Bonus Vault — always unlocked
   const bv = document.createElement('div');
-  bv.className = 'module-card unlocked';
+  bv.className = 'module-card unlocked bonus-card';
   bv.innerHTML = `
     <img src="images/bonus-vault.png" alt="Bonus Vault" loading="lazy">
     <div class="card-overlay">
-      <div class="card-tag">Bonus</div>
       <div class="card-title">BONUS VAULT</div>
+      <div class="bv-divider"></div>
+      <div class="bv-sub">Extra Lessons</div>
     </div>
     <div class="card-status unlocked-tag">OPEN ACCESS</div>`;
   bv.addEventListener('click', ()=>{
