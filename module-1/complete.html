@@ -223,7 +223,7 @@ function playS(s,v){var a=new Audio(s);a.volume=v===undefined?0.4:v;a.play().cat
   document.body.appendChild(C);
   var ctx=C.getContext('2d');
   C.width=innerWidth;C.height=innerHeight;
-  var COLORS=['#00c8ff','#ffffff','#ffaa00','#7ce8ff','#ffd700','#ff88cc','#aaffee','#88aaff'];
+  var COLORS=['#ffffff','#f0f8ff','#e8f4ff','#ddeeff','#f8faff'];
   var pts=[];
   for(var i=0;i<240;i++){
     var spd=4+Math.random()*10;
@@ -254,7 +254,7 @@ function playS(s,v){var a=new Audio(s);a.volume=v===undefined?0.4:v;a.play().cat
     });
     if(alive)requestAnimationFrame(frame);else C.remove();
   }
-  setTimeout(function(){requestAnimationFrame(frame);},300);
+  setTimeout(function(){requestAnimationFrame(frame);},520);
 })();
 </script>
 </body>
