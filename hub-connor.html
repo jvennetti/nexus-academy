@@ -13,7 +13,7 @@
 <meta name="twitter:title" content="NEXUS Academy">
 <meta name="twitter:description" content="A private AI training system. Six modules. One machine. Operator: Joshua.">
 <meta name="twitter:image" content="https://jvennetti.github.io/nexus-academy/images/og-preview.png">
-<script>if(!localStorage.getItem('nexus_intro_seen_joshua')){window.location.replace('pre-course/ciro-intro.html?op=joshua');}</script>
+<script>if(!localStorage.getItem('nexus_intro_seen_connor')){window.location.replace('pre-course/ciro-intro.html?op=connor');}</script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="audio" href="audio/music/hub-theme.mp3">
 <style>
@@ -461,8 +461,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 </div>
 
 <script>
-const OPERATOR      = 'joshua';
-localStorage.setItem('nexus_current_operator','joshua');
+const OPERATOR      = 'connor';
+localStorage.setItem('nexus_current_operator','connor');
 const OPERATOR_NAME = 'Connor';
 const PASSCODE      = '77POWER';
 const DEV_UNLOCK    = false;
@@ -569,14 +569,14 @@ const BADGES = [
 ];
 
 const CIRO_LINES = [
-  `Welcome, <strong>Joshua</strong>. Begin with the Pre-Course when you're ready.`,
-  `Welcome back, <strong>Joshua</strong>. Pre-Course complete. The signal is live.`,
-  `Welcome back, <strong>Joshua</strong>. Two sequences confirmed. You're moving.`,
-  `Welcome back, <strong>Joshua</strong>. Three modules down. The system is taking shape.`,
-  `Welcome back, <strong>Joshua</strong>. Halfway through. The hard part is behind you.`,
-  `Welcome back, <strong>Joshua</strong>. Five complete. Two remain.`,
-  `Welcome back, <strong>Joshua</strong>. Six down. The final module awaits.`,
-  `Welcome back, <strong>Joshua</strong>. All modules complete. Well done, Operator.`,
+  `Welcome, <strong>Connor</strong>. Begin with the Pre-Course when you're ready.`,
+  `Welcome back, <strong>Connor</strong>. Pre-Course complete. The signal is live.`,
+  `Welcome back, <strong>Connor</strong>. Two sequences confirmed. You're moving.`,
+  `Welcome back, <strong>Connor</strong>. Three modules down. The system is taking shape.`,
+  `Welcome back, <strong>Connor</strong>. Halfway through. The hard part is behind you.`,
+  `Welcome back, <strong>Connor</strong>. Five complete. Two remain.`,
+  `Welcome back, <strong>Connor</strong>. Six down. The final module awaits.`,
+  `Welcome back, <strong>Connor</strong>. All modules complete. Well done, Operator.`,
 ];
 
 function getState(){ try{ return JSON.parse(localStorage.getItem('nexus_'+OPERATOR)||'{}'); }catch(e){ return {}; } }
@@ -655,7 +655,7 @@ function renderContinue(s){
   btn.onclick = function(e){
     e.preventDefault();
     const sfxFile=pickPower();
-    playS(sfxFile,0.1);
+    playS(sfxFile,0.5);
     localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
     if(window.nxTransit) window.nxTransit(btn.href,false);
     else setTimeout(function(){window.location.href=btn.href;},60);
@@ -686,7 +686,7 @@ function renderModules(s){
     if(isAccessible) card.addEventListener('mouseenter', function(){setTimeout(function(){_playSfx(_sfxHover);},200);});
     if(isAccessible) card.addEventListener('click', ()=>{
       const sfxFile=pickPower();
-      playS(sfxFile,0.1);
+      playS(sfxFile,0.5);
       localStorage.setItem('nexus_sfx_nav',JSON.stringify({file:sfxFile,ts:Date.now()}));
       var dest;
       if(isComplete){
